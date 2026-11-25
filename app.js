@@ -50,6 +50,32 @@ function zoneOf(gi){const p=pageOf(Q.as[gi]),sl=slots(p),st=Q.as[gi];
 function hijri(){try{return new Intl.DateTimeFormat('ms-MY-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(new Date())}catch(e){return ''}}
 
 /* ---------- mushaf page ---------- */
+// Glyph rendering with the KFGQPC QCF4 (1441H) fonts, loaded from jsDelivr and cached offline by sw.js.
+const QCF_CDN='https://cdn.jsdelivr.net/npm/quran-qcf4@1.1.0/fonts-woff2/';
+let M=null;const fontState={};
+function qfont(name){
+  if(!fontState[name]){const ff=new FontFace(name,`url(${QCF_CDN}${name}${name.includes('Hafs')?'_W':''}.woff2)`,{display:'block'});
+    fontState[name]=Promise.race([ff.load().then(f=>{document.fonts.add(f);return true}),new Promise(r=>setTimeout(()=>r(false),12000))]).catch(()=>false).then(ok=>{if(!ok)delete fontState[name];return ok})}
+  return fontState[name]}
+const pageFonts=p=>[...new Set(M.pages[p-1].map(r=>M.fonts[r[1]]))];
+function glyphHTML(p,gi){
+  const P=M.pages[p-1];
+  const rows=P.map(r=>{const t=r[0],f=M.fonts[r[1]],arr=Array.isArray(r[2]),codes=arr?r[2]:Array.from({length:r[3]},(_,i)=>r[2]+i);
+    if(t==='h')return `<div class="sh q"><i class="band"></i><i class="ros a"></i><i class="ros b"></i><span class="cart"><span style="font-family:${f}">&#${codes[0]};</span></span></div>`;
+    if(t==='b')return `<div class="bs q" style="font-family:${f}">${codes.map(c=>`&#${c};`).join('')}</div>`;
+    const runs=r[arr?3:4];let h='',i=0;
+    runs.forEach(([g,n])=>{for(let k=0;k<n;k++,i++)h+=`<span${g===gi?' class="h"':''}>&#${codes[i]};</span>`});
+    return `<div class="ln t q" style="font-family:${f}"><span class="in">${h}</span></div>`}).join('');
+  return frameHTML(p,rows,P.length<15)}
+function frameHTML(p,rows,short){
+  const s=surOf(ub(Q.as,Q.ps[p-1])-1);
+  return `<div class="mush-wrap${short?' short':''}"><div class="mushaf"><div class="lines">${rows}</div><div class="pfoot"><span>Juzuk ${juzOf(Q.ps[p-1])}</span><span>${esc(sName(s))}</span><span>${p}</span></div></div></div>`}
+async function showPage(el,p,gi){
+  const tok=el.dataset.tok=String(Math.random());
+  let html=null;
+  if(M){const ok=await Promise.all(pageFonts(p).map(qfont));if(ok.every(Boolean))html=glyphHTML(p,gi)}
+  if(el.dataset.tok!==tok)return;
+  el.innerHTML=html||pageHTML(p,rng(gi));fitPage(el)}
 function pageHTML(p,hl){
   const sl=slots(p),short=sl.length<15;
   const ln=sl.map(x=>{
@@ -57,15 +83,18 @@ function pageHTML(p,hl){
     if(x.t==='b')return `<div class="bs">${esc(Q.w.slice(0,4).join(' '))}</div>`;
     let h='';for(let i=x.a;i<=x.b;i++){const on=hl&&i>=hl[0]&&i<=hl[1];h+=`<span${on?' class="h"':''}>${esc(Q.w[i])}</span>`;if(END[i])h+=`<span${on?' class="h"':''}>۝${AD(END[i])}</span>`}
     return `<div class="ln t">${h}</div>`}).join('');
-  const s=surOf(ub(Q.as,Q.ps[p-1])-1);
-  return `<div class="mush-wrap${short?' short':''}"><div class="mushaf"><div class="lines">${ln}</div><div class="pfoot"><span>Juzuk ${juzOf(Q.ps[p-1])}</span><span>${esc(sName(s))}</span><span>${p}</span></div></div></div>`}
+  return frameHTML(p,ln,short)}
 function fitPage(root){
   const L=root.querySelector('.lines');if(!L)return;
-  const W=L.clientWidth,short=!!root.querySelector('.short');let fs=W/21.5;L.style.setProperty('--fs',fs+'px');
+  if(L.querySelector('.q')){ // QCF4 glyph lines: natural spacing, each full line scaled a hair to the exact width
+    const W=L.clientWidth;L.style.setProperty('--fs',(W/16.3)+'px');
+    L.querySelectorAll('.ln.q .in').forEach(el=>{el.style.transform='';const n=el.offsetWidth;el.style.transform=n>W*.82?`scaleX(${W/n})`:''});
+    const hl=L.querySelector('.h');if(hl&&root.dataset.scroll)hl.scrollIntoView({block:'center',behavior:'instant'});return}
+  const W=L.clientWidth,short=!!root.querySelector('.short'),q=!!L.querySelector('.q');let fs=W/(q?17:21.5);L.style.setProperty('--fs',fs+'px');
   const t=[...L.querySelectorAll('.ln.t')];t.forEach(l=>l.classList.add('measure'));
   let mx=0;const nat=t.map(l=>{const w=l.scrollWidth;mx=Math.max(mx,w);return w});
   const k=Math.min(1,(W*.985)/mx);fs*=k;L.style.setProperty('--fs',fs+'px');
-  t.forEach((l,i)=>{l.classList.remove('measure');if(short||nat[i]*k<W*.55)l.classList.add('c')});
+  t.forEach((l,i)=>{l.classList.remove('measure');if(short||nat[i]*k<W*(q?.8:.55))l.classList.add('c')});
   const hl=L.querySelector('.h');if(hl&&root.dataset.scroll)hl.scrollIntoView({block:'center',behavior:'instant'})}
 
 /* ---------- rehal illustration (original) ---------- */
@@ -166,11 +195,11 @@ R.jawapan=()=>{
   if(S.view==null)S.view=z.p;
   const pos=`${z.side==='R'?'kanan':'kiri'}, ${z.half==='T'?'atas':z.half==='B'?'bawah':'tengah'}`;
   V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?'Betul! Masya-Allah.':'Salah. Ulang banyak lagi.'}</b><p>${esc(ref(S.gi))} · muka surat ${z.p} · ${pos}</p></div></div>
-  <div id="pg" data-scroll="1">${pageHTML(S.view,rng(S.gi))}</div>
+  <div id="pg" data-scroll="1"><div class="pgload">Memuatkan muka surat ${S.view}…</div></div>
   <div class="pnav"><button class="btn ghost small" id="pn"${S.view>=604?' disabled':''}>‹ Muka surat selepas</button><button class="btn ghost small" id="pp"${S.view<=1?' disabled':''}>Muka surat sebelum ›</button></div>
   ${S.view!==z.p?`<button class="link" id="back" style="display:block;margin:0 auto 6px">Kembali ke muka surat ${z.p}</button>`:''}
   <div style="display:grid;gap:4px"><button class="btn" id="nx">Soalan seterusnya</button><button class="link" id="tamat" style="justify-self:center">Tamat sesi</button></div>`;
-  requestAnimationFrame(()=>fitPage(document.getElementById('pg')));
+  showPage(document.getElementById('pg'),S.view,S.gi);
   const nav=d=>{S.view=Math.min(604,Math.max(1,S.view+d));R.jawapan()};
   document.getElementById('pn').onclick=()=>nav(1);document.getElementById('pp').onclick=()=>nav(-1);
   document.getElementById('back')&&(document.getElementById('back').onclick=()=>{S.view=z.p;R.jawapan()});
@@ -216,7 +245,9 @@ R.library=()=>{
   <div class="seg" role="group" aria-label="Tapis nota">${[['aktif','Aktif',act],['selesai','Selesai',done],['semua','Semua',notes.length]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${tab===t[0]}">${t[1]} ${t[2]}</button>`).join('')}</div>
   <div class="list">${L.length?L.map(item).join(''):notes.length?`<div class="empty">Tiada nota dalam senarai ini.</div>`:`<div class="empty">${star(IC.pen,'gold')}<b>Belum ada nota</b>Catat ayat yang selalu tersangkut, kemudian tanda setiap kali anda ulang.<div style="margin-top:14px;display:grid;gap:6px"><button class="btn" data-go="nota">Catat nota pertama</button><button class="link" id="demo">Isi 3 nota contoh untuk cuba</button></div></div>`}</div>
   <div class="backup"><p><b style="color:var(--ink)">Sandaran.</b> Nota disimpan dalam pelayar ini sahaja. Eksport ke fail untuk simpan, dan import semula selepas tukar telefon.</p>
-  <div class="row"><button class="btn ghost small" id="ex"${notes.length?'':' disabled'}>Eksport</button><label class="btn ghost small" for="im" style="cursor:pointer">Import<input type="file" id="im" accept=".json,application/json" hidden></label></div></div>`;
+  <div class="row"><button class="btn ghost small" id="ex"${notes.length?'':' disabled'}>Eksport</button><label class="btn ghost small" for="im" style="cursor:pointer">Import<input type="file" id="im" accept=".json,application/json" hidden></label></div></div>
+  <div class="backup"><p><b style="color:var(--ink)">Mushaf luar talian.</b> Muka surat mushaf dimuat turun bila dibuka. Simpan semua sekali gus (kira-kira 36 MB) supaya semua muka surat boleh dibuka tanpa internet.</p>
+  <button class="btn ghost small" id="dl" style="width:100%"${M?'':' disabled'}>Simpan semua muka surat</button></div>`;
   V.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;R.library()});
   V.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{openNote=openNote===b.dataset.open?null:b.dataset.open;R.library()});
   V.querySelectorAll('[data-done]').forEach(c=>c.onchange=()=>{const n=notes.find(x=>x.id===c.dataset.done);n.selesai=c.checked;save();toast(c.checked?'Ditanda selesai':'Dikembalikan ke aktif');R.library()});
@@ -227,6 +258,9 @@ R.library=()=>{
     {id:t+'b',surah:18,ayah:57,kategori:'Tertukar mutasyabihat',lain:'',perkataan:'وَمَنۡ أَظۡلَمُ',ulangan:[1,0,0,0,0],selesai:false,dibuat:now},
     {id:t+'c',surah:36,ayah:47,kategori:'Lupa ayat',lain:'',perkataan:'',ulangan:[1,1,1,1,1],selesai:true,dibuat:now}];save();R.library()});
   document.getElementById('ex').onclick=exportNotes;
+  document.getElementById('dl').onclick=async e=>{const b=e.currentTarget;b.disabled=true;let n=0,bad=0;
+    for(const f of M.fonts){if(!(await qfont(f)))bad++;n++;b.textContent=`Menyimpan… ${n}/${M.fonts.length}`}
+    b.textContent=bad?`${bad} fail gagal. Tekan untuk cuba lagi`:'Semua muka surat disimpan ✓';b.disabled=!bad};
   document.getElementById('im').onchange=importNotes};
 
 async function exportNotes(){
@@ -251,6 +285,7 @@ document.getElementById('home').onclick=()=>go('home');
 document.getElementById('brand').onclick=()=>go('home');
 addEventListener('hashchange',render);
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{const p=document.getElementById('pg');p&&fitPage(p)},150)});
+fetch('data/mushaf.json').then(r=>r.json()).then(d=>{M=d}).catch(()=>{});
 
 Promise.all([fetch('data/quran.json').then(r=>r.json()),document.fonts.load('20px Hafs').catch(()=>0)]).then(([d])=>{
   Q=d;FA=Q.s.map(x=>x[3]);END=new Int16Array(Q.w.length);
