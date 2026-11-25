@@ -61,11 +61,11 @@ const pageFonts=p=>[...new Set(M.pages[p-1].map(r=>M.fonts[r[1]]))];
 function glyphHTML(p,gi){
   const P=M.pages[p-1];
   const rows=P.map(r=>{const t=r[0],f=M.fonts[r[1]],arr=Array.isArray(r[2]),codes=arr?r[2]:Array.from({length:r[3]},(_,i)=>r[2]+i);
-    if(t==='h')return `<div class="sh q"><span style="font-family:${f}">&#${codes[0]};</span></div>`;
+    if(t==='h')return `<div class="sh q"><i class="band"></i><i class="ros a"></i><i class="ros b"></i><span class="cart"><span style="font-family:${f}">&#${codes[0]};</span></span></div>`;
     if(t==='b')return `<div class="bs q" style="font-family:${f}">${codes.map(c=>`&#${c};`).join('')}</div>`;
     const runs=r[arr?3:4];let h='',i=0;
     runs.forEach(([g,n])=>{for(let k=0;k<n;k++,i++)h+=`<span${g===gi?' class="h"':''}>&#${codes[i]};</span>`});
-    return `<div class="ln t q" style="font-family:${f}">${h}</div>`}).join('');
+    return `<div class="ln t q" style="font-family:${f}"><span class="in">${h}</span></div>`}).join('');
   return frameHTML(p,rows,P.length<15)}
 function frameHTML(p,rows,short){
   const s=surOf(ub(Q.as,Q.ps[p-1])-1);
@@ -86,6 +86,10 @@ function pageHTML(p,hl){
   return frameHTML(p,ln,short)}
 function fitPage(root){
   const L=root.querySelector('.lines');if(!L)return;
+  if(L.querySelector('.q')){ // QCF4 glyph lines: natural spacing, each full line scaled a hair to the exact width
+    const W=L.clientWidth;L.style.setProperty('--fs',(W/16.3)+'px');
+    L.querySelectorAll('.ln.q .in').forEach(el=>{el.style.transform='';const n=el.offsetWidth;el.style.transform=n>W*.82?`scaleX(${W/n})`:''});
+    const hl=L.querySelector('.h');if(hl&&root.dataset.scroll)hl.scrollIntoView({block:'center',behavior:'instant'});return}
   const W=L.clientWidth,short=!!root.querySelector('.short'),q=!!L.querySelector('.q');let fs=W/(q?17:21.5);L.style.setProperty('--fs',fs+'px');
   const t=[...L.querySelectorAll('.ln.t')];t.forEach(l=>l.classList.add('measure'));
   let mx=0;const nat=t.map(l=>{const w=l.scrollWidth;mx=Math.max(mx,w);return w});
