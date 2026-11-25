@@ -124,7 +124,7 @@ R.home=()=>{
   ${rehal()}<div class="quran">${ayText(gi)}</div><div class="cap">Al-Hijr 15:9</div></section>
   <div class="actions">
    <button class="tile main" data-go="mod">${star(IC.book)}<div><b>Tebuk Ayat</b><span>Sambung ayat dan kenal pasti kedudukannya</span></div><i class="go">›</i></button>
-   <button class="tile" data-go="nota">${star(IC.pen,'gold')}<div><b>Catat Nota Ayat Lemah</b><span>Rekod ayat yang selalu tersangkut</span></div><i class="go">›</i></button>
+   <button class="tile" data-go="nota">${star(IC.pen,'gold')}<div><b>Catatan Muraja'ah</b><span>Rekod ayat yang selalu tersangkut</span></div><i class="go">›</i></button>
   </div>
   <div class="stats"><button class="stat" data-go="library" style="text-align:left;cursor:pointer"><b>${act}</b><span>Nota aktif</span></button><button class="stat" data-go="library" style="text-align:left;cursor:pointer"><b>${done}</b><span>Sudah selesai</span></button></div>
   <p class="credit">Teks dan susun atur Mushaf Madinah: KFGQPC, melalui dataset quran-text (CC BY 4.0).</p>`};
@@ -208,7 +208,7 @@ R.jawapan=()=>{
 let form={surah:1,ayah:1,kat:KAT[0],lain:'',kata:''};
 R.nota=()=>{
   const n=Q.s[form.surah-1][2];if(form.ayah>n)form.ayah=n;
-  V.innerHTML=`<div class="top"><h1>Nota Ayat Lemah</h1><button class="btn ghost small" data-go="library">Library</button></div>
+  V.innerHTML=`<div class="top"><h1>Catatan Muraja'ah</h1><button class="btn ghost small" data-go="library">Library</button></div>
   <p class="sub" style="margin-bottom:6px">Catat ayat yang perlu diulang.</p>${ORN}
   <form id="nf" autocomplete="off" class="panel">
   <div class="row"><div style="flex:1.6"><label class="f" for="fs">Surah</label><select id="fs">${Q.s.map((x,i)=>`<option value="${i+1}"${form.surah==i+1?' selected':''}>${i+1}. ${esc(sName(i+1))}</option>`).join('')}</select></div>
