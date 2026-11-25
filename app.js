@@ -123,7 +123,7 @@ R.home=()=>{
   V.innerHTML=`<section class="hero"><div class="date"><span>${esc(hijri())}</span><span>بِسۡمِ ٱللَّهِ</span></div>
   ${rehal()}<div class="quran">${ayText(gi)}</div><div class="cap">Al-Hijr 15:9</div></section>
   <div class="actions">
-   <button class="tile main" data-go="mod">${star(IC.book)}<div><b>Tebuk Ayat</b><span>Sambung ayat dan teka kedudukannya</span></div><i class="go">›</i></button>
+   <button class="tile main" data-go="mod">${star(IC.book)}<div><b>Tebuk Ayat</b><span>Sambung ayat dan kenal pasti kedudukannya</span></div><i class="go">›</i></button>
    <button class="tile" data-go="nota">${star(IC.pen,'gold')}<div><b>Catat Nota Ayat Lemah</b><span>Rekod ayat yang selalu tersangkut</span></div><i class="go">›</i></button>
   </div>
   <div class="stats"><button class="stat" data-go="library" style="text-align:left;cursor:pointer"><b>${act}</b><span>Nota aktif</span></button><button class="stat" data-go="library" style="text-align:left;cursor:pointer"><b>${done}</b><span>Sudah selesai</span></button></div>
@@ -172,7 +172,7 @@ R.soalan=()=>{
   V.innerHTML=`<div class="qhead"><h1>Soalan!</h1><span class="chip g">${esc(S.label)} · #${S.n}</span></div>
   ${before}<div class="qcard">${corners}<div class="quran">${ayText(gi)}</div></div>${after}
   <div class="qtools"><button class="btn ghost small" id="bf"${S.before||gi===0?' disabled':''}>Ayat sebelumnya</button><button class="btn ghost small" id="af"${gi+S.after+1>=A?' disabled':''}>Ayat seterusnya</button></div>
-  <div style="display:grid;gap:4px"><button class="btn" data-go="teka">Teka kedudukan</button><button class="link" id="tamat" style="justify-self:center">Tamat sesi</button></div>`;
+  <div style="display:grid;gap:4px"><button class="btn" data-go="teka">Kenal Pasti Kedudukan Ayat</button><button class="link" id="tamat" style="justify-self:center">Tamat sesi</button></div>`;
   document.getElementById('af').onclick=()=>{S.after++;R.soalan();[...V.querySelectorAll('.extra')].pop()?.scrollIntoView({block:'nearest',behavior:'smooth'})};
   document.getElementById('bf').onclick=()=>{S.before=true;R.soalan()};
   document.getElementById('tamat').onclick=tamat};
@@ -181,7 +181,7 @@ function tamat(){S=null;go('mod')}
 R.teka=()=>{
   if(!S)return go('mod');
   const z=(side,half,txt)=>`<button class="zone" data-z="${side}${half}" aria-pressed="${S.pick===side+half}"><i class="rules"></i><span>${txt}</span></button>`;
-  V.innerHTML=`<h1>Di mana ayat ini?</h1><p class="sub">Tekan bahagian muka surat tempat ayat itu bermula.</p>
+  V.innerHTML=`<h1>Kenal Pasti Kedudukan Ayat</h1><p class="sub">Tekan bahagian muka surat tempat ayat itu bermula.</p>
   <div class="qcard" style="padding:10px 14px;margin:0"><div class="quran" style="font-size:21px;line-height:1.9;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${ayText(S.gi)}</div></div>
   <div class="book"><div class="pg l">${z('L','T','Atas')}${z('L','B','Bawah')}</div><div class="pg r">${z('R','T','Atas')}${z('R','B','Bawah')}</div></div>
   <div class="side"><span>Muka kiri</span><span>Muka kanan</span></div>
