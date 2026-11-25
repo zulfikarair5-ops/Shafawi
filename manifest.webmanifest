@@ -1,7 +1,7 @@
 {
   "name": "TheBook",
   "short_name": "TheBook",
-  "description": "Uji hafazan Quran: tebuk ayat, teka kedudukan, nota ayat lemah.",
+  "description": "Uji hafazan Quran: tebuk ayat, kenal pasti kedudukan ayat, Catatan Muraja'ah.",
   "lang": "ms",
   "start_url": "./",
   "scope": "./",
