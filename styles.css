@@ -25,8 +25,8 @@ button,select,input{font:inherit;color:inherit}
 .app{position:relative;max-width:460px;margin:0 auto;min-height:100svh;display:flex;flex-direction:column;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
 header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 14px) 0 12px}
 .brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;cursor:pointer;text-align:left}
-.brand .logo{width:auto;height:42px;color:var(--pri);flex:none;display:block}
-.brand .logo .lat{color:var(--gold)}
+.brand .logo{width:auto;height:30px;color:var(--pri);flex:none;display:block}
+.brand .logo .mk{color:var(--gold)}
 .iconbtn{margin-left:auto;width:44px;height:44px;border-radius:50%;border:1px solid color-mix(in srgb,var(--gold) 30%,transparent);background:color-mix(in srgb,var(--surf) 70%,transparent);color:var(--gold);display:grid;place-items:center;cursor:pointer;box-shadow:var(--sh)}
 .iconbtn svg{width:19px;height:19px}
 main{flex:1;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 112px)}
@@ -321,3 +321,23 @@ h1,.stat b,.ring b,.star.jz,.verdict b{font-variant-numeric:lining-nums}
 .tab:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 /* Paparan mushaf kekal seperti versi sebelum (warna asal hijau + emas) */
 .mush-wrap,.pgload{--paper:light-dark(#fffcf3,#141f19);--gold:light-dark(#b88b3a,#d4b06a);--gold2:light-dark(#f4ead2,#2a2616);--pink:light-dark(#1a1a17,#e9efe9);--muted:light-dark(#5c7567,#91ab9c);--line:light-dark(#e1ebe4,#1f3529);--sh2:light-dark(0 10px 30px -12px rgba(15,61,43,.28),0 10px 30px -12px rgba(0,0,0,.6));--hltext:light-dark(#0f7a4c,#6fdca6)}
+
+/* Splash screen */
+#splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--bg1)}
+#splash .sp-wrap{display:flex;flex-direction:column;align-items:center;gap:26px;transform:translateY(-4vh)}
+#splash .sp-tag{margin:0;font:600 15px/1 var(--sans);letter-spacing:.04em;color:var(--pri);white-space:nowrap}
+#splash .sp-tag span{display:inline-block;animation:sp-tag .5s cubic-bezier(.2,.8,.2,1) both}
+#splash .sp-tag span:nth-child(1){animation-delay:.75s}#splash .sp-tag span:nth-child(2){animation-delay:.95s}#splash .sp-tag span:nth-child(3){animation-delay:1.15s;color:var(--gold)}
+#splash .sp-icon{width:124px;height:124px;border-radius:28px;box-shadow:0 18px 40px -12px rgb(15 61 43/.35),0 0 0 1px rgb(15 61 43/.06);animation:sp-in .7s cubic-bezier(.2,.9,.25,1.15) both}
+#splash .sp-bulan-sabit,#splash .sp-bintang{transform-box:fill-box;transform-origin:center;animation:sp-moon .6s .45s cubic-bezier(.2,.8,.2,1) both}
+#splash .sp-bintang{animation-delay:.6s}
+#splash.out{animation:sp-fade .5s ease .05s forwards;pointer-events:none}
+#splash.out .sp-icon{animation:sp-zoom .55s cubic-bezier(.5,0,.75,0) forwards}
+body.masuk .app{animation:sp-app .55s cubic-bezier(.2,.8,.2,1) both}
+@keyframes sp-in{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
+@keyframes sp-moon{from{opacity:0;transform:scale(.3) rotate(-40deg)}to{opacity:1;transform:none}}
+@keyframes sp-zoom{60%{opacity:0}to{transform:scale(1.5);opacity:0}}
+@keyframes sp-fade{to{opacity:0}}
+@keyframes sp-tag{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes sp-app{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#splash *,#splash.out,#splash.out .sp-icon,body.masuk .app{animation-duration:.01s!important;animation-delay:0s!important}#splash.out{animation:sp-fade .3s forwards!important}}

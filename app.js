@@ -379,11 +379,15 @@ function markTab(r){const t=TABOF[r]||'home';document.querySelectorAll('[data-ta
 document.getElementById('brand').onclick=()=>go('home');
 addEventListener('hashchange',render);
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{const p=document.getElementById('pg');p&&fitPage(p)},150)});
+// Splash: icon pops in, crescent & star follow, then zooms out into Home (min 1.5s, or 0.4s if reduced motion)
+const SPL=document.getElementById('splash'),SPL_T0=performance.now(),SPL_MIN=matchMedia('(prefers-reduced-motion: reduce)').matches?400:2000;
+function hideSplash(){if(!SPL||SPL.classList.contains('out'))return;setTimeout(()=>{SPL.classList.add('out');document.body.classList.add('masuk');setTimeout(()=>SPL.remove(),600)},Math.max(0,SPL_MIN-(performance.now()-SPL_T0)))}
+setTimeout(hideSplash,6000);
 fetch('data/mushaf.json').then(r=>r.json()).then(d=>{M=d}).catch(()=>{});
 
 Promise.all([fetch('data/quran.json').then(r=>r.json()),document.fonts.load('20px Hafs').catch(()=>0)]).then(([d])=>{
   Q=d;FA=Q.s.map(x=>x[3]);END=new Int16Array(Q.w.length);
   for(let i=0;i<Q.as.length;i++){const e=(i+1<Q.as.length?Q.as[i+1]:Q.w.length)-1;END[e]=i-FA[ub(FA,i)-1]+1}
-  render()}).catch(()=>{V.innerHTML='<div class="loading">Data mushaf gagal dimuatkan. Cuba muat semula.</div>'});
+  render();hideSplash()}).catch(()=>{V.innerHTML='<div class="loading">Data mushaf gagal dimuatkan. Cuba muat semula.</div>';hideSplash()});
 if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 }
