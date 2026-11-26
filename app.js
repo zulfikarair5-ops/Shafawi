@@ -321,16 +321,16 @@ R.library=()=>{
   document.getElementById('im').onchange=importNotes};
 
 async function exportNotes(){
-  const data=new TextEncoder().encode(JSON.stringify({app:'TheBook',versi:1,dieksport:new Date().toISOString(),nota:notes.map(({confirm,...n})=>n)},null,1));
-  const filename=`thebook-nota-${new Date().toISOString().slice(0,10)}.json`;
+  const data=new TextEncoder().encode(JSON.stringify({app:'Shafawi',versi:1,dieksport:new Date().toISOString(),nota:notes.map(({confirm,...n})=>n)},null,1));
+  const filename=`shafawi-nota-${new Date().toISOString().slice(0,10)}.json`;
   try{const file=new File([data],filename,{type:'application/json'});
-    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Sandaran nota TheBook'});return}}catch(e){if(e&&e.name==='AbortError')return}
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Sandaran nota Shafawi'});return}}catch(e){if(e&&e.name==='AbortError')return}
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 function importNotes(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();
   r.onload=()=>{try{const j=JSON.parse(r.result);const arr=Array.isArray(j)?j:j.nota;if(!Array.isArray(arr))throw 0;let add=0;
     arr.forEach(n=>{if(!n||!(n.surah>=1&&n.surah<=114)||!(n.ayah>=1&&n.ayah<=Q.s[n.surah-1][2]))return;const id=String(n.id||Math.random().toString(36).slice(2));
       if(notes.some(x=>x.id===id))return;notes.push(fixKat({id,surah:+n.surah,ayah:+n.ayah,kategori:String(n.kategori||''),lain:String(n.lain||''),perkataan:String(n.perkataan||''),ulangan:(Array.isArray(n.ulangan)?n.ulangan:[]).concat([0,0,0,0,0]).slice(0,5).map(x=>x?1:0),selesai:!!n.selesai,dibuat:String(n.dibuat||'')}));add++});
-    save();toast(`${add} nota diimport`);R.library()}catch(_){toast('Fail ini bukan sandaran TheBook')}};r.readAsText(f)}
+    save();toast(`${add} nota diimport`);R.library()}catch(_){toast('Fail ini bukan sandaran Shafawi')}};r.readAsText(f)}
 
 function toast(m){let t=document.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';t.setAttribute('role','status');document.body.appendChild(t)}t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,2600)}
 
