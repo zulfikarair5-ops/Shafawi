@@ -328,8 +328,8 @@ h1,.stat b,.ring b,.star.jz,.verdict b{font-variant-numeric:lining-nums}
 /* Hanya transform & opacity (dikomposit GPU), ikon sebagai bitmap supaya tak dilukis semula setiap bingkai */
 #splash .sp-icon{display:block;width:124px;height:124px;border-radius:28px;will-change:transform,opacity;animation:sp-in .55s cubic-bezier(.22,1,.36,1) both}
 #splash .sp-tag{margin:0;font:600 15px/1 var(--sans);letter-spacing:.04em;color:var(--pri);white-space:nowrap}
-#splash .sp-tag span{display:inline-block;will-change:transform,opacity;animation:sp-tag .45s cubic-bezier(.22,1,.36,1) both}
-#splash .sp-tag span:nth-child(1){animation-delay:.35s}#splash .sp-tag span:nth-child(2){animation-delay:.55s}#splash .sp-tag span:nth-child(3){animation-delay:.75s;color:var(--gold)}
+#splash .sp-tag span{display:inline-block;will-change:transform,opacity;animation:sp-tag .8s cubic-bezier(.22,1,.36,1) both}
+#splash .sp-tag span:nth-child(1){animation-delay:.5s}#splash .sp-tag span:nth-child(2){animation-delay:1.1s}#splash .sp-tag span:nth-child(3){animation-delay:1.7s;color:var(--gold)}
 #splash.out{animation:sp-fade .4s cubic-bezier(.4,0,.2,1) forwards;pointer-events:none}
 #splash.out .sp-icon{animation:sp-zoom .4s cubic-bezier(.4,0,.2,1) forwards}
 @keyframes sp-in{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
