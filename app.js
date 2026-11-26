@@ -12,7 +12,10 @@ const NAMEFIX={3:"Ali 'Imran"};
 let Q=null,FA=null,END=null;
 let notes=store.get('notes',[]).map(fixKat);
 let S=null;
-let sel={mode:'rawak',juz:1,surah:1,from:1,to:20};
+let sel={mode:'rawak',juz:1,surah:1,from:1,to:20,skop:0};
+// Ayat permulaan 240 maqra' (rubu' hizb) Mushaf Madinah, indeks ayat global bermula 0.
+// Sumber: quran-meta (MIT) HizbQuarterList, disemak dengan tanda ۞ QCF4; 15:49 ikut Mushaf Madinah.
+const MAQRA=[0,32,50,66,81,98,112,130,148,164,183,195,209,225,239,249,259,269,278,289,307,325,344,367,385,405,425,445,463,478,493,504,516,528,550,566,580,592,606,627,640,655,669,680,695,709,719,735,750,765,777,801,824,847,862,883,899,915,929,939,954,984,1000,1018,1041,1070,1095,1109,1124,1142,1160,1181,1200,1220,1235,1253,1268,1280,1294,1309,1327,1345,1356,1374,1389,1416,1434,1453,1478,1496,1513,1533,1556,1580,1602,1625,1648,1672,1696,1711,1725,1741,1759,1777,1802,1850,1901,1930,1951,1975,1990,2011,2029,2051,2078,2098,2127,2156,2171,2190,2214,2238,2271,2308,2348,2402,2430,2458,2483,2511,2533,2565,2595,2613,2632,2654,2673,2708,2747,2791,2811,2825,2843,2855,2875,2907,2932,2983,3042,3112,3159,3185,3214,3240,3263,3280,3302,3327,3340,3365,3385,3409,3439,3462,3490,3513,3533,3550,3563,3583,3592,3615,3629,3651,3674,3700,3732,3764,3809,3870,3932,3990,4021,4065,4089,4110,4133,4153,4173,4198,4226,4242,4264,4284,4298,4322,4348,4381,4430,4484,4510,4530,4554,4577,4600,4612,4625,4656,4705,4758,4809,4854,4901,4979,5053,5090,5104,5117,5136,5156,5177,5191,5217,5229,5241,5271,5323,5393,5447,5494,5551,5609,5672,5758,5829,5884,5948,6023,6090,6154];
 let openNote=null,toastT=null,tab='aktif';
 const star=(c,cls='')=>`<i class="star ${cls}">${c}</i>`;
 const ORN='<div class="orn"><i></i></div>';
@@ -135,22 +138,24 @@ R.home=()=>{
   <div class="stats"><button class="stat" data-go="library" style="text-align:left;cursor:pointer"><b>${act}</b><span>Nota aktif</span></button><button class="stat" data-go="library" style="text-align:left;cursor:pointer"><b>${done}</b><span>Sudah selesai</span></button></div>
   <p class="credit">Teks dan susun atur Mushaf Madinah: KFGQPC, melalui dataset quran-text (CC BY 4.0).</p>`};
 
-const MODES=[['rawak','Rawak 30 juzuk','Mana-mana ayat dalam Quran'],['juz','Juzuk','Pilih satu juzuk'],['surah','Surah','Pilih satu surah'],['julat','Julat muka surat','Dari muka surat X hingga Y'],['nota','Dari nota','Ayat sebelum setiap ayat lemah']];
+const MODES=[['rawak','Rawak 30 juzuk','Mana-mana ayat dalam Quran'],['juz','Juzuk','Pilih satu juzuk'],['surah','Surah','Pilih satu surah'],['julat','Julat muka surat','Dari muka surat X hingga Y'],['maqra',"Awal maqra'",'Ayat pertama setiap maqra\' (rubu\' hizb)'],['awalsurah','Awal surah','Ayat pertama setiap surah'],['nota','Dari nota','Ayat sebelum setiap ayat lemah']];
 R.mod=()=>{
   const act=notes.filter(n=>!n.selesai).length;
   let o='';
   if(sel.mode==='juz')o=`<label class="f" for="juz">Juzuk</label><select id="juz">${Array.from({length:30},(_,i)=>`<option value="${i+1}"${sel.juz==i+1?' selected':''}>Juzuk ${i+1}</option>`).join('')}</select>`;
   if(sel.mode==='surah')o=`<label class="f" for="surah">Surah</label><select id="surah">${Q.s.map((x,i)=>`<option value="${i+1}"${sel.surah==i+1?' selected':''}>${i+1}. ${esc(sName(i+1))}</option>`).join('')}</select>`;
   if(sel.mode==='julat')o=`<div class="row"><div><label class="f" for="from">Dari muka surat</label><input type="number" id="from" min="1" max="604" inputmode="numeric" value="${sel.from}"></div><div><label class="f" for="to">Hingga</label><input type="number" id="to" min="1" max="604" inputmode="numeric" value="${sel.to}"></div></div>`;
+  if(sel.mode==='maqra'||sel.mode==='awalsurah')o=`<label class="f" for="skop">Skop</label><select id="skop"><option value="0">Semua 30 juzuk</option>${Array.from({length:30},(_,i)=>`<option value="${i+1}"${sel.skop==i+1?' selected':''}>Juzuk ${i+1}</option>`).join('')}</select><p class="sub" style="margin:8px 2px 0;font-size:13px">${pool().length} ayat dalam pilihan ini</p>`;
   if(sel.mode==='nota')o=`<p class="sub" style="margin:12px 0 0">${act?`${act} nota aktif. App akan tanya ayat sebelum setiap ayat lemah.`:'Tiada nota aktif lagi. Catat ayat lemah dahulu.'}</p>`;
   V.innerHTML=`<div class="top"><h1>Tebuk Hafazan</h1><button class="link" data-go="home">‹ Kembali</button></div>
   <p class="sub" style="margin-bottom:6px">Pilih mod hafazan</p>${ORN}
   <div class="modes">${MODES.map((m,i)=>`<button class="mode" data-mode="${m[0]}" aria-pressed="${sel.mode===m[0]}">${star(i+1)}<div><b>${m[1]}</b><span>${m[2]}</span></div><i class="tick"></i></button>`).join('')}</div>
   <div class="opts">${o}</div>
-  <div style="margin-top:20px"><button class="btn" id="mula"${sel.mode==='nota'&&!act?' disabled':''}>Mula</button></div>`;
+  <div style="margin-top:20px"><button class="btn" id="mula"${(sel.mode==='nota'&&!act)||((sel.mode==='maqra'||sel.mode==='awalsurah')&&!pool().length)?' disabled':''}>Mula</button></div>`;
   V.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{sel.mode=b.dataset.mode;R.mod()});
   const g=id=>document.getElementById(id);
   g('juz')&&(g('juz').onchange=e=>sel.juz=+e.target.value);
+  g('skop')&&(g('skop').onchange=e=>{sel.skop=+e.target.value;R.mod()});
   g('surah')&&(g('surah').onchange=e=>sel.surah=+e.target.value);
   g('from')&&(g('from').oninput=e=>sel.from=+e.target.value);
   g('to')&&(g('to').oninput=e=>sel.to=+e.target.value);
@@ -162,9 +167,10 @@ function pool(){
   if(sel.mode==='juz'){const a=Q.js[sel.juz-1],b=sel.juz<30?Q.js[sel.juz]:nWords();for(let i=0;i<A;i++)if(Q.as[i]>=a&&Q.as[i]<b)all.push(i)}
   if(sel.mode==='surah'){const n=Q.s[sel.surah-1][2];for(let i=0;i<n;i++)all.push(FA[sel.surah-1]+i)}
   if(sel.mode==='julat'){let f=Math.max(1,Math.min(604,sel.from|0)),t=Math.max(1,Math.min(604,sel.to|0));if(f>t)[f,t]=[t,f];sel.from=f;sel.to=t;for(let i=0;i<A;i++){const p=pageOf(Q.as[i]);if(p>=f&&p<=t)all.push(i)}}
+  if(sel.mode==='maqra'||sel.mode==='awalsurah'){const src=sel.mode==='maqra'?MAQRA:FA;src.forEach(gi=>{if(!sel.skop||juzOf(Q.as[gi])===sel.skop)all.push(gi)})}
   if(sel.mode==='nota'){notes.filter(n=>!n.selesai).forEach(n=>{const q=Math.max(0,gIdx(n.surah,n.ayah)-1);if(!all.includes(q))all.push(q)})}
   return all}
-function label(){return {rawak:'Rawak 30 juzuk',juz:'Juzuk '+sel.juz,surah:'Surah '+sName(sel.surah),julat:`Muka surat ${sel.from}–${sel.to}`,nota:'Dari nota'}[sel.mode]}
+function label(){return {rawak:'Rawak 30 juzuk',juz:'Juzuk '+sel.juz,surah:'Surah '+sName(sel.surah),julat:`Muka surat ${sel.from}–${sel.to}`,maqra:"Awal maqra'"+(sel.skop?' · Juzuk '+sel.skop:''),awalsurah:'Awal surah'+(sel.skop?' · Juzuk '+sel.skop:''),nota:'Dari nota'}[sel.mode]}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function start(){const p=pool();if(!p.length){toast('Tiada ayat dalam pilihan ini');return}S={pool:p,bag:shuffle(p.slice()),n:0,label:label()};next()}
 function next(){if(!S.bag.length)S.bag=shuffle(S.pool.slice());S.gi=S.bag.pop();S.n++;S.after=0;S.before=false;S.pick=null;S.view=null;S.sur=null;go('soalan')}
