@@ -158,9 +158,11 @@ select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),
 .nrow .t b{display:block;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nrow .t>span{display:block;font-size:12.5px;color:var(--muted)}
 .nrow .t b{white-space:normal;line-height:1.25}
-.nrow .rc{flex:none;align-self:stretch;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:4px;padding:2px 6px 0 0;max-width:42%}
-.nrow .kat{font-style:normal;font-size:11.5px;font-weight:700;color:var(--gold);background:var(--gold2);border-radius:8px;padding:3px 8px;text-align:right;line-height:1.3}
-.nrow .rc .ck{width:36px;height:36px}
+/* Kategori: label kecil di penjuru kanan atas kad; kotak tanda di tengah kanan. */
+.note{position:relative}
+.note .kat{position:absolute;top:9px;right:16px;max-width:60%;font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+.note .kat::before{content:"";display:inline-block;width:6px;height:6px;margin-right:6px;vertical-align:1px;background:currentColor;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.note .nrow{padding-top:22px;padding-bottom:12px}
 .nrow .t .cat{font-size:14px;color:var(--ink);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nrow .t .uc{margin-top:2px}
 .nrow .star.jz{width:50px;height:50px;font-size:15px;line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
