@@ -140,7 +140,7 @@ R.home=()=>{
   <button class="ring" data-go="library"><svg viewBox="0 0 56 56" role="img" aria-label="${rep} daripada ${tot} ulangan"><circle class="tr" cx="28" cy="28" r="23" fill="none" stroke-width="5"/><circle class="pr" cx="28" cy="28" r="23" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="${f.toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 28 28)"/></svg><div><small>Muraja'ah</small><span><b>${act}</b> nota aktif · <i>${done}</i> selesai</span></div><i class="go" style="margin-left:auto;opacity:.5;font-size:22px">›</i></button>
   <p class="credit">Teks dan susun atur Mushaf Madinah: KFGQPC, melalui dataset quran-text (CC BY 4.0).</p>`};
 
-const MODES=[['rawak','Rawak 30 juzuk','Mana-mana ayat dalam Quran'],['juz','Juzuk','Pilih satu juzuk'],['surah','Surah','Pilih satu surah'],['julat','Julat muka surat','Dari muka surat X hingga Y'],['maqra',"Awal maqra'",'Ayat pertama setiap maqra\' (rubu\' hizb)'],['awalsurah','Awal surah','Ayat pertama setiap surah'],['nota','Dari nota','Ayat sebelum setiap ayat lemah']];
+const MODES=[['rawak','30 juzuk','Mana-mana ayat dalam Quran'],['juz','Juzuk','Pilih satu juzuk'],['surah','Surah','Pilih satu surah'],['julat','Julat muka surat','Dari muka surat X hingga Y'],['maqra',"Awal maqra'",'Ayat pertama setiap maqra\' (rubu\' hizb)'],['awalsurah','Awal surah','Ayat pertama setiap surah'],['nota','Dari nota','Ayat sebelum setiap ayat lemah']];
 R.mod=()=>{
   const act=notes.filter(n=>!n.selesai).length;
   let o='';
@@ -172,7 +172,7 @@ function pool(){
   if(sel.mode==='maqra'||sel.mode==='awalsurah'){const src=sel.mode==='maqra'?MAQRA:FA;src.forEach(gi=>{if(!sel.skop||juzOf(Q.as[gi])===sel.skop)all.push(gi)})}
   if(sel.mode==='nota'){notes.filter(n=>!n.selesai).forEach(n=>{const q=Math.max(0,gIdx(n.surah,n.ayah)-1);if(!all.includes(q))all.push(q)})}
   return all}
-function label(){return {rawak:'Rawak 30 juzuk',juz:'Juzuk '+sel.juz,surah:'Surah '+sName(sel.surah),julat:`Muka surat ${sel.from}–${sel.to}`,maqra:"Awal maqra'"+(sel.skop?' · Juzuk '+sel.skop:''),awalsurah:'Awal surah'+(sel.skop?' · Juzuk '+sel.skop:''),nota:'Dari nota'}[sel.mode]}
+function label(){return {rawak:'30 juzuk',juz:'Juzuk '+sel.juz,surah:'Surah '+sName(sel.surah),julat:`Muka surat ${sel.from}–${sel.to}`,maqra:"Awal maqra'"+(sel.skop?' · Juzuk '+sel.skop:''),awalsurah:'Awal surah'+(sel.skop?' · Juzuk '+sel.skop:''),nota:'Dari nota'}[sel.mode]}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function start(){const p=pool();if(!p.length){toast('Tiada ayat dalam pilihan ini');return}S={pool:p,bag:shuffle(p.slice()),n:0,label:label()};next()}
 function next(){if(!S.bag.length)S.bag=shuffle(S.pool.slice());S.gi=S.bag.pop();S.n++;S.after=0;S.before=false;S.pick=null;S.view=null;S.sur=null;go('soalan')}
@@ -321,16 +321,16 @@ R.library=()=>{
   document.getElementById('im').onchange=importNotes};
 
 async function exportNotes(){
-  const data=new TextEncoder().encode(JSON.stringify({app:'TheBook',versi:1,dieksport:new Date().toISOString(),nota:notes.map(({confirm,...n})=>n)},null,1));
-  const filename=`thebook-nota-${new Date().toISOString().slice(0,10)}.json`;
+  const data=new TextEncoder().encode(JSON.stringify({app:'Shafawi',versi:1,dieksport:new Date().toISOString(),nota:notes.map(({confirm,...n})=>n)},null,1));
+  const filename=`shafawi-nota-${new Date().toISOString().slice(0,10)}.json`;
   try{const file=new File([data],filename,{type:'application/json'});
-    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Sandaran nota TheBook'});return}}catch(e){if(e&&e.name==='AbortError')return}
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Sandaran nota Shafawi'});return}}catch(e){if(e&&e.name==='AbortError')return}
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 function importNotes(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();
   r.onload=()=>{try{const j=JSON.parse(r.result);const arr=Array.isArray(j)?j:j.nota;if(!Array.isArray(arr))throw 0;let add=0;
     arr.forEach(n=>{if(!n||!(n.surah>=1&&n.surah<=114)||!(n.ayah>=1&&n.ayah<=Q.s[n.surah-1][2]))return;const id=String(n.id||Math.random().toString(36).slice(2));
       if(notes.some(x=>x.id===id))return;notes.push(fixKat({id,surah:+n.surah,ayah:+n.ayah,kategori:String(n.kategori||''),lain:String(n.lain||''),perkataan:String(n.perkataan||''),ulangan:(Array.isArray(n.ulangan)?n.ulangan:[]).concat([0,0,0,0,0]).slice(0,5).map(x=>x?1:0),selesai:!!n.selesai,dibuat:String(n.dibuat||'')}));add++});
-    save();toast(`${add} nota diimport`);R.library()}catch(_){toast('Fail ini bukan sandaran TheBook')}};r.readAsText(f)}
+    save();toast(`${add} nota diimport`);R.library()}catch(_){toast('Fail ini bukan sandaran Shafawi')}};r.readAsText(f)}
 
 function toast(m){let t=document.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';t.setAttribute('role','status');document.body.appendChild(t)}t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,2600)}
 
