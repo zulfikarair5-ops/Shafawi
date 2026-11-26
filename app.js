@@ -267,7 +267,7 @@ R.notad=()=>{
   const gi=gIdx(n.surah,n.ayah),p=pageOf(Q.as[gi]),kat=n.kategori==='Lain-lain'&&n.lain?n.lain:n.kategori;
   V.innerHTML=`<div class="top"><h1>${esc(sName(n.surah))} : ${n.ayah}</h1><button class="btn ghost small" data-go="library">‹ Library</button></div>
   <div class="meta"><span class="chip">Juzuk ${juzOf(Q.as[gi])}</span><span class="chip">Muka surat ${p}</span><span class="chip g">${esc(kat)}</span></div>
-  ${n.perkataan?`<p class="ncat" dir="auto">${esc(n.perkataan)}</p>`:''}
+  ${n.perkataan?`<div class="ncat"><small>Perkataan yang salah atau terlupa</small><span dir="auto">${esc(n.perkataan)}</span></div>`:''}
   <div id="pg"><div class="pgload">Memuatkan muka surat ${p}…</div></div>
   <div class="ndet"><div class="ul"><div><div style="font-weight:700;font-size:14px;margin-bottom:6px">Ulangan</div><div class="boxes">${n.ulangan.map((u,i)=>`<button class="box" data-i="${i}" aria-pressed="${!!u}" aria-label="Ulangan ${i+1}">${u?'✓':''}</button>`).join('')}</div></div>
   <label class="dlabel"><input type="checkbox" id="nd-done"${n.selesai?' checked':''}>Selesai</label></div>
@@ -283,7 +283,7 @@ R.library=()=>{
   const act=notes.filter(n=>!n.selesai).length,done=notes.length-act;
   const L=sorted().filter(n=>tab==='semua'||(tab==='aktif'?!n.selesai:n.selesai));
   const item=n=>{const gi=gIdx(n.surah,n.ayah),uc=n.ulangan.filter(Boolean).length,kat=n.kategori==='Lain-lain'&&n.lain?n.lain:n.kategori;
-    return `<div class="note${n.selesai?' done':''}"><div class="nrow"><button class="open" data-open="${n.id}"><i class="star jz"><small>Juzuk</small>${juzOf(Q.as[gi])}</i><span class="t"><b>${esc(sName(n.surah))} : ${n.ayah}</b><span class="aw" lang="ar">${ayHead(gi)}</span>${n.perkataan?`<span class="cat" dir="auto">${esc(n.perkataan)}</span>`:''}</span></button><label class="ck" aria-label="Selesai"><input type="checkbox" data-done="${n.id}"${n.selesai?' checked':''}></label></div><em class="kat">${esc(kat)}</em></div>`};
+    return `<div class="note${n.selesai?' done':''}"><div class="nrow"><button class="open" data-open="${n.id}"><i class="star jz"><small>Juzuk</small>${juzOf(Q.as[gi])}</i><span class="t"><b>${esc(sName(n.surah))} : ${n.ayah}</b><span class="aw" lang="ar">${ayHead(gi)}</span></span></button><label class="ck" aria-label="Selesai"><input type="checkbox" data-done="${n.id}"${n.selesai?' checked':''}></label></div><em class="kat">${esc(kat)}</em></div>`};
   V.innerHTML=`<div class="top"><h1>Library</h1><button class="btn ghost small" data-go="nota">+ Nota</button></div>
   <p class="sub" style="margin-bottom:10px">Senarai ayat lemah, disusun ikut turutan mushaf.</p>
   <div class="seg" role="group" aria-label="Tapis nota">${[['aktif','Aktif',act],['selesai','Selesai',done],['semua','Semua',notes.length]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${tab===t[0]}">${t[1]} ${t[2]}</button>`).join('')}</div>

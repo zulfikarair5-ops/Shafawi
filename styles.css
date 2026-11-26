@@ -168,7 +168,9 @@ select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),
 .nrow .t .uc{margin-top:2px}
 .nrow .star.jz{width:50px;height:50px;font-size:15px;line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .nrow .star.jz small{font-size:7.5px;font-weight:700;letter-spacing:.02em;opacity:.85;margin-bottom:1px}
-.ncat{margin:4px 0 8px;font-weight:600}
+.ncat{margin:6px 0 8px;padding:10px 14px;border-radius:14px;background:var(--surf);border:1px solid var(--line)}
+.ncat small{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:2px}
+.ncat span{display:block;font-size:17px;font-weight:600}
 .meta+#pg,.ncat+#pg{margin-top:8px}
 #pg+.ndet{margin-top:12px;border:1px solid var(--line);border-radius:18px}
 .nrow .w{font-family:Hafs,serif;direction:rtl;font-size:19px;max-width:38%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--pri)}
