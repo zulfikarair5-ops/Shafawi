@@ -192,3 +192,22 @@ select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),
 .pgload{display:grid;place-items:center;min-height:420px;color:var(--muted);background:var(--paper);border-radius:10px;border:1px solid var(--line)}
 .credit{text-align:center;font-size:12px;color:var(--muted);margin:18px 8px 0}
 @media(prefers-reduced-motion:reduce){.btn{transition:none}}
+
+/* Kenal pasti surah */
+.sopts{display:grid;gap:10px;margin-bottom:14px}
+.sopt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:10px 14px;min-height:58px;border-radius:16px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:inherit;cursor:pointer;box-shadow:var(--sh)}
+.sopt i{font-style:normal;flex:none;display:grid;place-items:center;width:34px;height:34px;font-size:13px;font-weight:800;color:var(--gold);background:var(--gold2);clip-path:polygon(50% 0,64.6% 14.6%,85.4% 14.6%,85.4% 35.4%,100% 50%,85.4% 64.6%,85.4% 85.4%,64.6% 85.4%,50% 100%,35.4% 85.4%,14.6% 85.4%,14.6% 64.6%,0 50%,14.6% 35.4%,14.6% 14.6%,35.4% 14.6%)}
+.sopt>span{flex:1;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sopt b{font-size:16px}
+.sopt .ar{font:700 20px/1.2 Amiri,serif;color:var(--gold);direction:rtl}
+.sopt.sel{border-color:var(--gold);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold) 55%,transparent),var(--sh)}
+.sopt.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,var(--surf));box-shadow:0 0 0 2px color-mix(in srgb,var(--good) 60%,transparent)}
+.sopt.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--surf));box-shadow:0 0 0 2px color-mix(in srgb,var(--bad) 55%,transparent)}
+.sopt.dim{opacity:.5}
+.sopt:disabled{cursor:default}
+.sres{margin:0 0 12px;font-weight:700;text-align:center}
+.sres.ok{color:var(--good)}.sres.no{color:var(--bad)}
+.mks{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.mk{font-size:12.5px;font-weight:700;padding:2px 9px;border-radius:9px}
+.mk.ok{color:var(--good);background:color-mix(in srgb,var(--good) 15%,transparent)}
+.mk.no{color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,transparent)}

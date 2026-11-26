@@ -162,7 +162,7 @@ function pool(){
 function label(){return {rawak:'Rawak 30 juzuk',juz:'Juzuk '+sel.juz,surah:'Surah '+sName(sel.surah),julat:`Muka surat ${sel.from}–${sel.to}`,nota:'Dari nota'}[sel.mode]}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function start(){const p=pool();if(!p.length){toast('Tiada ayat dalam pilihan ini');return}S={pool:p,bag:shuffle(p.slice()),n:0,label:label()};next()}
-function next(){if(!S.bag.length)S.bag=shuffle(S.pool.slice());S.gi=S.bag.pop();S.n++;S.after=0;S.before=false;S.pick=null;S.view=null;go('soalan')}
+function next(){if(!S.bag.length)S.bag=shuffle(S.pool.slice());S.gi=S.bag.pop();S.n++;S.after=0;S.before=false;S.pick=null;S.view=null;S.sur=null;go('soalan')}
 const corners='<i class="corner" style="top:-7px;left:50%;margin-left:-7px"></i><i class="corner" style="bottom:-7px;left:50%;margin-left:-7px"></i>';
 
 R.soalan=()=>{
@@ -173,11 +173,31 @@ R.soalan=()=>{
   V.innerHTML=`<div class="qhead"><h1>Soalan!</h1><span class="chip g">${esc(S.label)} · #${S.n}</span></div>
   ${before}<div class="qcard">${corners}<div class="quran">${ayText(gi)}</div></div>${after}
   <div class="qtools"><button class="btn ghost small" id="bf"${S.before||gi===0?' disabled':''}>Ayat sebelumnya</button><button class="btn ghost small" id="af"${gi+S.after+1>=A?' disabled':''}>Ayat seterusnya</button></div>
-  <div style="display:grid;gap:4px"><button class="btn" data-go="teka">Kenal Pasti Kedudukan Ayat</button><button class="link" id="tamat" style="justify-self:center">Tamat sesi</button></div>`;
+  <div style="display:grid;gap:4px"><button class="btn" data-go="surah">Kenal Pasti Surah &amp; Kedudukan Ayat</button><button class="link" id="tamat" style="justify-self:center">Tamat sesi</button></div>`;
   document.getElementById('af').onclick=()=>{S.after++;R.soalan();[...V.querySelectorAll('.extra')].pop()?.scrollIntoView({block:'nearest',behavior:'smooth'})};
   document.getElementById('bf').onclick=()=>{S.before=true;R.soalan()};
   document.getElementById('tamat').onclick=tamat};
 function tamat(){S=null;go('mod')}
+
+// Kenal pasti surah: 4 pilihan, 3 daripadanya surah berdekatan supaya mengelirukan.
+function surOpts(s){
+  const near=[];for(let d=1;d<=4;d++){if(s-d>=1)near.push(s-d);if(s+d<=114)near.push(s+d)}
+  near.sort((x,y)=>Math.abs(x-s)-Math.abs(y-s)||Math.random()-.5);
+  return shuffle([s,...shuffle(near.slice(0,5)).slice(0,3)])}
+R.surah=()=>{
+  if(!S)return go('mod');
+  const s=surOf(S.gi);
+  if(!S.sur)S.sur={opts:surOpts(s),pick:null,done:false};
+  const U=S.sur;
+  const cls=o=>!U.done?(U.pick===o?' sel':''):o===s?' ok':U.pick===o?' no':' dim';
+  const res=U.done?`<p class="sres ${U.pick===s?'ok':'no'}">${U.pick===s?'Betul! Surah '+esc(sName(s))+'.':'Salah. Jawapannya Surah '+esc(sName(s))+'.'}</p>`:'';
+  V.innerHTML=`<h1>Kenal Pasti Surah</h1><p class="sub">Ayat ini daripada surah apa?</p>
+  <div class="qcard" style="padding:10px 14px;margin:0 0 14px"><div class="quran" style="font-size:21px;line-height:1.9;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${ayText(S.gi)}</div></div>
+  <div class="sopts">${U.opts.map(o=>`<button class="sopt${cls(o)}" data-s="${o}"${U.done?' disabled':''}><i>${o}</i><span><b>${esc(sName(o))}</b><span class="ar" lang="ar">${esc(Q.s[o-1][0])}</span></span></button>`).join('')}</div>
+  ${res}
+  <button class="btn" id="sk"${!U.done&&!U.pick?' disabled':''}>${U.done?'Teruskan: Kenal Pasti Kedudukan Ayat':'Semak surah'}</button>`;
+  V.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{U.pick=+b.dataset.s;R.surah()});
+  document.getElementById('sk').onclick=()=>{if(U.done)go('teka');else{U.done=true;R.surah()}}};
 
 R.teka=()=>{
   if(!S)return go('mod');
@@ -192,10 +212,13 @@ R.teka=()=>{
 
 R.jawapan=()=>{
   if(!S||!S.pick)return go(S?'teka':'mod');
-  const z=zoneOf(S.gi),ok=S.pick[0]===z.side&&(z.half==='*'||S.pick[1]===z.half);
+  const z=zoneOf(S.gi),okPos=S.pick[0]===z.side&&(z.half==='*'||S.pick[1]===z.half);
+  const okSur=S.sur&&S.sur.done?S.sur.pick===surOf(S.gi):null,ok=okPos&&okSur!==false;
+  const mark=(t,v)=>`<span class="mk ${v?'ok':'no'}">${v?'✓':'✗'} ${t}</span>`;
+  const marks=okSur===null?'':`<div class="mks">${mark('Surah',okSur)}${mark('Kedudukan',okPos)}</div>`;
   if(S.view==null)S.view=z.p;
   const pos=`${z.side==='R'?'kanan':'kiri'}, ${z.half==='T'?'atas':z.half==='B'?'bawah':'tengah'}`;
-  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?'Betul! Masya-Allah.':'Salah, teruskan mengulang.'}</b><p>${esc(ref(S.gi))} · muka surat ${z.p} · ${pos}</p></div></div>
+  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?'Betul! Masya-Allah.':'Salah, teruskan mengulang.'}</b><p>${esc(ref(S.gi))} · muka surat ${z.p} · ${pos}</p>${marks}</div></div>
   <div id="pg" data-scroll="1"><div class="pgload">Memuatkan muka surat ${S.view}…</div></div>
   <div class="pnav"><button class="btn ghost small" id="pn"${S.view>=604?' disabled':''}>‹ Muka surat selepas</button><button class="btn ghost small" id="pp"${S.view<=1?' disabled':''}>Muka surat sebelum ›</button></div>
   ${S.view!==z.p?`<button class="link" id="back" style="display:block;margin:0 auto 6px">Kembali ke muka surat ${z.p}</button>`:''}
