@@ -93,23 +93,18 @@ function pageHTML(p,hl){
     let h='';for(let i=x.a;i<=x.b;i++){const on=hl&&i>=hl[0]&&i<=hl[1];h+=`<span${on?' class="h"':''}>${esc(Q.w[i])}</span>`;if(END[i])h+=`<span${on?' class="h"':''}>۝${AD(END[i])}</span>`}
     return `<div class="ln t">${h}</div>`}).join('');
   return frameHTML(p,ln,short)}
-// Muat satu skrin: jika halaman melebihi tinggi skrin, kecilkan muka surat mushaf (#pg) secukupnya.
-function fitScreen(){const pg=document.getElementById('pg');if(!pg)return;pg.style.width='';
-  if(document.scrollingElement.scrollHeight<=innerHeight)return;
-  for(let t=0;t<3;t++){const over=document.scrollingElement.scrollHeight-innerHeight;if(over<=0)break;
-    const w=pg.offsetWidth/pg.parentElement.clientWidth,h=pg.offsetHeight,k=Math.max(.6,w*(h-over-4)/h);pg.style.width=(k*100)+'%';pg.style.marginLeft=pg.style.marginRight='auto';fitPage(pg,true)}}
-function fitPage(root,inner){
+function fitPage(root){
   const L=root.querySelector('.lines');if(!L)return;
   if(L.querySelector('.q')){ // QCF4 glyph lines: natural spacing, each full line scaled a hair to the exact width
     const W=L.clientWidth;L.style.setProperty('--fs',(W/16.3)+'px');
     L.querySelectorAll('.ln.q .in').forEach(el=>{el.style.transform='';const n=el.offsetWidth;el.style.transform=n>W*.82?`scaleX(${W/n})`:''});
-    const hl=L.querySelector('.h');if(hl&&root.dataset.scroll)hl.scrollIntoView({block:'center',behavior:'instant'});if(!inner)fitScreen();return}
+    const hl=L.querySelector('.h');if(hl&&root.dataset.scroll)hl.scrollIntoView({block:'center',behavior:'instant'});return}
   const W=L.clientWidth,short=!!root.querySelector('.short'),q=!!L.querySelector('.q');let fs=W/(q?17:21.5);L.style.setProperty('--fs',fs+'px');
   const t=[...L.querySelectorAll('.ln.t')];t.forEach(l=>l.classList.add('measure'));
   let mx=0;const nat=t.map(l=>{const w=l.scrollWidth;mx=Math.max(mx,w);return w});
   const k=Math.min(1,(W*.985)/mx);fs*=k;L.style.setProperty('--fs',fs+'px');
   t.forEach((l,i)=>{l.classList.remove('measure');if(short||nat[i]*k<W*(q?.8:.55))l.classList.add('c')});
-  const hl=L.querySelector('.h');if(hl&&root.dataset.scroll)hl.scrollIntoView({block:'center',behavior:'instant'});if(!inner)fitScreen()}
+  const hl=L.querySelector('.h');if(hl&&root.dataset.scroll)hl.scrollIntoView({block:'center',behavior:'instant'})}
 
 /* ---------- rehal illustration (original) ---------- */
 function rehal(){
