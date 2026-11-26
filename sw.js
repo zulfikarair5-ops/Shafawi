@@ -1,5 +1,5 @@
 // Shafawi service worker: keeps the app and the mushaf data available offline.
-const VERSION = 'thebook-v10';
+const VERSION = 'thebook-v11';
 const SHELL = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.webmanifest',
   'data/quran.json', 'data/mushaf.json', 'data/hafs.ttf', 'icons/icon.svg', 'icons/apple-touch-icon.png',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/logo-penuh.svg', 'icons/wordmark.svg'];
