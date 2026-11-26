@@ -163,6 +163,7 @@ select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),
 .note .kat{position:absolute;top:9px;right:16px;max-width:60%;font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 .note .kat::before{content:"";display:inline-block;width:6px;height:6px;margin-right:6px;vertical-align:1px;background:currentColor;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
 .note .nrow{padding-top:22px;padding-bottom:12px}
+.nrow .t .aw{font-family:Hafs,serif;direction:rtl;text-align:left;font-size:19px;line-height:1.7;color:var(--pri);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
 .nrow .t .cat{font-size:14px;color:var(--ink);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nrow .t .uc{margin-top:2px}
 .nrow .star.jz{width:50px;height:50px;font-size:15px;line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center}

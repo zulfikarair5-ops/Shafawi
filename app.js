@@ -38,6 +38,8 @@ const gIdx=(s,a)=>FA[s-1]+a-1;
 const rng=gi=>[Q.as[gi],(gi+1<Q.as.length?Q.as[gi+1]:nWords())-1];
 const sName=s=>NAMEFIX[s]||Q.s[s-1][1];
 const ref=gi=>`${sName(surOf(gi))} ${surOf(gi)}:${ayNo(gi)}`;
+// 4 perkataan awal ayat, untuk kad nota.
+function ayHead(gi,k=4){const [a,b]=rng(gi);return esc(Q.w.slice(a,Math.min(b+1,a+k)).join(' '))+(b+1-a>k?'…':'')}
 function ayText(gi){const [a,b]=rng(gi);return esc(Q.w.slice(a,b+1).join(' '))+' <span class="am">۝'+AD(ayNo(gi))+'</span>'}
 function slots(p){
   const a=Q.ps[p-1],b=p<604?Q.ps[p]:nWords();
@@ -281,7 +283,7 @@ R.library=()=>{
   const act=notes.filter(n=>!n.selesai).length,done=notes.length-act;
   const L=sorted().filter(n=>tab==='semua'||(tab==='aktif'?!n.selesai:n.selesai));
   const item=n=>{const gi=gIdx(n.surah,n.ayah),uc=n.ulangan.filter(Boolean).length,kat=n.kategori==='Lain-lain'&&n.lain?n.lain:n.kategori;
-    return `<div class="note${n.selesai?' done':''}"><div class="nrow"><button class="open" data-open="${n.id}"><i class="star jz"><small>Juzuk</small>${juzOf(Q.as[gi])}</i><span class="t"><b>${esc(sName(n.surah))} : ${n.ayah}</b>${n.perkataan?`<span class="cat" dir="auto">${esc(n.perkataan)}</span>`:''}</span></button><label class="ck" aria-label="Selesai"><input type="checkbox" data-done="${n.id}"${n.selesai?' checked':''}></label></div><em class="kat">${esc(kat)}</em></div>`};
+    return `<div class="note${n.selesai?' done':''}"><div class="nrow"><button class="open" data-open="${n.id}"><i class="star jz"><small>Juzuk</small>${juzOf(Q.as[gi])}</i><span class="t"><b>${esc(sName(n.surah))} : ${n.ayah}</b><span class="aw" lang="ar">${ayHead(gi)}</span>${n.perkataan?`<span class="cat" dir="auto">${esc(n.perkataan)}</span>`:''}</span></button><label class="ck" aria-label="Selesai"><input type="checkbox" data-done="${n.id}"${n.selesai?' checked':''}></label></div><em class="kat">${esc(kat)}</em></div>`};
   V.innerHTML=`<div class="top"><h1>Library</h1><button class="btn ghost small" data-go="nota">+ Nota</button></div>
   <p class="sub" style="margin-bottom:10px">Senarai ayat lemah, disusun ikut turutan mushaf.</p>
   <div class="seg" role="group" aria-label="Tapis nota">${[['aktif','Aktif',act],['selesai','Selesai',done],['semua','Semua',notes.length]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${tab===t[0]}">${t[1]} ${t[2]}</button>`).join('')}</div>
