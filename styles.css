@@ -211,7 +211,7 @@ select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),
 .sh.q::before,.sh.q::after{content:none}
 .sh.q .band{position:absolute;inset:6px;border-radius:2px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23b88b3a' stroke-width='2.2'%3E%3Cpolygon points='20,4 24.6,8.9 31.3,8.7 31.1,15.4 36,20 31.1,24.6 31.3,31.3 24.6,31.1 20,36 15.4,31.1 8.7,31.3 8.9,24.6 4,20 8.9,15.4 8.7,8.7 15.4,8.9'/%3E%3Cpath d='M20 4V0M20 36v4M4 20H0M36 20h4'/%3E%3C/g%3E%3C/svg%3E") center/calc(var(--fs,18px)*.62) repeat;opacity:.55}
 .sh.q .cart{position:relative;display:flex;align-items:center;justify-content:center;height:calc(var(--fs,18px)*1.35);padding:0 1.6em;background:var(--paper);border:1.5px solid color-mix(in srgb,var(--gold) 80%,transparent);border-radius:999px;box-shadow:0 0 0 3px var(--paper),0 0 0 4px color-mix(in srgb,var(--gold) 40%,transparent)}
-.sh.q .cart span{font-size:1.08em;line-height:1}
+.sh.q .cart span{font-size:.86em;line-height:1}
 .sh.q .ros{position:absolute;top:50%;width:calc(var(--fs,18px)*1.05);height:calc(var(--fs,18px)*1.05);transform:translateY(-50%);background:var(--paper);clip-path:polygon(50% 0,64.6% 14.6%,85.4% 14.6%,85.4% 35.4%,100% 50%,85.4% 64.6%,85.4% 85.4%,64.6% 85.4%,50% 100%,35.4% 85.4%,14.6% 85.4%,14.6% 64.6%,0 50%,14.6% 35.4%,14.6% 14.6%,35.4% 14.6%)}
 .sh.q .ros::after{content:"";position:absolute;inset:22%;background:var(--gold);clip-path:inherit}
 .sh.q .ros.a{right:9%}.sh.q .ros.b{left:9%}
