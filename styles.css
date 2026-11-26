@@ -320,3 +320,5 @@ html[data-mode=light] .hero::before{background-image:url("data:image/svg+xml,%3C
 h1,.brand b,.stat b,.ring b,.star.jz,.verdict b{font-variant-numeric:lining-nums}
 .tab:focus:not(:focus-visible){outline:none}
 .tab:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+/* Paparan mushaf kekal seperti versi sebelum (warna asal hijau + emas) */
+.mush-wrap,.pgload{--paper:light-dark(#fffcf3,#141f19);--gold:light-dark(#b88b3a,#d4b06a);--gold2:light-dark(#f4ead2,#2a2616);--pink:light-dark(#1a1a17,#e9efe9);--muted:light-dark(#5c7567,#91ab9c);--line:light-dark(#e1ebe4,#1f3529);--sh2:light-dark(0 10px 30px -12px rgba(15,61,43,.28),0 10px 30px -12px rgba(0,0,0,.6));--hltext:light-dark(#0f7a4c,#6fdca6)}
