@@ -265,33 +265,37 @@ function sorted(){return notes.slice().sort((a,b)=>(a.selesai-b.selesai)||(gIdx(
 R.notad=()=>{
   const n=notes.find(x=>x.id===openNote);if(!n)return go('library');
   const gi=gIdx(n.surah,n.ayah),p=pageOf(Q.as[gi]),kat=n.kategori==='Lain-lain'&&n.lain?n.lain:n.kategori;
-  V.innerHTML=`<div class="top"><h1>${esc(sName(n.surah))} : ${n.ayah}</h1><button class="btn ghost small" data-go="library">‹ Library</button></div>
-  <div class="meta"><span class="chip">Juzuk ${juzOf(Q.as[gi])}</span><span class="chip">Muka surat ${p}</span><span class="chip g">${esc(kat)}</span></div>
+  const uc=n.ulangan.filter(Boolean).length;
+  V.innerHTML=`<button class="back" data-go="library">‹ Library</button>
+  <div class="dhead"><i class="star jz"><small>Juzuk</small>${juzOf(Q.as[gi])}</i><div><h1>${esc(sName(n.surah))} : ${n.ayah}</h1><p class="sub" style="margin:0">Muka surat ${p} · <span class="katx">${esc(kat)}</span></p></div></div>
   ${n.perkataan?`<div class="ncat"><small>Perkataan yang salah atau terlupa</small><span dir="auto">${esc(n.perkataan)}</span></div>`:''}
   <div id="pg"><div class="pgload">Memuatkan muka surat ${p}…</div></div>
-  <div class="ndet"><div class="ul"><div><div style="font-weight:700;font-size:14px;margin-bottom:6px">Ulangan</div><div class="boxes">${n.ulangan.map((u,i)=>`<button class="box" data-i="${i}" aria-pressed="${!!u}" aria-label="Ulangan ${i+1}">${u?'✓':''}</button>`).join('')}</div></div>
-  <label class="dlabel"><input type="checkbox" id="nd-done"${n.selesai?' checked':''}>Selesai</label></div>
-  <button class="del" id="nd-del">${n.confirm?'Tekan sekali lagi untuk padam':'Padam nota'}</button></div>`;
+  <h2 class="sect">Ulangan <span id="ucn">${uc}/5</span></h2>
+  <div class="group pad"><div class="boxes">${n.ulangan.map((u,i)=>`<button class="box" data-i="${i}" aria-pressed="${!!u}" aria-label="Ulangan ${i+1}">${u?'✓':i+1}</button>`).join('')}</div>
+  <label class="grow sw"><span><b>Tanda selesai</b><small>Pindah nota ke tab Selesai</small></span><input type="checkbox" class="tg" id="nd-done"${n.selesai?' checked':''}></label></div>
+  <button class="del" id="nd-del">${n.confirm?'Tekan sekali lagi untuk padam':'Padam nota'}</button>`;
   showPage(document.getElementById('pg'),p,gi);
   V.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;n.ulangan[i]=n.ulangan[i]?0:1;if(n.ulangan.every(Boolean)&&!n.selesai){n.selesai=true;toast('5 ulangan lengkap. Nota ditanda selesai.')}save();syncND(n)});
   document.getElementById('nd-done').onchange=e=>{n.selesai=e.target.checked;save();toast(n.selesai?'Ditanda selesai':'Dikembalikan ke aktif')};
   document.getElementById('nd-del').onclick=()=>{if(n.confirm){notes=notes.filter(x=>x!==n);openNote=null;save();toast('Nota dipadam');go('library')}else{n.confirm=true;setTimeout(()=>{delete n.confirm},4000);document.getElementById('nd-del').textContent='Tekan sekali lagi untuk padam'}}};
 // Kemas kini kotak tanpa lukis semula mushaf.
-function syncND(n){V.querySelectorAll('[data-i]').forEach(b=>{const u=n.ulangan[+b.dataset.i];b.setAttribute('aria-pressed',!!u);b.textContent=u?'✓':''});const d=document.getElementById('nd-done');d&&(d.checked=n.selesai)}
+function syncND(n){V.querySelectorAll('[data-i]').forEach(b=>{const i=+b.dataset.i,u=n.ulangan[i];b.setAttribute('aria-pressed',!!u);b.textContent=u?'✓':i+1});const d=document.getElementById('nd-done');d&&(d.checked=n.selesai);const c=document.getElementById('ucn');c&&(c.textContent=n.ulangan.filter(Boolean).length+'/5')}
 
 R.library=()=>{
   const act=notes.filter(n=>!n.selesai).length,done=notes.length-act;
   const L=sorted().filter(n=>tab==='semua'||(tab==='aktif'?!n.selesai:n.selesai));
   const item=n=>{const gi=gIdx(n.surah,n.ayah),uc=n.ulangan.filter(Boolean).length,kat=n.kategori==='Lain-lain'&&n.lain?n.lain:n.kategori;
-    return `<div class="note${n.selesai?' done':''}"><div class="nrow"><button class="open" data-open="${n.id}"><i class="star jz"><small>Juzuk</small>${juzOf(Q.as[gi])}</i><span class="t"><b>${esc(sName(n.surah))} : ${n.ayah}</b><span class="aw" lang="ar">${ayHead(gi)}</span></span></button><label class="ck" aria-label="Selesai"><input type="checkbox" data-done="${n.id}"${n.selesai?' checked':''}></label></div><em class="kat">${esc(kat)}</em></div>`};
-  V.innerHTML=`<div class="top"><h1>Library</h1><button class="btn ghost small" data-go="nota">+ Nota</button></div>
-  <p class="sub" style="margin-bottom:10px">Senarai ayat lemah, disusun ikut turutan mushaf.</p>
+    return `<div class="note${n.selesai?' done':''}"><div class="nrow"><button class="open" data-open="${n.id}"><i class="star jz"><small>Juzuk</small>${juzOf(Q.as[gi])}</i><span class="t"><b>${esc(sName(n.surah))} : ${n.ayah}</b><span class="aw" lang="ar">${ayHead(gi)}</span></span></button><label class="ck" aria-label="Tanda selesai"><input type="checkbox" class="rk" data-done="${n.id}"${n.selesai?' checked':''}></label></div><em class="kat">${esc(kat)}</em></div>`};
+  V.innerHTML=`<div class="top"><div><h1>Library</h1><p class="sub" style="margin:0">Ayat lemah, ikut turutan mushaf</p></div><button class="btn small addn" data-go="nota" aria-label="Tambah nota">＋ Nota</button></div>
   <div class="seg" role="group" aria-label="Tapis nota">${[['aktif','Aktif',act],['selesai','Selesai',done],['semua','Semua',notes.length]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${tab===t[0]}">${t[1]} ${t[2]}</button>`).join('')}</div>
   <div class="list">${L.length?L.map(item).join(''):notes.length?`<div class="empty">Tiada nota dalam senarai ini.</div>`:`<div class="empty">${star(IC.pen,'gold')}<b>Belum ada nota</b>Catat ayat yang selalu tersangkut, kemudian tanda setiap kali anda ulang.<div style="margin-top:14px;display:grid;gap:6px"><button class="btn" data-go="nota">Catat nota pertama</button><button class="link" id="demo">Isi 3 nota contoh untuk cuba</button></div></div>`}</div>
-  <div class="backup"><p><b style="color:var(--ink)">Sandaran.</b> Nota disimpan dalam pelayar ini sahaja. Eksport ke fail untuk simpan, dan import semula selepas tukar telefon.</p>
-  <div class="row"><button class="btn ghost small" id="ex"${notes.length?'':' disabled'}>Eksport</button><label class="btn ghost small" for="im" style="cursor:pointer">Import<input type="file" id="im" accept=".json,application/json" hidden></label></div></div>
-  <div class="backup"><p><b style="color:var(--ink)">Mushaf luar talian.</b> Muka surat mushaf dimuat turun bila dibuka. Simpan semua sekali gus (kira-kira 36 MB) supaya semua muka surat boleh dibuka tanpa internet.</p>
-  <button class="btn ghost small" id="dl" style="width:100%"${M?'':' disabled'}>Simpan semua muka surat</button></div>`;
+  <h2 class="sect">Data</h2>
+  <div class="group">
+    <button class="grow" id="ex"${notes.length?'':' disabled'}><i><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5M5 21h14"/></svg></i><span><b>Eksport nota</b><small>Simpan sandaran ke fail</small></span><em>›</em></button>
+    <label class="grow" for="im"><i><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></i><span><b>Import nota</b><small>Pulihkan daripada fail sandaran</small></span><em>›</em><input type="file" id="im" accept=".json,application/json" hidden></label>
+    <button class="grow" id="dl"${M?'':' disabled'}><i><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zM4 19V5M9 7h6"/></svg></i><span><b>Mushaf luar talian</b><small id="dls">Simpan semua muka surat (kira-kira 36 MB)</small></span><em>›</em></button>
+  </div>
+  <p class="fine">Nota disimpan dalam pelayar ini sahaja. Eksport selepas menambah nota supaya tidak hilang bila tukar telefon.</p>`;
   V.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;R.library()});
   V.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{openNote=b.dataset.open;go('notad')});
   V.querySelectorAll('[data-done]').forEach(c=>c.onchange=()=>{const n=notes.find(x=>x.id===c.dataset.done);n.selesai=c.checked;save();toast(c.checked?'Ditanda selesai':'Dikembalikan ke aktif');R.library()});
@@ -302,9 +306,9 @@ R.library=()=>{
     {id:t+'b',surah:18,ayah:57,kategori:'Tertukar mutasyabihat',lain:'',perkataan:'وَمَنۡ أَظۡلَمُ',ulangan:[1,0,0,0,0],selesai:false,dibuat:now},
     {id:t+'c',surah:36,ayah:47,kategori:'Lupa ayat',lain:'',perkataan:'',ulangan:[1,1,1,1,1],selesai:true,dibuat:now}];save();R.library()});
   document.getElementById('ex').onclick=exportNotes;
-  document.getElementById('dl').onclick=async e=>{const b=e.currentTarget;b.disabled=true;let n=0,bad=0;
-    for(const f of M.fonts){if(!(await qfont(f)))bad++;n++;b.textContent=`Menyimpan… ${n}/${M.fonts.length}`}
-    b.textContent=bad?`${bad} fail gagal. Tekan untuk cuba lagi`:'Semua muka surat disimpan ✓';b.disabled=!bad};
+  document.getElementById('dl').onclick=async e=>{const b=e.currentTarget,s=document.getElementById('dls');b.disabled=true;let n=0,bad=0;
+    for(const f of M.fonts){if(!(await qfont(f)))bad++;n++;s.textContent=`Menyimpan… ${n}/${M.fonts.length}`}
+    s.textContent=bad?`${bad} fail gagal. Tekan untuk cuba lagi`:'Semua muka surat disimpan ✓';b.disabled=!bad};
   document.getElementById('im').onchange=importNotes};
 
 async function exportNotes(){

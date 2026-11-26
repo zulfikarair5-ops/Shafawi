@@ -227,3 +227,38 @@ select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),
 .mk{font-size:12.5px;font-weight:700;padding:2px 9px;border-radius:9px}
 .mk.ok{color:var(--good);background:color-mix(in srgb,var(--good) 15%,transparent)}
 .mk.no{color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,transparent)}
+
+/* Library dan detail nota: gaya senarai berkumpulan */
+.addn{align-self:flex-start;margin-top:6px;min-height:40px;padding:0 14px;border-radius:12px;font-size:14px}
+.sect{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:22px 4px 8px;display:flex;justify-content:space-between}
+.sect span{color:var(--gold);letter-spacing:0}
+.group{background:var(--surf);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--sh)}
+.group.pad{padding:14px}
+.grow{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;background:none;border:0;border-top:1px solid var(--line);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.group>.grow:first-child{border-top:0}
+.grow:disabled{opacity:.5;cursor:default}
+.grow>i{font-style:normal;flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--gold2);color:var(--gold);font-size:16px;font-weight:800}
+.grow>span{flex:1;min-width:0}
+.grow b{display:block;font-size:15px}
+.grow small{display:block;font-size:12.5px;color:var(--muted)}
+.grow>em{font-style:normal;color:var(--muted);font-size:20px}
+.fine{font-size:12px;color:var(--muted);margin:8px 6px 0;line-height:1.5}
+.group.pad .boxes{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.group.pad .box{width:auto;height:44px;color:var(--muted)}
+.group.pad .box[aria-pressed=true]{color:var(--gold)}
+.grow.sw{border-top:1px solid var(--line);margin:14px -14px -14px;width:auto;padding:12px 14px}
+/* Suis dan bulatan tanda */
+input.tg{appearance:none;-webkit-appearance:none;flex:none;width:48px;height:28px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;transition:background .2s;margin:0}
+input.tg::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+input.tg:checked{background:var(--pri)}
+input.tg:checked::after{transform:translateX(20px)}
+input.rk{appearance:none;-webkit-appearance:none;width:26px;height:26px;border-radius:50%;border:2px solid color-mix(in srgb,var(--muted) 60%,transparent);background:transparent;cursor:pointer;margin:0;display:grid;place-items:center}
+input.rk:checked{background:var(--pri);border-color:var(--pri)}
+input.rk:checked::after{content:"✓";color:#fff;font-size:14px;font-weight:800;line-height:1}
+.back{background:none;border:0;padding:4px 0;color:var(--gold);font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+.dhead{display:flex;align-items:center;gap:12px;margin:4px 0 12px}
+.dhead .star.jz{width:52px;height:52px;font-size:16px;line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dhead .star.jz small{font-size:7.5px;font-weight:700;opacity:.85;margin-bottom:1px}
+.katx{color:var(--gold);font-weight:700}
+#pg+.sect{margin-top:18px}
+.del{display:block;margin:14px auto 0;padding:10px 16px}
