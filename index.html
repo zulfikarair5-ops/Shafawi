@@ -3,34 +3,38 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>TheBook</title>
+<title>Shafawi</title>
 <meta name="description" content="Uji hafazan Quran sendiri: tebuk ayat, kenal pasti kedudukan ayat dalam Mushaf Madinah, dan Catatan Muraja'ah untuk ayat lemah.">
-<meta name="theme-color" content="#f6faf7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#07110c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f8f6f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a1712" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="TheBook">
+<meta name="apple-mobile-web-app-title" content="Shafawi">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preload" href="data/hafs.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="app">
   <header>
-    <button class="brand" id="brand" aria-label="TheBook, ke Home">
+    <button class="brand" id="brand" aria-label="Shafawi, ke Home">
       <svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,0 25.86,5.86 34.14,5.86 34.14,14.14 40,20 34.14,25.86 34.14,34.14 25.86,34.14 20,40 14.14,34.14 5.86,34.14 5.86,25.86 0,20 5.86,14.14 5.86,5.86 14.14,5.86" fill="var(--panel)"/><polygon points="20,3.5 24.9,8.3 31.7,8.3 31.7,15.1 36.5,20 31.7,24.9 31.7,31.7 24.9,31.7 20,36.5 15.1,31.7 8.3,31.7 8.3,24.9 3.5,20 8.3,15.1 8.3,8.3 15.1,8.3" fill="none" stroke="#c9a24f" stroke-width=".8"/><path d="M20 16.5c-2.6-2-5.8-2.5-8.5-2v10c2.7-.5 5.9 0 8.5 2 2.6-2 5.8-2.5 8.5-2v-10c-2.7-.5-5.9 0-8.5 2z" fill="#f4ead2"/><path d="M20 16.5v10" stroke="#c9a24f" stroke-width="1"/></svg>
-      <span><b>TheBook</b><small>الكتاب</small></span>
+      <span><b>Shafawi</b><small>شفوي</small></span>
     </button>
     <button class="iconbtn" id="theme" aria-label="Tukar mod gelap"></button>
   </header>
   <main id="view"><div class="loading">Memuatkan mushaf…</div></main>
-  <footer><button class="homebtn" id="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg>Home</button></footer>
+  <footer><nav class="tabs" id="tabs" aria-label="Navigasi utama">
+    <button class="tab" id="home" data-tab-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5L12 4l8 6.5V20h-5v-6H9v6H4z"/></svg>Utama</button>
+    <button class="tab" data-tab-go="uji"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5z"/><path d="M12 6.5v13"/></svg>Uji</button>
+    <button class="tab" data-tab-go="library"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg>Library</button>
+  </nav></footer>
 </div>
 <script src="app.js"></script>
 </body>
