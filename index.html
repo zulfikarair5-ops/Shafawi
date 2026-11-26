@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>TheBook</title>
 <meta name="description" content="Uji hafazan Quran sendiri: tebuk ayat, kenal pasti kedudukan ayat dalam Mushaf Madinah, dan Catatan Muraja'ah untuk ayat lemah.">
-<meta name="theme-color" content="#f6faf7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#07110c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbf9f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a1712" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -17,7 +17,7 @@
 <link rel="preload" href="data/hafs.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,7 +30,11 @@
     <button class="iconbtn" id="theme" aria-label="Tukar mod gelap"></button>
   </header>
   <main id="view"><div class="loading">Memuatkan mushaf…</div></main>
-  <footer><button class="homebtn" id="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg>Home</button></footer>
+  <footer><nav class="tabs" id="tabs" aria-label="Navigasi utama">
+    <button class="tab" id="home" data-tab-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5L12 4l8 6.5V20h-5v-6H9v6H4z"/></svg>Utama</button>
+    <button class="tab" data-tab-go="uji"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5z"/><path d="M12 6.5v13"/></svg>Uji</button>
+    <button class="tab" data-tab-go="library"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg>Library</button>
+  </nav></footer>
 </div>
 <script src="app.js"></script>
 </body>

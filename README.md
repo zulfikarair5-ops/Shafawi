@@ -14,7 +14,7 @@ Direka untuk iPhone (Safari), boleh ditambah ke Skrin Utama dan berfungsi tanpa 
 | Fail | Isi |
 |---|---|
 | `index.html` | Kerangka halaman |
-| `styles.css` | Gaya (hijau tua + emas, corak khatam) |
+| `styles.css` | Gaya Emerald Noir: mod gelap hijau zamrud + emas, mod cerah putih hangat + taupe + coklat gelap, corak khatam |
 | `app.js` | Semua logik app, tanpa framework |
 | `sw.js` | Service worker untuk mod luar talian |
 | `manifest.webmanifest`, `icons/` | Ikon dan tetapan Skrin Utama |

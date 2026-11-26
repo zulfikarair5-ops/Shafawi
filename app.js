@@ -29,7 +29,7 @@ const IC={
 const MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg>';
 const SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
 function isDark(){const m=store.get('theme',null);if(m)return m==='dark';const t=document.documentElement.dataset.theme;if(t)return t==='dark';return matchMedia('(prefers-color-scheme: dark)').matches}
-function applyTheme(){const d=isDark();document.documentElement.style.colorScheme=d?'dark':'light';const b=document.getElementById('theme');b.innerHTML=d?SUN:MOON;b.setAttribute('aria-label',d?'Tukar ke mod cerah':'Tukar ke mod gelap')}
+function applyTheme(){const d=isDark();document.documentElement.style.colorScheme=d?'dark':'light';document.documentElement.dataset.mode=d?'dark':'light';const b=document.getElementById('theme');b.innerHTML=d?SUN:MOON;b.setAttribute('aria-label',d?'Tukar ke mod cerah':'Tukar ke mod gelap')}
 document.getElementById('theme').onclick=()=>{store.set('theme',isDark()?'light':'dark');applyTheme();if(location.hash==='#jawapan')render()};
 matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',applyTheme);
 applyTheme();
@@ -117,7 +117,7 @@ function rehal(){
   <ellipse cx="150" cy="164" rx="92" ry="5" fill="#000" opacity=".25"/>
   <g stroke-linecap="round"><path d="M98 100L202 160" stroke="url(#wA)" stroke-width="18"/><path d="M202 100L98 160" stroke="url(#wB)" stroke-width="18"/><path d="M198 105L103 159" stroke="#f0c48e" stroke-width="2.4" opacity=".6"/></g>
   <circle cx="150" cy="130" r="7.5" fill="var(--wood1)"/><polygon points="150,124.5 152,128 155.5,130 152,132 150,135.5 148,132 144.5,130 148,128" fill="#e8c98a"/>
-  <path d="M150 64Q104 36 52 38L46 100Q100 96 150 120Q200 96 254 100L248 38Q196 36 150 64Z" fill="#0a2c1f" stroke="#c9a24f" stroke-width="1.6"/>
+  <path d="M150 64Q104 36 52 38L46 100Q100 96 150 120Q200 96 254 100L248 38Q196 36 150 64Z" fill="var(--cover)" stroke="#c9a24f" stroke-width="1.6"/>
   <path d="M150 58Q106 30 58 31L54 94Q104 90 150 112Q196 90 246 94L242 31Q194 30 150 58Z" fill="#fbf3df"/>
   <path d="M150 58Q106 30 58 31L56 46Q106 46 150 74Z" fill="#fff" opacity=".45"/>
   <path d="M150 58V112" stroke="#d6c393" stroke-width="2"/>
@@ -129,13 +129,15 @@ function rehal(){
 const R={};
 R.home=()=>{
   const gi=gIdx(15,9),act=notes.filter(n=>!n.selesai).length,done=notes.length-act;
-  V.innerHTML=`<section class="hero"><div class="date"><span>${esc(hijri())}</span><span>بِسۡمِ ٱللَّهِ</span></div>
-  ${rehal()}<div class="quran">${ayText(gi)}</div><div class="cap">Al-Hijr 15:9</div></section>
+  const tot=notes.length*5,rep=notes.reduce((t,n)=>t+n.ulangan.filter(Boolean).length,0),C=2*Math.PI*23,f=tot?C*rep/tot:0;
+  V.innerHTML=`<div class="greet"><small>${esc(hijri())}</small><h1>Assalamualaikum</h1></div>
+  <section class="hero"><div class="date"><span>Ayat hari ini</span><span>بِسۡمِ ٱللَّهِ</span></div>
+  ${rehal()}<div class="quran">${ayText(gi)}</div><div class="cap">Al-Hijr · 15:9</div></section>
   <div class="actions">
    <button class="tile main" data-go="mod">${star(IC.book)}<div><b>Tebuk Ayat</b><span>Sambung ayat dan kenal pasti kedudukannya</span></div><i class="go">›</i></button>
    <button class="tile" data-go="nota">${star(IC.pen,'gold')}<div><b>Catatan Muraja'ah</b><span>Rekod ayat yang selalu tersangkut</span></div><i class="go">›</i></button>
   </div>
-  <div class="stats"><button class="stat" data-go="library" style="text-align:left;cursor:pointer"><b>${act}</b><span>Nota aktif</span></button><button class="stat" data-go="library" style="text-align:left;cursor:pointer"><b>${done}</b><span>Sudah selesai</span></button></div>
+  <button class="ring" data-go="library"><svg viewBox="0 0 56 56" role="img" aria-label="${rep} daripada ${tot} ulangan"><circle class="tr" cx="28" cy="28" r="23" fill="none" stroke-width="5"/><circle class="pr" cx="28" cy="28" r="23" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="${f.toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 28 28)"/></svg><div><small>Muraja'ah</small><span><b>${act}</b> nota aktif · <i>${done}</i> selesai</span></div><i class="go" style="margin-left:auto;opacity:.5;font-size:22px">›</i></button>
   <p class="credit">Teks dan susun atur Mushaf Madinah: KFGQPC, melalui dataset quran-text (CC BY 4.0).</p>`};
 
 const MODES=[['rawak','Rawak 30 juzuk','Mana-mana ayat dalam Quran'],['juz','Juzuk','Pilih satu juzuk'],['surah','Surah','Pilih satu surah'],['julat','Julat muka surat','Dari muka surat X hingga Y'],['maqra',"Awal maqra'",'Ayat pertama setiap maqra\' (rubu\' hizb)'],['awalsurah','Awal surah','Ayat pertama setiap surah'],['nota','Dari nota','Ayat sebelum setiap ayat lemah']];
@@ -181,8 +183,8 @@ R.soalan=()=>{
   const gi=S.gi,A=Q.as.length;
   let after='';for(let k=1;k<=S.after&&gi+k<A;k++)after+=`<div class="extra"><small>Ayat seterusnya${S.after>1?' '+k:''}</small><div class="quran">${ayText(gi+k)}</div></div>`;
   const before=S.before&&gi>0?`<div class="extra"><small>Ayat sebelumnya</small><div class="quran">${ayText(gi-1)}</div></div>`:'';
-  V.innerHTML=`<div class="qhead"><h1>Soalan!</h1><span class="chip g">${esc(S.label)} · #${S.n}</span></div>
-  ${before}<div class="qcard">${corners}<div class="quran">${ayText(gi)}</div></div>${after}
+  V.innerHTML=`<div class="qhead"><div><span class="eyebrow">${esc(S.label)}</span><h1>Soalan ${S.n}</h1></div></div>
+  ${before}<div class="qcard big">${corners}<span class="lbl">Sambung ayat ini</span><div class="quran">${ayText(gi)}</div></div>${after}
   <div class="qtools"><button class="btn ghost small" id="bf"${S.before||gi===0?' disabled':''}>Ayat sebelumnya</button><button class="btn ghost small" id="af"${gi+S.after+1>=A?' disabled':''}>Ayat seterusnya</button></div>
   <div style="display:grid;gap:4px"><button class="btn" data-go="surah">Kenal Pasti Surah &amp; Kedudukan Ayat</button><button class="link" id="tamat" style="justify-self:center">Tamat sesi</button></div>`;
   document.getElementById('af').onclick=()=>{S.after++;R.soalan();[...V.querySelectorAll('.extra')].pop()?.scrollIntoView({block:'nearest',behavior:'smooth'})};
@@ -208,7 +210,7 @@ R.surah=()=>{
   ${res}
   <button class="btn" id="sk" style="margin-top:22px"${!U.done&&!U.pick?' disabled':''}>${U.done?'Kenal Pasti Kedudukan Ayat':'Semak surah'}</button>`;
   // Letak butang di tengah antara kandungan di atasnya dan butang Home.
-  const sk=document.getElementById('sk'),hm=document.getElementById('home');
+  const sk=document.getElementById('sk'),hm=document.getElementById('tabs');
   const place=()=>{if(!sk.isConnected)return;sk.style.marginTop='22px';const above=sk.previousElementSibling.getBoundingClientRect().bottom,top=hm.getBoundingClientRect().top;
     sk.style.marginTop=Math.max(22,(top-above-sk.offsetHeight)/2)+'px'};
   if(U.done&&sk&&hm){place();document.fonts&&document.fonts.ready.then(place)}
@@ -292,7 +294,7 @@ R.library=()=>{
   const act=notes.filter(n=>!n.selesai).length,done=notes.length-act;
   const L=sorted().filter(n=>tab==='semua'||(tab==='aktif'?!n.selesai:n.selesai));
   const item=n=>{const gi=gIdx(n.surah,n.ayah),uc=n.ulangan.filter(Boolean).length,kat=n.kategori;
-    return `<div class="note${n.selesai?' done':''}"><div class="nrow"><button class="open" data-open="${n.id}"><i class="star jz"><small>Juzuk</small>${juzOf(Q.as[gi])}</i><span class="t"><b>${esc(sName(n.surah))} : ${n.ayah}</b><span class="aw" lang="ar">${ayHead(gi)}</span><em class="kat">${esc(kat)}</em></span></button><label class="ck" aria-label="Tanda selesai"><input type="checkbox" class="rk" data-done="${n.id}"${n.selesai?' checked':''}></label></div></div>`};
+    return `<div class="note${n.selesai?' done':''}"><div class="nrow"><button class="open" data-open="${n.id}"><i class="star jz"><small>Juzuk</small>${juzOf(Q.as[gi])}</i><span class="t"><b>${esc(sName(n.surah))} : ${n.ayah}</b><span class="aw" lang="ar">${ayHead(gi)}</span><em class="kat">${esc(kat)}</em><span class="ub" aria-label="${uc} daripada 5 ulangan">${n.ulangan.map(u=>`<i${u?' class="on"':''}></i>`).join('')}<em>${uc}/5</em></span></span></button><label class="ck" aria-label="Tanda selesai"><input type="checkbox" class="rk" data-done="${n.id}"${n.selesai?' checked':''}></label></div></div>`};
   V.innerHTML=`<div class="top"><div><h1>Library</h1><p class="sub" style="margin:0">Ayat lemah, ikut turutan mushaf</p></div><button class="btn small addn" data-go="nota" aria-label="Tambah nota">＋ Nota</button></div>
   <div class="seg" role="group" aria-label="Tapis nota">${[['aktif','Aktif',act],['selesai','Selesai',done],['semua','Semua',notes.length]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${tab===t[0]}">${t[1]} ${t[2]}</button>`).join('')}</div>
   <div class="list">${L.length?L.map(item).join(''):notes.length?`<div class="empty">Tiada nota dalam senarai ini.</div>`:`<div class="empty">${star(IC.pen,'gold')}<b>Belum ada nota</b>Catat ayat yang selalu tersangkut, kemudian tanda setiap kali anda ulang.<div style="margin-top:14px;display:grid;gap:6px"><button class="btn" data-go="nota">Catat nota pertama</button><button class="link" id="demo">Isi 3 nota contoh untuk cuba</button></div></div>`}</div>
@@ -334,9 +336,11 @@ function toast(m){let t=document.querySelector('.toast');if(!t){t=document.creat
 
 /* ---------- routing ---------- */
 function go(r){if(location.hash==='#'+r)render();else location.hash=r}
-function render(){if(!Q)return;const r=(location.hash||'#home').slice(1);(R[r]||R.home)();window.scrollTo(0,0)}
+function render(){if(!Q)return;const r=(location.hash||'#home').slice(1);(R[r]||R.home)();markTab(R[r]?r:'home');window.scrollTo(0,0)}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b){e.preventDefault();go(b.dataset.go)}});
-document.getElementById('home').onclick=()=>go('home');
+document.querySelectorAll('[data-tab-go]').forEach(b=>b.onclick=()=>{const t=b.dataset.tabGo;go(t==='uji'?(S?'soalan':'mod'):t)});
+const TABOF={home:'home',mod:'uji',soalan:'uji',surah:'uji',teka:'uji',jawapan:'uji',nota:'library',notad:'library',library:'library'};
+function markTab(r){const t=TABOF[r]||'home';document.querySelectorAll('[data-tab-go]').forEach(b=>b.dataset.tabGo===t?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current'))}
 document.getElementById('brand').onclick=()=>go('home');
 addEventListener('hashchange',render);
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{const p=document.getElementById('pg');p&&fitPage(p)},150)});
