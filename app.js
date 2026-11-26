@@ -69,7 +69,8 @@ function glyphHTML(p,gi){
   return frameHTML(p,rows,P.length<15)}
 function frameHTML(p,rows,short){
   const s=surOf(ub(Q.as,Q.ps[p-1])-1);
-  return `<div class="mush-wrap${short?' short':''}"><div class="mushaf"><div class="lines">${rows}</div><div class="pfoot"><span>Juzuk ${juzOf(Q.ps[p-1])}</span><span>${esc(sName(s))}</span><span>${p}</span></div></div></div>`}
+  const side=p%2?'r':'l';
+  return `<div class="mush-wrap${short?' short':''}"><div class="mushaf ${side}" aria-label="Muka ${side==='r'?'kanan':'kiri'}"><i class="spine"></i><i class="edge"></i><div class="phead"><span>Juzuk ${juzOf(Q.ps[p-1])}</span><span class="ar" lang="ar">${esc(Q.s[s-1][0])}</span></div><div class="lines">${rows}</div><div class="pfoot"><span>${p}</span></div></div></div>`}
 async function showPage(el,p,gi){
   const tok=el.dataset.tok=String(Math.random());
   let html=null;
@@ -194,7 +195,7 @@ R.jawapan=()=>{
   const z=zoneOf(S.gi),ok=S.pick[0]===z.side&&(z.half==='*'||S.pick[1]===z.half);
   if(S.view==null)S.view=z.p;
   const pos=`${z.side==='R'?'kanan':'kiri'}, ${z.half==='T'?'atas':z.half==='B'?'bawah':'tengah'}`;
-  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?'Betul! Masya-Allah.':'Salah. Ulang banyak lagi.'}</b><p>${esc(ref(S.gi))} · muka surat ${z.p} · ${pos}</p></div></div>
+  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?'Betul! Masya-Allah.':'Salah, teruskan mengulang.'}</b><p>${esc(ref(S.gi))} · muka surat ${z.p} · ${pos}</p></div></div>
   <div id="pg" data-scroll="1"><div class="pgload">Memuatkan muka surat ${S.view}…</div></div>
   <div class="pnav"><button class="btn ghost small" id="pn"${S.view>=604?' disabled':''}>‹ Muka surat selepas</button><button class="btn ghost small" id="pp"${S.view<=1?' disabled':''}>Muka surat sebelum ›</button></div>
   ${S.view!==z.p?`<button class="link" id="back" style="display:block;margin:0 auto 6px">Kembali ke muka surat ${z.p}</button>`:''}
