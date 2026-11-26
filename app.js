@@ -259,16 +259,29 @@ R.nota=()=>{
 
 function save(){store.set('notes',notes)}
 function sorted(){return notes.slice().sort((a,b)=>(a.selesai-b.selesai)||(gIdx(a.surah,a.ayah)-gIdx(b.surah,b.ayah)))}
+// Detail satu nota: mushaf penuh dengan ayat berwarna, ulangan, selesai, padam.
+R.notad=()=>{
+  const n=notes.find(x=>x.id===openNote);if(!n)return go('library');
+  const gi=gIdx(n.surah,n.ayah),p=pageOf(Q.as[gi]),kat=n.kategori==='Lain-lain'&&n.lain?n.lain:n.kategori;
+  V.innerHTML=`<div class="top"><h1>${esc(sName(n.surah))} : ${n.ayah}</h1><button class="btn ghost small" data-go="library">‹ Library</button></div>
+  <div class="meta"><span class="chip">Juzuk ${juzOf(Q.as[gi])}</span><span class="chip">Muka surat ${p}</span><span class="chip g">${esc(kat)}</span></div>
+  ${n.perkataan?`<p class="ncat" dir="auto">${esc(n.perkataan)}</p>`:''}
+  <div id="pg"><div class="pgload">Memuatkan muka surat ${p}…</div></div>
+  <div class="ndet"><div class="ul"><div><div style="font-weight:700;font-size:14px;margin-bottom:6px">Ulangan</div><div class="boxes">${n.ulangan.map((u,i)=>`<button class="box" data-i="${i}" aria-pressed="${!!u}" aria-label="Ulangan ${i+1}">${u?'✓':''}</button>`).join('')}</div></div>
+  <label class="dlabel"><input type="checkbox" id="nd-done"${n.selesai?' checked':''}>Selesai</label></div>
+  <button class="del" id="nd-del">${n.confirm?'Tekan sekali lagi untuk padam':'Padam nota'}</button></div>`;
+  showPage(document.getElementById('pg'),p,gi);
+  V.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;n.ulangan[i]=n.ulangan[i]?0:1;if(n.ulangan.every(Boolean)&&!n.selesai){n.selesai=true;toast('5 ulangan lengkap. Nota ditanda selesai.')}save();syncND(n)});
+  document.getElementById('nd-done').onchange=e=>{n.selesai=e.target.checked;save();toast(n.selesai?'Ditanda selesai':'Dikembalikan ke aktif')};
+  document.getElementById('nd-del').onclick=()=>{if(n.confirm){notes=notes.filter(x=>x!==n);openNote=null;save();toast('Nota dipadam');go('library')}else{n.confirm=true;setTimeout(()=>{delete n.confirm},4000);document.getElementById('nd-del').textContent='Tekan sekali lagi untuk padam'}}};
+// Kemas kini kotak tanpa lukis semula mushaf.
+function syncND(n){V.querySelectorAll('[data-i]').forEach(b=>{const u=n.ulangan[+b.dataset.i];b.setAttribute('aria-pressed',!!u);b.textContent=u?'✓':''});const d=document.getElementById('nd-done');d&&(d.checked=n.selesai)}
+
 R.library=()=>{
   const act=notes.filter(n=>!n.selesai).length,done=notes.length-act;
   const L=sorted().filter(n=>tab==='semua'||(tab==='aktif'?!n.selesai:n.selesai));
-  const item=n=>{const gi=gIdx(n.surah,n.ayah),op=openNote===n.id,uc=n.ulangan.filter(Boolean).length;
-    return `<div class="note${n.selesai?' done':''}"><div class="nrow"><button class="open" data-open="${n.id}" aria-expanded="${op}">${star(n.ayah)}<span class="t"><b>${esc(sName(n.surah))}</b><span>${esc(n.kategori==='Lain-lain'&&n.lain?n.lain:n.kategori)} · ulang ${uc}/5</span></span><span class="w">${esc(n.perkataan||'')}</span></button><label class="ck" aria-label="Selesai"><input type="checkbox" data-done="${n.id}"${n.selesai?' checked':''}></label></div>
-    ${op?`<div class="ndet"><div class="meta"><span class="chip">Juzuk ${juzOf(Q.as[gi])}</span><span class="chip">Muka surat ${pageOf(Q.as[gi])}</span><span class="chip g">${esc(sName(n.surah))} ${n.surah}:${n.ayah}</span></div>
-    <div class="quran" style="font-size:22px;line-height:2">${ayText(gi)}</div>
-    <div class="ul"><div><div style="font-weight:700;font-size:14px;margin-bottom:6px">Ulangan</div><div class="boxes">${n.ulangan.map((u,i)=>`<button class="box" data-ul="${n.id}" data-i="${i}" aria-pressed="${!!u}" aria-label="Ulangan ${i+1}">${u?'✓':''}</button>`).join('')}</div></div>
-    <label class="dlabel"><input type="checkbox" data-done="${n.id}"${n.selesai?' checked':''}>Selesai</label></div>
-    <button class="del" data-del="${n.id}">${n.confirm?'Tekan sekali lagi untuk padam':'Padam nota'}</button></div>`:''}</div>`};
+  const item=n=>{const gi=gIdx(n.surah,n.ayah),uc=n.ulangan.filter(Boolean).length,kat=n.kategori==='Lain-lain'&&n.lain?n.lain:n.kategori;
+    return `<div class="note${n.selesai?' done':''}"><div class="nrow"><button class="open" data-open="${n.id}"><i class="star jz"><small>Juzuk</small>${juzOf(Q.as[gi])}</i><span class="t"><b>${esc(sName(n.surah))} : ${n.ayah}</b>${n.perkataan?`<span class="cat" dir="auto">${esc(n.perkataan)}</span>`:''}<span class="uc">Ulang ${uc}/5</span></span></button><div class="rc"><em class="kat">${esc(kat)}</em><label class="ck" aria-label="Selesai"><input type="checkbox" data-done="${n.id}"${n.selesai?' checked':''}></label></div></div></div>`};
   V.innerHTML=`<div class="top"><h1>Library</h1><button class="btn ghost small" data-go="nota">+ Nota</button></div>
   <p class="sub" style="margin-bottom:10px">Senarai ayat lemah, disusun ikut turutan mushaf.</p>
   <div class="seg" role="group" aria-label="Tapis nota">${[['aktif','Aktif',act],['selesai','Selesai',done],['semua','Semua',notes.length]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${tab===t[0]}">${t[1]} ${t[2]}</button>`).join('')}</div>
@@ -278,7 +291,7 @@ R.library=()=>{
   <div class="backup"><p><b style="color:var(--ink)">Mushaf luar talian.</b> Muka surat mushaf dimuat turun bila dibuka. Simpan semua sekali gus (kira-kira 36 MB) supaya semua muka surat boleh dibuka tanpa internet.</p>
   <button class="btn ghost small" id="dl" style="width:100%"${M?'':' disabled'}>Simpan semua muka surat</button></div>`;
   V.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;R.library()});
-  V.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{openNote=openNote===b.dataset.open?null:b.dataset.open;R.library()});
+  V.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{openNote=b.dataset.open;go('notad')});
   V.querySelectorAll('[data-done]').forEach(c=>c.onchange=()=>{const n=notes.find(x=>x.id===c.dataset.done);n.selesai=c.checked;save();toast(c.checked?'Ditanda selesai':'Dikembalikan ke aktif');R.library()});
   V.querySelectorAll('[data-ul]').forEach(b=>b.onclick=()=>{const n=notes.find(x=>x.id===b.dataset.ul),i=+b.dataset.i;n.ulangan[i]=n.ulangan[i]?0:1;if(n.ulangan.every(Boolean)&&!n.selesai){n.selesai=true;toast('5 ulangan lengkap. Nota ditanda selesai.')}save();R.library()});
   V.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const n=notes.find(x=>x.id===b.dataset.del);if(n.confirm){notes=notes.filter(x=>x!==n);openNote=null;save();toast('Nota dipadam')}else{n.confirm=true;setTimeout(()=>{delete n.confirm},4000)}R.library()});

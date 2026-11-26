@@ -156,7 +156,18 @@ select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),
 .nrow .star{width:40px;height:40px;font-size:13px}
 .nrow .t{flex:1;min-width:0}
 .nrow .t b{display:block;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.nrow .t span{display:block;font-size:12.5px;color:var(--muted)}
+.nrow .t>span{display:block;font-size:12.5px;color:var(--muted)}
+.nrow .t b{white-space:normal;line-height:1.25}
+.nrow .rc{flex:none;align-self:stretch;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:4px;padding:2px 6px 0 0;max-width:42%}
+.nrow .kat{font-style:normal;font-size:11.5px;font-weight:700;color:var(--gold);background:var(--gold2);border-radius:8px;padding:3px 8px;text-align:right;line-height:1.3}
+.nrow .rc .ck{width:36px;height:36px}
+.nrow .t .cat{font-size:14px;color:var(--ink);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nrow .t .uc{margin-top:2px}
+.nrow .star.jz{width:50px;height:50px;font-size:15px;line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.nrow .star.jz small{font-size:7.5px;font-weight:700;letter-spacing:.02em;opacity:.85;margin-bottom:1px}
+.ncat{margin:4px 0 8px;font-weight:600}
+.meta+#pg,.ncat+#pg{margin-top:8px}
+#pg+.ndet{margin-top:12px;border:1px solid var(--line);border-radius:18px}
 .nrow .w{font-family:Hafs,serif;direction:rtl;font-size:19px;max-width:38%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--pri)}
 .done .nrow .t b,.done .nrow .w{text-decoration:line-through;opacity:.5}
 .done .nrow .star{--c:var(--line);color:var(--muted)}
