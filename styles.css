@@ -323,24 +323,20 @@ h1,.stat b,.ring b,.star.jz,.verdict b{font-variant-numeric:lining-nums}
 .mush-wrap,.pgload{--paper:light-dark(#fffcf3,#141f19);--gold:light-dark(#b88b3a,#d4b06a);--gold2:light-dark(#f4ead2,#2a2616);--pink:light-dark(#1a1a17,#e9efe9);--muted:light-dark(#5c7567,#91ab9c);--line:light-dark(#e1ebe4,#1f3529);--sh2:light-dark(0 10px 30px -12px rgba(15,61,43,.28),0 10px 30px -12px rgba(0,0,0,.6));--hltext:light-dark(#0f7a4c,#6fdca6)}
 
 /* Splash screen */
-#splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--bg1)}
-#splash .sp-wrap{display:flex;flex-direction:column;align-items:center;gap:26px;transform:translateY(-4vh)}
+#splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--bg1);will-change:opacity}
+#splash .sp-wrap{display:flex;flex-direction:column;align-items:center;gap:26px;margin-top:-8vh}
+/* Hanya transform & opacity (dikomposit GPU), ikon sebagai bitmap supaya tak dilukis semula setiap bingkai */
+#splash .sp-icon{display:block;width:124px;height:124px;border-radius:28px;will-change:transform,opacity;animation:sp-in .55s cubic-bezier(.22,1,.36,1) both}
 #splash .sp-tag{margin:0;font:600 15px/1 var(--sans);letter-spacing:.04em;color:var(--pri);white-space:nowrap}
-#splash .sp-tag span{display:inline-block;animation:sp-tag .5s cubic-bezier(.2,.8,.2,1) both}
-#splash .sp-tag span:nth-child(1){animation-delay:.75s}#splash .sp-tag span:nth-child(2){animation-delay:.95s}#splash .sp-tag span:nth-child(3){animation-delay:1.15s;color:var(--gold)}
-#splash .sp-icon{width:124px;height:124px;border-radius:28px;box-shadow:0 18px 40px -12px rgb(15 61 43/.35),0 0 0 1px rgb(15 61 43/.06);animation:sp-in .7s cubic-bezier(.2,.9,.25,1.15) both}
-#splash .sp-bulan-sabit,#splash .sp-bintang{transform-box:fill-box;transform-origin:center;animation:sp-moon .6s .45s cubic-bezier(.2,.8,.2,1) both}
-#splash .sp-bintang{animation-delay:.6s}
-#splash.out{animation:sp-fade .5s ease .05s forwards;pointer-events:none}
-#splash.out .sp-icon{animation:sp-zoom .55s cubic-bezier(.5,0,.75,0) forwards}
-body.masuk .app{animation:sp-app .55s cubic-bezier(.2,.8,.2,1) both}
-@keyframes sp-in{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
-@keyframes sp-moon{from{opacity:0;transform:scale(.3) rotate(-40deg)}to{opacity:1;transform:none}}
-@keyframes sp-zoom{60%{opacity:0}to{transform:scale(1.5);opacity:0}}
+#splash .sp-tag span{display:inline-block;will-change:transform,opacity;animation:sp-tag .45s cubic-bezier(.22,1,.36,1) both}
+#splash .sp-tag span:nth-child(1){animation-delay:.35s}#splash .sp-tag span:nth-child(2){animation-delay:.55s}#splash .sp-tag span:nth-child(3){animation-delay:.75s;color:var(--gold)}
+#splash.out{animation:sp-fade .4s cubic-bezier(.4,0,.2,1) forwards;pointer-events:none}
+#splash.out .sp-icon{animation:sp-zoom .4s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes sp-in{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+@keyframes sp-tag{from{opacity:0;transform:translate3d(0,6px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes sp-zoom{to{transform:scale(1.18)}}
 @keyframes sp-fade{to{opacity:0}}
-@keyframes sp-tag{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes sp-app{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){#splash *,#splash.out,#splash.out .sp-icon,body.masuk .app{animation-duration:.01s!important;animation-delay:0s!important}#splash.out{animation:sp-fade .3s forwards!important}}
+@media (prefers-reduced-motion:reduce){#splash .sp-icon,#splash .sp-tag span{animation:none}#splash.out .sp-icon{animation:none}}
 
 /* Muat satu skrin (iPhone 15) */
 header{padding-bottom:8px}
