@@ -1,6 +1,8 @@
-# TheBook
+# Shafawi
 
 Web app minimalis untuk menguji hafazan Quran sendiri (tebuk ayat) dan mencatat ayat yang lemah.
+
+Pautan app: https://zulfikarair5-ops.github.io/Shafawi/
 Direka untuk iPhone (Safari), boleh ditambah ke Skrin Utama dan berfungsi tanpa internet selepas dibuka kali pertama.
 
 ## Ciri
