@@ -108,21 +108,56 @@ function fitPage(root){
 
 /* ---------- rehal illustration (original) ---------- */
 function rehal(){
-  let lines='';for(let i=0;i<6;i++){const y=50+i*8.5;lines+=`<path d="M${70+i*1.2} ${y-4+i*.5}Q110 ${y+2} 143 ${y+10}"/><path d="M${230-i*1.2} ${y-4+i*.5}Q190 ${y+2} 157 ${y+10}"/>`}
-  return `<svg class="ill" viewBox="0 0 300 170" role="img" aria-label="Mushaf terbuka di atas rehal kayu">
-  <defs><radialGradient id="glow" cx="50%" cy="45%" r="50%"><stop offset="0" stop-color="#f4d99a" stop-opacity=".35"/><stop offset="1" stop-color="#f4d99a" stop-opacity="0"/></radialGradient>
-  <linearGradient id="wA" x1="0" x2="1"><stop offset="0" stop-color="var(--wood1)"/><stop offset="1" stop-color="var(--wood2)"/></linearGradient>
-  <linearGradient id="wB" x1="1" x2="0"><stop offset="0" stop-color="var(--wood2)"/><stop offset="1" stop-color="var(--wood3)"/></linearGradient></defs>
-  <ellipse cx="150" cy="80" rx="140" ry="80" fill="url(#glow)"/>
-  <ellipse cx="150" cy="164" rx="92" ry="5" fill="#000" opacity=".25"/>
-  <g stroke-linecap="round"><path d="M98 100L202 160" stroke="url(#wA)" stroke-width="18"/><path d="M202 100L98 160" stroke="url(#wB)" stroke-width="18"/><path d="M198 105L103 159" stroke="#f0c48e" stroke-width="2.4" opacity=".6"/></g>
-  <circle cx="150" cy="130" r="7.5" fill="var(--wood1)"/><polygon points="150,124.5 152,128 155.5,130 152,132 150,135.5 148,132 144.5,130 148,128" fill="#e8c98a"/>
-  <path d="M150 64Q104 36 52 38L46 100Q100 96 150 120Q200 96 254 100L248 38Q196 36 150 64Z" fill="var(--cover)" stroke="#c9a24f" stroke-width="1.6"/>
-  <path d="M150 58Q106 30 58 31L54 94Q104 90 150 112Q196 90 246 94L242 31Q194 30 150 58Z" fill="#fbf3df"/>
-  <path d="M150 58Q106 30 58 31L56 46Q106 46 150 74Z" fill="#fff" opacity=".45"/>
-  <path d="M150 58V112" stroke="#d6c393" stroke-width="2"/>
-  <g fill="none" stroke="#a8966b" stroke-width="1.5" opacity=".7">${lines}</g>
-  <path d="M62 34Q106 34 148 60M238 34Q194 34 152 60M150 112Q104 90 56 94M150 112Q196 90 244 94" fill="none" stroke="#c9a24f" stroke-width="1.3"/>
+  // 3D-style mushaf on a carved wooden rehal (front three-quarter view)
+  // text lines on pages, following page curvature
+  let lines='';for(let i=0;i<7;i++){const y=48+i*7.6,s=i*0.9;
+    lines+=`<path d="M${74+s} ${y-3}Q112 ${y+1} 141 ${y+12}"/><path d="M${226-s} ${y-3}Q188 ${y+1} 159 ${y+12}"/>`}
+  // page-edge strata
+  let edgeL='',edgeR='';for(let i=1;i<5;i++){edgeL+=`<path d="M${52+i*.3} ${101+i*1.6}Q102 ${97+i*1.6} 150 ${121+i*1.6}"/>`;edgeR+=`<path d="M${248-i*.3} ${101+i*1.6}Q198 ${97+i*1.6} 150 ${121+i*1.6}"/>`}
+  return `<svg class="ill" viewBox="0 0 300 190" role="img" aria-label="Mushaf terbuka di atas rehal kayu">
+  <defs>
+   <radialGradient id="rg-glow" cx="50%" cy="42%" r="52%"><stop offset="0" stop-color="#f4d99a" stop-opacity=".38"/><stop offset="1" stop-color="#f4d99a" stop-opacity="0"/></radialGradient>
+   <linearGradient id="rg-wf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c98a4e"/><stop offset=".5" stop-color="#9a5f30"/><stop offset="1" stop-color="#6e3f1e"/></linearGradient>
+   <linearGradient id="rg-wb" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a5429"/><stop offset="1" stop-color="#4f2c14"/></linearGradient>
+   <linearGradient id="rg-ws" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a3216"/><stop offset="1" stop-color="#3a1f0c"/></linearGradient>
+   <linearGradient id="rg-pl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f3e7c9"/><stop offset=".55" stop-color="#fffaf0"/><stop offset=".9" stop-color="#efe0bd"/><stop offset="1" stop-color="#d8c294"/></linearGradient>
+   <linearGradient id="rg-pr" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#eadcb9"/><stop offset=".55" stop-color="#fbf4e4"/><stop offset=".9" stop-color="#e9d8b2"/><stop offset="1" stop-color="#cfb787"/></linearGradient>
+   <linearGradient id="rg-edge" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#efe2c2"/><stop offset="1" stop-color="#c9b083"/></linearGradient>
+   <linearGradient id="rg-cov" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d5a40"/><stop offset="1" stop-color="#0a2c1f"/></linearGradient>
+   <filter id="rg-blur" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+   <filter id="rg-sh" x="-10%" y="-10%" width="120%" height="140%"><feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000" flood-opacity=".35"/></filter>
+  </defs>
+  <ellipse cx="150" cy="92" rx="146" ry="90" fill="url(#rg-glow)"/>
+  <ellipse cx="150" cy="178" rx="104" ry="7" fill="#000" opacity=".4" filter="url(#rg-blur)"/>
+  <!-- back leg (behind), darker -->
+  <path d="M206 106 L222 106 L120 176 L103 176 Z" fill="url(#rg-wb)"/>
+  <path d="M103 176 L120 176 L120 180 L103 180 Z" fill="#2e180a"/>
+  <!-- front leg with side thickness -->
+  <path d="M94 106 L110 106 L200 172 L200 177 L184 177 L94 111 Z" fill="url(#rg-ws)"/>
+  <path d="M78 106 L96 106 L200 172 L182 172 Z" fill="url(#rg-wf)"/>
+  <path d="M84 107 L94 107 L192 170" fill="none" stroke="#f0c48e" stroke-width="1.4" opacity=".55"/>
+  <!-- feet -->
+  <path d="M176 172 Q192 166 206 172 L206 178 L176 178 Z" fill="url(#rg-wf)"/><path d="M98 172 Q112 166 126 172 L126 178 L98 178 Z" fill="url(#rg-wb)"/>
+  <!-- hinge boss -->
+  <circle cx="150" cy="141" r="7" fill="#5a3216"/><circle cx="150" cy="140" r="5.2" fill="#c98a4e"/><polygon points="150,135.5 151.5,138.5 154.5,140 151.5,141.5 150,144.5 148.5,141.5 145.5,140 148.5,138.5" fill="#f4dca4"/>
+  <g filter="url(#rg-sh)">
+   <!-- cover (underneath, overhangs) -->
+   <path d="M150 74Q100 44 44 46L36 112Q98 106 150 134Q202 106 264 112L256 46Q200 44 150 74Z" fill="url(#rg-cov)" stroke="#c9a24f" stroke-width="1.4"/>
+   <!-- page block edges (thickness) -->
+   <path d="M150 64Q104 36 54 38L50 104Q102 98 150 124Q198 98 250 104L246 38Q196 36 150 64Z" fill="url(#rg-edge)"/>
+   <g fill="none" stroke="#b99d6b" stroke-width=".6" opacity=".8">${edgeL}${edgeR}</g>
+   <!-- top pages -->
+   <path d="M150 58Q106 28 58 30L52 99Q103 93 150 118Z" fill="url(#rg-pl)"/>
+   <path d="M150 58Q194 28 242 30L248 99Q197 93 150 118Z" fill="url(#rg-pr)"/>
+   <!-- gutter shadow -->
+   <path d="M150 58 L150 118" stroke="#a88d5c" stroke-width="1.2"/>
+   <path d="M139 50Q146 56 150 58Q154 56 161 50L161 108Q155 112 150 118Q145 112 139 108Z" fill="#7a5a2a" opacity=".12"/>
+   <!-- curled top-left page highlight -->
+   <path d="M150 58Q106 28 58 30L57 40Q106 40 150 66Z" fill="#fff" opacity=".35"/>
+   <g fill="none" stroke="#9c8a62" stroke-width="1.3" stroke-linecap="round" opacity=".65">${lines}</g>
+   <!-- gold page frame -->
+   <path d="M64 36Q106 36 146 62M236 36Q194 36 154 62M146 112Q102 92 60 95M154 112Q198 92 240 95" fill="none" stroke="#c9a24f" stroke-width="1.1"/>
+  </g>
   </svg>`}
 
 /* ---------- screens ---------- */
@@ -131,7 +166,7 @@ R.home=()=>{
   const gi=gIdx(15,9),act=notes.filter(n=>!n.selesai).length,done=notes.length-act;
   const tot=notes.length*5,rep=notes.reduce((t,n)=>t+n.ulangan.filter(Boolean).length,0),C=2*Math.PI*23,f=tot?C*rep/tot:0;
   V.innerHTML=`<div class="greet"><small>${esc(hijri())}</small><h1>Assalamualaikum</h1></div>
-  <section class="hero"><div class="date"><span>Ayat hari ini</span><span>بِسۡمِ ٱللَّهِ</span></div>
+  <section class="hero"><div class="date"><span>بِسۡمِ ٱللَّهِ</span></div>
   ${rehal()}<div class="quran">${ayText(gi)}</div><div class="cap">Al-Hijr · 15:9</div></section>
   <div class="actions">
    <button class="tile main" data-go="mod">${star(IC.book)}<div><b>Tebuk Ayat</b><span>Sambung ayat dan kenal pasti kedudukannya</span></div><i class="go">›</i></button>
@@ -236,11 +271,10 @@ R.jawapan=()=>{
   const marks=okSur===null?'':`<div class="mks">${mark('Surah',okSur)}${mark('Kedudukan',okPos)}</div>`;
   if(S.view==null)S.view=z.p;
   const pos=`${z.side==='R'?'kanan':'kiri'}, ${z.half==='T'?'atas':z.half==='B'?'bawah':'tengah'}`;
-  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?'Betul! Masya-Allah.':'Salah, teruskan mengulang.'}</b><p>${esc(ref(S.gi))} · muka surat ${z.p} · ${pos}</p>${marks}</div></div>
+  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?'Betul! Masya-Allah.':'Salah, teruskan mengulang.'}</b><p>${esc(ref(S.gi))} · ms ${z.p} · ${pos}</p></div>${marks}</div>
   <div id="pg" data-scroll="1"><div class="pgload">Memuatkan muka surat ${S.view}…</div></div>
-  <div class="pnav"><button class="btn ghost small" id="pn"${S.view>=604?' disabled':''}>‹ Muka surat selepas</button><button class="btn ghost small" id="pp"${S.view<=1?' disabled':''}>Muka surat sebelum ›</button></div>
-  ${S.view!==z.p?`<button class="link" id="back" style="display:block;margin:0 auto 6px">Kembali ke muka surat ${z.p}</button>`:''}
-  <div style="display:grid;gap:4px"><button class="btn" id="nx">Soalan seterusnya</button><button class="link" id="tamat" style="justify-self:center">Tamat sesi</button></div>`;
+  <div class="jnav"><button class="btn ghost pgb" id="pn"${S.view>=604?' disabled':''} aria-label="Muka surat selepas">‹</button><button class="btn" id="nx">Soalan seterusnya</button><button class="btn ghost pgb" id="pp"${S.view<=1?' disabled':''} aria-label="Muka surat sebelum">›</button></div>
+  <div class="jlinks">${S.view!==z.p?`<button class="link" id="back">Kembali ke ms ${z.p}</button>`:''}<button class="link" id="tamat">Tamat sesi</button></div>`;
   showPage(document.getElementById('pg'),S.view,S.gi);
   const nav=d=>{S.view=Math.min(604,Math.max(1,S.view+d));R.jawapan()};
   document.getElementById('pn').onclick=()=>nav(1);document.getElementById('pp').onclick=()=>nav(-1);
@@ -279,14 +313,12 @@ R.notad=()=>{
   <div class="dhead"><i class="star jz"><small>Juzuk</small>${juzOf(Q.as[gi])}</i><div><h1>${esc(sName(n.surah))} : ${n.ayah}</h1><p class="sub" style="margin:0">Muka surat ${p} · <span class="katx">${esc(kat)}</span></p></div></div>
   ${n.perkataan?`<div class="ncat"><small>Catatan</small><span dir="auto">${esc(n.perkataan)}</span></div>`:''}
   <div id="pg"><div class="pgload">Memuatkan muka surat ${p}…</div></div>
-  <h2 class="sect">Ulangan <span id="ucn">${uc}/5</span></h2>
-  <div class="group pad"><div class="boxes">${n.ulangan.map((u,i)=>`<button class="box" data-i="${i}" aria-pressed="${!!u}" aria-label="Ulangan ${i+1}">${u?'✓':i+1}</button>`).join('')}</div>
-  <label class="grow sw"><span><b>Tanda selesai</b><small>Pindah nota ke tab Selesai</small></span><input type="checkbox" class="tg" id="nd-done"${n.selesai?' checked':''}></label></div>
-  <button class="del" id="nd-del">${n.confirm?'Tekan sekali lagi untuk padam':'Padam nota'}</button>`;
+  <div class="ulrow"><div class="boxes">${n.ulangan.map((u,i)=>`<button class="box" data-i="${i}" aria-pressed="${!!u}" aria-label="Ulangan ${i+1}">${u?'✓':i+1}</button>`).join('')}</div><span id="ucn">${uc}/5</span></div>
+  <div class="ndfoot"><label class="sw2"><input type="checkbox" class="tg" id="nd-done"${n.selesai?' checked':''}><span>Selesai</span></label><button class="del" id="nd-del">${n.confirm?'Tekan lagi untuk padam':'Padam nota'}</button></div>`;
   showPage(document.getElementById('pg'),p,gi);
   V.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;n.ulangan[i]=n.ulangan[i]?0:1;if(n.ulangan.every(Boolean)&&!n.selesai){n.selesai=true;toast('5 ulangan lengkap. Nota ditanda selesai.')}save();syncND(n)});
   document.getElementById('nd-done').onchange=e=>{n.selesai=e.target.checked;save();toast(n.selesai?'Ditanda selesai':'Dikembalikan ke aktif')};
-  document.getElementById('nd-del').onclick=()=>{if(n.confirm){notes=notes.filter(x=>x!==n);openNote=null;save();toast('Nota dipadam');go('library')}else{n.confirm=true;setTimeout(()=>{delete n.confirm},4000);document.getElementById('nd-del').textContent='Tekan sekali lagi untuk padam'}}};
+  document.getElementById('nd-del').onclick=()=>{if(n.confirm){notes=notes.filter(x=>x!==n);openNote=null;save();toast('Nota dipadam');go('library')}else{n.confirm=true;setTimeout(()=>{delete n.confirm},4000);document.getElementById('nd-del').textContent='Tekan lagi untuk padam'}}};
 // Kemas kini kotak tanpa lukis semula mushaf.
 function syncND(n){V.querySelectorAll('[data-i]').forEach(b=>{const i=+b.dataset.i,u=n.ulangan[i];b.setAttribute('aria-pressed',!!u);b.textContent=u?'✓':i+1});const d=document.getElementById('nd-done');d&&(d.checked=n.selesai);const c=document.getElementById('ucn');c&&(c.textContent=n.ulangan.filter(Boolean).length+'/5')}
 
@@ -298,13 +330,13 @@ R.library=()=>{
   V.innerHTML=`<div class="top"><div><h1>Library</h1><p class="sub" style="margin:0">Ayat lemah, ikut turutan mushaf</p></div><button class="btn small addn" data-go="nota" aria-label="Tambah nota">＋ Nota</button></div>
   <div class="seg" role="group" aria-label="Tapis nota">${[['aktif','Aktif',act],['selesai','Selesai',done],['semua','Semua',notes.length]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${tab===t[0]}">${t[1]} ${t[2]}</button>`).join('')}</div>
   <div class="list">${L.length?L.map(item).join(''):notes.length?`<div class="empty">Tiada nota dalam senarai ini.</div>`:`<div class="empty">${star(IC.pen,'gold')}<b>Belum ada nota</b>Catat ayat yang selalu tersangkut, kemudian tanda setiap kali anda ulang.<div style="margin-top:14px;display:grid;gap:6px"><button class="btn" data-go="nota">Catat nota pertama</button><button class="link" id="demo">Isi 3 nota contoh untuk cuba</button></div></div>`}</div>
-  <h2 class="sect">Data</h2>
+  <details class="datab"><summary class="sect">Data &amp; sandaran</summary>
   <div class="group">
     <button class="grow" id="ex"${notes.length?'':' disabled'}><i><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5M5 21h14"/></svg></i><span><b>Eksport nota</b><small>Simpan sandaran ke fail</small></span><em>›</em></button>
     <label class="grow" for="im"><i><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></i><span><b>Import nota</b><small>Pulihkan daripada fail sandaran</small></span><em>›</em><input type="file" id="im" accept=".json,application/json" hidden></label>
     <button class="grow" id="dl"${M?'':' disabled'}><i><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zM4 19V5M9 7h6"/></svg></i><span><b>Mushaf luar talian</b><small id="dls">Simpan semua muka surat (kira-kira 36 MB)</small></span><em>›</em></button>
   </div>
-  <p class="fine">Nota disimpan dalam pelayar ini sahaja. Eksport selepas menambah nota supaya tidak hilang bila tukar telefon.</p>`;
+  <p class="fine">Nota disimpan dalam pelayar ini sahaja. Eksport selepas menambah nota supaya tidak hilang bila tukar telefon.</p></details>`;
   V.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;R.library()});
   V.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{openNote=b.dataset.open;go('notad')});
   V.querySelectorAll('[data-done]').forEach(c=>c.onchange=()=>{const n=notes.find(x=>x.id===c.dataset.done);n.selesai=c.checked;save();toast(c.checked?'Ditanda selesai':'Dikembalikan ke aktif');R.library()});
@@ -344,11 +376,15 @@ function markTab(r){const t=TABOF[r]||'home';document.querySelectorAll('[data-ta
 document.getElementById('brand').onclick=()=>go('home');
 addEventListener('hashchange',render);
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{const p=document.getElementById('pg');p&&fitPage(p)},150)});
+// Splash: icon pops in, crescent & star follow, then zooms out into Home (min 1.5s, or 0.4s if reduced motion)
+const SPL=document.getElementById('splash'),SPL_T0=performance.now(),SPL_MIN=matchMedia('(prefers-reduced-motion: reduce)').matches?400:2000;
+function hideSplash(){if(!SPL||SPL.classList.contains('out'))return;setTimeout(()=>{SPL.classList.add('out');document.body.classList.add('masuk');setTimeout(()=>SPL.remove(),600)},Math.max(0,SPL_MIN-(performance.now()-SPL_T0)))}
+setTimeout(hideSplash,6000);
 fetch('data/mushaf.json').then(r=>r.json()).then(d=>{M=d}).catch(()=>{});
 
 Promise.all([fetch('data/quran.json').then(r=>r.json()),document.fonts.load('20px Hafs').catch(()=>0)]).then(([d])=>{
   Q=d;FA=Q.s.map(x=>x[3]);END=new Int16Array(Q.w.length);
   for(let i=0;i<Q.as.length;i++){const e=(i+1<Q.as.length?Q.as[i+1]:Q.w.length)-1;END[e]=i-FA[ub(FA,i)-1]+1}
-  render()}).catch(()=>{V.innerHTML='<div class="loading">Data mushaf gagal dimuatkan. Cuba muat semula.</div>'});
+  render();hideSplash()}).catch(()=>{V.innerHTML='<div class="loading">Data mushaf gagal dimuatkan. Cuba muat semula.</div>';hideSplash()});
 if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 }
