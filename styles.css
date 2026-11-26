@@ -341,3 +341,24 @@ body.masuk .app{animation:sp-app .55s cubic-bezier(.2,.8,.2,1) both}
 @keyframes sp-tag{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes sp-app{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){#splash *,#splash.out,#splash.out .sp-icon,body.masuk .app{animation-duration:.01s!important;animation-delay:0s!important}#splash.out{animation:sp-fade .3s forwards!important}}
+
+/* Muat satu skrin (iPhone 15) */
+header{padding-bottom:8px}
+.greet{margin:0 2px 10px}.greet h1{font-size:30px}
+.hero{padding:12px 16px 14px}.hero .ill{width:58%}.hero .quran{line-height:1.75}
+.actions{gap:10px;margin-top:12px}.actions .tile{padding:12px 16px}
+.ring{margin-top:10px;padding:10px 16px}
+.credit{margin:10px 8px 0;font-size:11px}
+.orn{margin:0 0 10px}.modes{gap:6px}.mode{padding:6px 14px 6px 10px}
+.verdict{padding:10px 12px;margin:0 0 10px;flex-wrap:wrap}.verdict>div{flex:1;min-width:0}
+.verdict b{font-size:20px!important;line-height:1.2}.verdict p{font-size:13px}.verdict .mks{flex-basis:100%;margin:0}
+.jnav{display:flex;gap:8px;margin:10px 0 2px}.jnav #nx{flex:1}.jnav .pgb{width:52px;flex:none;padding:0;font-size:22px}
+.jlinks{display:flex;justify-content:center;gap:22px}
+.dhead{margin:0 0 8px}.ncat{margin:0 0 6px;padding:6px 12px}.ncat span{font-size:19px;line-height:1.6}
+.ulrow{display:flex;align-items:center;gap:10px;margin-top:10px}.ulrow .boxes{flex:1;display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.ulrow .box{width:auto;height:40px}.ulrow .box[aria-pressed=true]{color:var(--onbtn)}.ulrow #ucn{font-weight:800;color:var(--gold);font-size:14px}
+.ndfoot{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.sw2{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;cursor:pointer}
+.ndfoot .del{margin:0;padding:8px 0;font-size:14px}
+.datab summary{cursor:pointer;list-style:none}.datab summary::-webkit-details-marker{display:none}
+.datab summary::after{content:"›";transform:rotate(90deg);transition:transform .2s;color:var(--muted)}.datab[open] summary::after{transform:rotate(-90deg)}
