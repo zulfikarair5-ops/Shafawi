@@ -6,7 +6,7 @@ Direka untuk iPhone (Safari), boleh ditambah ke Skrin Utama dan berfungsi tanpa 
 ## Ciri
 
 - **Tebuk ayat**: 5 mod (rawak 30 juzuk, juzuk, surah, julat muka surat, dari nota). Papar ayat, buka ayat sebelum/seterusnya, kemudian kenal pasti kedudukan ayat (kiri/kanan, atas/bawah) dalam Mushaf Madinah. Skrin jawapan papar muka surat penuh 15 baris dengan ayat soalan berwarna.
-- **Catatan Muraja'ah** (nota ayat lemah): surah, ayat, kategori kesalahan, perkataan. Library dengan tab Aktif/Selesai/Semua, 5 kotak ulangan (5 ulangan = selesai), padam, sandaran eksport/import fail JSON.
+- **Catatan Muraja'ah** (nota ayat lemah): surah, ayat, kategori (Ayat Mutasyabihat, Perkataan, Kepala ayat, Kepala muka surat), catatan. Library dengan tab Aktif/Selesai/Semua, 5 kotak ulangan (5 ulangan = selesai), padam, sandaran eksport/import fail JSON.
 - Mod gelap (ikut iPhone, atau tukar dengan butang).
 
 ## Struktur
