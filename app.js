@@ -196,6 +196,11 @@ R.surah=()=>{
   <div class="sopts">${U.opts.map(o=>`<button class="sopt${cls(o)}" data-s="${o}"${U.done?' disabled':''}><i>${o}</i><span><b>${esc(sName(o))}</b><span class="ar" lang="ar">${esc(Q.s[o-1][0])}</span></span></button>`).join('')}</div>
   ${res}
   <button class="btn" id="sk" style="margin-top:22px"${!U.done&&!U.pick?' disabled':''}>${U.done?'Kenal Pasti Kedudukan Ayat':'Semak surah'}</button>`;
+  // Letak butang di tengah antara kandungan di atasnya dan butang Home.
+  const sk=document.getElementById('sk'),hm=document.getElementById('home');
+  const place=()=>{if(!sk.isConnected)return;sk.style.marginTop='22px';const above=sk.previousElementSibling.getBoundingClientRect().bottom,top=hm.getBoundingClientRect().top;
+    sk.style.marginTop=Math.max(22,(top-above-sk.offsetHeight)/2)+'px'};
+  if(U.done&&sk&&hm){place();document.fonts&&document.fonts.ready.then(place)}
   V.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{U.pick=+b.dataset.s;R.surah()});
   document.getElementById('sk').onclick=()=>{if(U.done)go('teka');else{U.done=true;R.surah()}}};
 
