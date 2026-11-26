@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360"><defs><linearGradient id="stsiangBG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFBF1"/><stop offset="1" stop-color="#EFE5CE"/></linearGradient></defs><rect width="1200" height="360" fill="url(#stsiangBG)"/>
+  <g transform="translate(280,180) scale(.42) translate(-512,-521)"><g fill="none" stroke="#0F3D2B" stroke-width="34" stroke-linejoin="miter" stroke-linecap="butt">
+    <path d="M338,742 V520 C338,420 420,360 512,300 C604,360 686,420 686,520 V742 Z"/>
+    <path d="M418,598 L604,742"/><path d="M606,598 L420,742"/>
+  </g>
+  <mask id="stsiangkm"><rect width="1024" height="1024" fill="#fff"/><circle cx="530" cy="452" r="44" fill="#000"/></mask>
+  <circle cx="508" cy="466" r="52" fill="#0F3D2B" mask="url(#stsiangkm)"/>
+  <polygon points="560.0,426.0 565.0,439.1 579.0,439.8 568.1,448.6 571.8,462.2 560.0,454.5 548.2,462.2 551.9,448.6 541.0,439.8 555.0,439.1" fill="#0F3D2B"/></g>
+  <g transform="translate(260,80) scale(.5)"><g fill="none" stroke="#0F3D2B" stroke-width="40" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M920,138 V200 H600"/>
+    <path d="M860,152 V200"/><path d="M800,152 V200"/>
+    <path d="M745,200 V172 Q745,132 712,132 Q680,132 680,172 V200"/>
+    <path d="M625,200 V172 Q625,132 592,132 Q560,132 560,172 Q560,200 588,200 H625 V228 Q625,290 548,290 H520"/>
+    <path d="M478,132 H438 Q398,132 398,166 Q398,200 438,200 H448 Q490,200 490,244 Q490,290 444,290 H340 Q300,290 300,250 V236"/>
+  </g><rect x="841" y="19" width="38" height="38" rx="9" fill="#0F3D2B"/><rect x="814" y="63" width="38" height="38" rx="9" fill="#0F3D2B"/><rect x="868" y="63" width="38" height="38" rx="9" fill="#0F3D2B"/><rect x="693" y="43" width="38" height="38" rx="9" fill="#0F3D2B"/><rect x="353" y="333" width="38" height="38" rx="9" fill="#0F3D2B"/><rect x="401" y="333" width="38" height="38" rx="9" fill="#0F3D2B"/></g>
+  <text x="770" y="196" font-family="-apple-system,'SF Pro Display',Inter,Helvetica,Arial,sans-serif" font-size="72" font-weight="500" letter-spacing="1" fill="#9A7230">Shafawi</text></svg>

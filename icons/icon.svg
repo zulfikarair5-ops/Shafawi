@@ -1,9 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <defs><radialGradient id="g" cx="50%" cy="30%" r="80%"><stop offset="0" stop-color="#1b6447"/><stop offset="1" stop-color="#0b3022"/></radialGradient></defs>
-  <rect width="512" height="512" fill="url(#g)"/>
-  <polygon points="256,86 296,159 381,131 353,216 426,256 353,296 381,381 296,353 256,426 216,353 131,381 159,296 86,256 159,216 131,131 216,159" fill="none" stroke="#c9a24f" stroke-width="5" opacity=".55"/>
-  <polygon points="256,56 312,135 412,100 377,200 456,256 377,312 412,412 312,377 256,456 200,377 100,412 135,312 56,256 135,200 100,100 200,135" fill="none" stroke="#c9a24f" stroke-width="3" opacity=".3"/>
-  <path d="M256 222c-36-28-82-34-122-27v140c40-7 86-1 122 27 36-28 82-34 122-27V195c-40-7-86-1-122 27z" fill="#f6ecd3"/>
-  <path d="M256 222v140" stroke="#c9a24f" stroke-width="6"/>
-  <path d="M150 220c30-4 62 2 88 18M150 252c30-4 62 2 88 18M150 284c30-4 62 2 88 18M362 220c-30-4-62 2-88 18M362 252c-30-4-62 2-88 18M362 284c-30-4-62 2-88 18" stroke="#b5a37a" stroke-width="5" fill="none" stroke-linecap="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><defs><linearGradient id="icsiangBG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFBF1"/><stop offset="1" stop-color="#EFE5CE"/></linearGradient></defs><rect width="1024" height="1024" fill="url(#icsiangBG)"/><g transform="translate(512,512) scale(1.38) translate(-512,-521)"><g fill="none" stroke="#0F3D2B" stroke-width="34" stroke-linejoin="miter" stroke-linecap="butt">
+    <path d="M338,742 V520 C338,420 420,360 512,300 C604,360 686,420 686,520 V742 Z"/>
+    <path d="M418,598 L604,742"/><path d="M606,598 L420,742"/>
+  </g>
+  <mask id="icsiangkm"><rect width="1024" height="1024" fill="#fff"/><circle cx="530" cy="452" r="44" fill="#000"/></mask>
+  <circle cx="508" cy="466" r="52" fill="#0F3D2B" mask="url(#icsiangkm)"/>
+  <polygon points="560.0,426.0 565.0,439.1 579.0,439.8 568.1,448.6 571.8,462.2 560.0,454.5 548.2,462.2 551.9,448.6 541.0,439.8 555.0,439.1" fill="#0F3D2B"/></g></svg>

@@ -25,8 +25,10 @@ button,select,input{font:inherit;color:inherit}
 .app{position:relative;max-width:460px;margin:0 auto;min-height:100svh;display:flex;flex-direction:column;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
 header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 14px) 0 12px}
 .brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;cursor:pointer;text-align:left}
-.brand .logo{width:40px;height:40px}
-.brand b{display:block;font:700 19px/1 var(--serif);letter-spacing:-.01em}
+.brand .logo{width:auto;height:40px;color:var(--pri);flex:none}
+.brand .wm{display:flex;align-items:center;gap:9px}
+.brand .khat{height:28px;width:auto;color:var(--pri);flex:none}
+.brand b{display:block;font:600 19px/1 var(--serif);letter-spacing:.01em;color:var(--gold)}
 .brand small{display:block;font:700 13px/1 Amiri,serif;color:var(--gold);margin-top:2px}
 .iconbtn{margin-left:auto;width:44px;height:44px;border-radius:50%;border:1px solid color-mix(in srgb,var(--gold) 30%,transparent);background:color-mix(in srgb,var(--surf) 70%,transparent);color:var(--gold);display:grid;place-items:center;cursor:pointer;box-shadow:var(--sh)}
 .iconbtn svg{width:19px;height:19px}

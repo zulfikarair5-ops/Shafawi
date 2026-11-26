@@ -1,8 +1,8 @@
 // Shafawi service worker: keeps the app and the mushaf data available offline.
-const VERSION = 'thebook-v9';
+const VERSION = 'thebook-v10';
 const SHELL = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.webmanifest',
   'data/quran.json', 'data/mushaf.json', 'data/hafs.ttf', 'icons/icon.svg', 'icons/apple-touch-icon.png',
-  'icons/icon-192.png', 'icons/icon-512.png'];
+  'icons/icon-192.png', 'icons/icon-512.png', 'icons/logo-penuh.svg', 'icons/wordmark.svg'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
