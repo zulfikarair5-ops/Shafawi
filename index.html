@@ -43,7 +43,7 @@
 <div id="splash" aria-hidden="true"><div class="sp-wrap"><img class="sp-icon" src="icons/icon-512.png" width="124" height="124" alt="" decoding="sync"><p class="sp-tag"><span>Say it.</span> <span>Prove it.</span> <span>Keep it.</span></p></div></div>
 <div class="app">
   <header>
-    <button class="brand" id="brand" aria-label="Shafawi, ke Home">
+    <button class="brand" id="brand" aria-label="Shafawi, ke Home" data-ta="brandAria">
       <svg class="logo" role="img" aria-label="Shafawi شفوي" xmlns="http://www.w3.org/2000/svg" viewBox="364 364 9290.7 1487.0">
   
   
@@ -54,13 +54,14 @@
   <path d="M296 15C438 15 565 -68 565 -204C565 -308 492 -377 380 -425C304 -455 253 -466 253 -499C253 -523 281 -543 319 -543C353 -543 409 -526 429 -489L538 -593C512 -663 426 -715 317 -715C183 -715 67 -627 67 -505C67 -398 143 -338 233 -299C303 -268 375 -237 375 -200C375 -170 336 -156 296 -156C236 -156 182 -183 152 -227L38 -115C74 -36 180 15 296 15ZM683 0H873V-304C873 -367 907 -412 969 -412C1026 -412 1058 -380 1058 -304V0H1249V-304C1249 -530 1144 -581 1038 -581C971 -581 915 -558 873 -520V-700H683ZM1626 15C1702 15 1761 -13 1803 -62V0H1985V-566H1803V-505C1760 -555 1700 -582 1626 -582C1463 -582 1348 -450 1348 -283C1348 -123 1458 15 1626 15ZM1535 -284C1535 -354 1592 -412 1668 -412C1738 -412 1797 -363 1797 -284C1797 -208 1742 -155 1667 -155C1587 -155 1535 -217 1535 -284ZM2142 0H2321V-407H2435V-566H2321V-583C2321 -598 2330 -635 2379 -635C2396 -635 2416 -630 2435 -623V-762C2402 -774 2350 -781 2315 -781C2198 -781 2142 -689 2142 -583V-566H2075V-407H2142ZM2749 15C2825 15 2884 -13 2926 -62V0H3108V-566H2926V-505C2883 -555 2823 -582 2749 -582C2586 -582 2471 -450 2471 -283C2471 -123 2581 15 2749 15ZM2658 -284C2658 -354 2715 -412 2791 -412C2861 -412 2920 -363 2920 -284C2920 -208 2865 -155 2790 -155C2710 -155 2658 -217 2658 -284ZM3399 0H3489L3602 -275L3720 0H3811L4013 -566H3810L3738 -307L3631 -565H3579L3471 -307L3399 -566H3196ZM4112 0H4302V-566H4112ZM4101 -714C4101 -661 4147 -618 4207 -618C4268 -618 4313 -661 4313 -714C4313 -766 4268 -809 4207 -809C4147 -809 4101 -766 4101 -714Z" transform="translate(5926.5,0) scale(0.78)" fill="currentColor"/></g></g>
 </svg>
     </button>
+    <div class="langsw" role="group" aria-label="Bahasa" data-ta="langAria"><button data-lang="ms" lang="ms" aria-pressed="true">BM</button><button data-lang="en" lang="en" aria-pressed="false">EN</button></div>
     <button class="iconbtn" id="theme" aria-label="Tukar mod gelap"></button>
   </header>
-  <main id="view"><div class="loading">Memuatkan mushaf…</div></main>
-  <footer><nav class="tabs" id="tabs" aria-label="Navigasi utama">
-    <button class="tab" id="home" data-tab-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5L12 4l8 6.5V20h-5v-6H9v6H4z"/></svg>Utama</button>
-    <button class="tab" data-tab-go="uji"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5z"/><path d="M12 6.5v13"/></svg>Uji</button>
-    <button class="tab" data-tab-go="library"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg>Library</button>
+  <main id="view"><div class="loading" data-t="loading">Memuatkan mushaf…</div></main>
+  <footer><nav class="tabs" id="tabs" aria-label="Navigasi utama" data-ta="navAria">
+    <button class="tab" id="home" data-tab-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5L12 4l8 6.5V20h-5v-6H9v6H4z"/></svg><span data-t="tabHome">Utama</span></button>
+    <button class="tab" data-tab-go="uji"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5z"/><path d="M12 6.5v13"/></svg><span data-t="tabUji">Uji</span></button>
+    <button class="tab" data-tab-go="library"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg><span data-t="tabLib">Library</span></button>
   </nav></footer>
 </div>
 <script src="app.js"></script>

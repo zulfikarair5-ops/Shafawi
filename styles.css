@@ -29,6 +29,11 @@ header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset
 .brand .logo .mk{color:var(--gold)}
 .iconbtn{margin-left:auto;width:44px;height:44px;border-radius:50%;border:1px solid color-mix(in srgb,var(--gold) 30%,transparent);background:color-mix(in srgb,var(--surf) 70%,transparent);color:var(--gold);display:grid;place-items:center;cursor:pointer;box-shadow:var(--sh)}
 .iconbtn svg{width:19px;height:19px}
+/* Pilihan bahasa BM / EN */
+.langsw{margin-left:auto;display:flex;gap:2px;padding:3px;height:44px;border-radius:22px;border:1px solid color-mix(in srgb,var(--gold) 30%,transparent);background:color-mix(in srgb,var(--surf) 70%,transparent);box-shadow:var(--sh)}
+.langsw button{min-width:38px;padding:0 8px;border:0;border-radius:19px;background:transparent;color:var(--muted);font:600 12.5px/1 var(--sans);letter-spacing:.04em;cursor:pointer;transition:background .2s,color .2s}
+.langsw button[aria-pressed=true]{background:color-mix(in srgb,var(--gold) 18%,transparent);color:var(--pri);font-weight:700}
+.langsw+.iconbtn{margin-left:0}
 main{flex:1;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 112px)}
 footer{position:fixed;left:0;right:0;bottom:0;padding:0 max(18px,env(safe-area-inset-left,0px)) calc(env(safe-area-inset-bottom,0px) + 12px);display:flex;justify-content:center;pointer-events:none;z-index:5}
 footer::before{content:"";position:absolute;inset:-28px 0 0 0;background:linear-gradient(transparent,var(--bg2) 70%);z-index:-1}
