@@ -485,9 +485,9 @@ function hideSplash(){if(!SPL||SPL.classList.contains('out'))return;setTimeout((
 setTimeout(hideSplash,6000);
 fetch('data/mushaf.json').then(r=>r.json()).then(d=>{M=d}).catch(()=>{});
 
-Promise.all([fetch('data/quran.json').then(r=>r.json()),document.fonts.load('20px Hafs').catch(()=>0)]).then(([d])=>{
+Promise.all([fetch('data/quran.json').then(r=>r.json()),Promise.race([document.fonts.load('20px Hafs'),new Promise(r=>setTimeout(r,4000))]).catch(()=>0)]).then(([d])=>{
   Q=d;FA=Q.s.map(x=>x[3]);END=new Int16Array(Q.w.length);
   for(let i=0;i<Q.as.length;i++){const e=(i+1<Q.as.length?Q.as[i+1]:Q.w.length)-1;END[e]=i-FA[ub(FA,i)-1]+1}
-  render();hideSplash()}).catch(()=>{V.innerHTML=`<div class="loading">${t('loadFail')}</div>`;hideSplash()});
+  render();hideSplash()}).catch(e=>{V.innerHTML=`<div class="loading">${t('loadFail')}</div><p class="err">${esc(e&&e.message||e)}</p>`;hideSplash()});
 if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 }

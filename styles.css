@@ -404,3 +404,6 @@ header{padding-bottom:8px}
 :root[data-mode=dark] .mushaf.r .spine{background:linear-gradient(90deg,rgba(0,0,0,.55),transparent)}
 :root[data-mode=dark] .mushaf.l .spine{background:linear-gradient(270deg,rgba(0,0,0,.55),transparent)}
 :root[data-mode=dark] .mush-wrap,:root[data-mode=dark] .pgload{--paper:#141f19;--gold:#d4b06a;--gold2:#2a2616;--pink:#e9efe9;--muted:#91ab9c;--line:#1f3529;--sh2:none;--hltext:#ffc443}
+
+/* Mesej ralat pengaman (index.html) */
+.err{max-width:34em;margin:12px auto;padding:12px 14px;border-radius:14px;background:var(--surf);border:1px solid var(--line);color:var(--bad);font-size:13px;line-height:1.5;word-break:break-word}

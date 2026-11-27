@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<script>/* Tetapkan tema sebelum CSS dilukis (warna mod gelap ikut data-mode). */(function(){var d=matchMedia('(prefers-color-scheme: dark)').matches;try{var m=JSON.parse(localStorage.getItem('thebook.theme'));if(m)d=m==='dark'}catch(e){}document.documentElement.setAttribute('data-mode',d?'dark':'light')})()</script>
+<script>/* Tetapkan tema sebelum CSS dilukis (warna mod gelap ikut data-mode). */window.__shErr=[];addEventListener('error',function(e){__shErr.push((e.message||'error')+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:''))});addEventListener('unhandledrejection',function(e){__shErr.push('promise: '+(e.reason&&e.reason.message||e.reason))});(function(){var d=matchMedia('(prefers-color-scheme: dark)').matches;try{var m=JSON.parse(localStorage.getItem('thebook.theme'));if(m)d=m==='dark'}catch(e){}document.documentElement.setAttribute('data-mode',d?'dark':'light')})()</script>
 <title>Shafawi</title>
 <meta name="description" content="Uji hafazan Quran sendiri: tebuk ayat, kenal pasti kedudukan ayat dalam Mushaf Madinah, dan Catatan Muraja'ah untuk ayat lemah.">
 <meta name="theme-color" content="#f8f6f0" media="(prefers-color-scheme: light)">
@@ -87,5 +87,9 @@
   </nav></footer>
 </div>
 <script src="app.js"></script>
+<script>/* Pengaman: kalau app.js gagal (contoh iPhone lama), skrin pembuka tetap hilang dan ralat sebenar dipaparkan supaya boleh dilaporkan. */
+setTimeout(function(){var s=document.getElementById('splash');if(s&&s.parentNode)s.parentNode.removeChild(s);
+var v=document.getElementById('view');if(!v||!v.querySelector('.loading')||!__shErr.length)return;
+var p=document.createElement('p');p.className='err';p.textContent=(document.documentElement.lang==='en'?'The app could not start on this phone. Please screenshot this and send it to us: ':'App tidak dapat dibuka di telefon ini. Sila tangkap skrin ini dan hantar kepada kami: ')+__shErr.join(' | ')+' · '+navigator.userAgent;v.appendChild(p)},8000)</script>
 </body>
 </html>
