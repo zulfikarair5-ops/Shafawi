@@ -283,7 +283,7 @@ function pool(){
 function label(c=sel){const M_=t('modes'),sk=c.skop?' · '+t('juzN',c.skop):'';return {rawak:M_.rawak[0],juz:t('juzN',c.juz),surah:t('lblSurah',sName(c.surah)),julat:t('lblPages',c.from,c.to),maqra:M_.maqra[0]+sk,awalsurah:M_.awalsurah[0]+sk,nota:M_.nota[0]}[c.mode]}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function start(){const p=pool();if(!p.length){toast(t('noAyat'));return}S={pool:p,bag:shuffle(p.slice()),n:0,cfg:{...sel}};next()}
-function next(){if(!S.bag.length)S.bag=shuffle(S.pool.slice());S.gi=S.bag.pop();S.n++;S.after=0;S.before=false;S.pick=null;S.view=null;S.sur=null;go('soalan')}
+function next(){if(!S.bag.length)S.bag=shuffle(S.pool.slice());S.gi=S.bag.pop();S.n++;S.after=0;S.before=false;S.pick=null;S.view=null;S.sur=null;S.jfx=false;go('soalan')}
 const corners='<i class="corner" style="top:-7px;left:50%;margin-left:-7px"></i><i class="corner" style="bottom:-7px;left:50%;margin-left:-7px"></i>';
 
 R.soalan=()=>{
@@ -345,7 +345,7 @@ R.teka=()=>{
   <div class="book"><div class="pg l">${z('L','T',t('top'))}${z('L','B',t('bottom'))}</div><div class="pg r">${z('R','T',t('top'))}${z('R','B',t('bottom'))}</div></div>
   <div class="side"><span>${t('pageLeft')}</span><span>${t('pageRight')}</span></div>
   <button class="btn" id="semak"${S.pick?'':' disabled'}>${t('checkPos')}</button>`;
-  V.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{S.pick=b.dataset.z;R.teka()});
+  V.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{S.pick=b.dataset.z;S.jfx=false;R.teka()});
   document.getElementById('semak').onclick=()=>go('jawapan')};
 
 R.jawapan=()=>{
@@ -355,11 +355,14 @@ R.jawapan=()=>{
   const ok=okPos;
   if(S.view==null)S.view=z.p;
   const pos=`${z.side==='R'?t('right'):t('left')}, ${z.half==='T'?t('topL'):z.half==='B'?t('bottomL'):t('mid')}`;
-  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div>${vtx(ok?t('posOk'):t('posNo'))}<p>${esc(ref(S.gi))} · ${t('pg',z.p)} · ${pos}</p></div></div>
+  // Animasi hanya kali pertama keputusan keluar, bukan bila tukar muka surat atau tema.
+  const fx=!S.jfx;S.jfx=true;
+  V.innerHTML=`<div class="verdict sv ${ok?'ok':'no'}${fx?' fx':''}">${star(ok?IC.ok:IC.no)}<div>${vtx(ok?t('posOk'):t('posNo'))}<p>${esc(ref(S.gi))} · ${t('pg',z.p)} · ${pos}</p></div></div>
   <div id="pg" data-scroll="1"><div class="pgload">${t('loadingPage',S.view)}</div></div>
   <div class="jnav"><button class="btn ghost pgb" id="pn"${S.view>=604?' disabled':''} aria-label="${t('nextPage')}">‹</button><button class="btn" id="nx">${t('nextQ')}</button><button class="btn ghost pgb" id="pp"${S.view<=1?' disabled':''} aria-label="${t('prevPage')}">›</button></div>
   <div class="jlinks">${S.view!==z.p?`<button class="link" id="back">${t('backTo',z.p)}</button>`:''}<button class="link" id="tamat">${t('endSess')}</button></div>`;
   showPage(document.getElementById('pg'),S.view,S.gi);
+  if(fx)celebrate(V.querySelector('.verdict'),ok);
   const nav=d=>{S.view=Math.min(604,Math.max(1,S.view+d));R.jawapan()};
   document.getElementById('pn').onclick=()=>nav(1);document.getElementById('pp').onclick=()=>nav(-1);
   document.getElementById('back')&&(document.getElementById('back').onclick=()=>{S.view=z.p;R.jawapan()});
