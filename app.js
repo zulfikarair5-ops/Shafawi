@@ -22,6 +22,7 @@ const ORN='<div class="orn"><i></i></div>';
 const IC={
  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7c-2-1.6-5-2-8-1.5v12c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-12c-3-.5-6-.1-8 1.5zM12 7v12"/></svg>',
  pen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/></svg>',
+ eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>',
  ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
  no:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg>'};
 
@@ -210,7 +211,7 @@ function pool(){
 function label(){return {rawak:'30 juzuk',juz:'Juzuk '+sel.juz,surah:'Surah '+sName(sel.surah),julat:`Muka surat ${sel.from}–${sel.to}`,maqra:"Awal maqra'"+(sel.skop?' · Juzuk '+sel.skop:''),awalsurah:'Awal surah'+(sel.skop?' · Juzuk '+sel.skop:''),nota:'Dari nota'}[sel.mode]}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function start(){const p=pool();if(!p.length){toast('Tiada ayat dalam pilihan ini');return}S={pool:p,bag:shuffle(p.slice()),n:0,label:label()};next()}
-function next(){if(!S.bag.length)S.bag=shuffle(S.pool.slice());S.gi=S.bag.pop();S.n++;S.after=0;S.before=false;S.pick=null;S.view=null;S.sur=null;go('soalan')}
+function next(){if(!S.bag.length)S.bag=shuffle(S.pool.slice());S.gi=S.bag.pop();S.n++;S.after=0;S.before=false;S.pick=null;S.view=null;S.sur=null;S.reveal=false;go('soalan')}
 const corners='<i class="corner" style="top:-7px;left:50%;margin-left:-7px"></i><i class="corner" style="bottom:-7px;left:50%;margin-left:-7px"></i>';
 
 R.soalan=()=>{
@@ -221,9 +222,11 @@ R.soalan=()=>{
   V.innerHTML=`<div class="qhead"><div><span class="eyebrow">${esc(S.label)}</span><h1>Soalan ${S.n}</h1></div></div>
   ${before}<div class="qcard big">${corners}<span class="lbl">Sambung ayat ini</span><div class="quran">${ayText(gi)}</div></div>${after}
   <div class="qtools"><button class="btn ghost small" id="bf"${S.before||gi===0?' disabled':''}>Ayat sebelumnya</button><button class="btn ghost small" id="af"${gi+S.after+1>=A?' disabled':''}>Ayat seterusnya</button></div>
-  <div style="display:grid;gap:4px"><button class="btn" data-go="surah">Kenal Pasti Surah &amp; Kedudukan Ayat</button><button class="link" id="tamat" style="justify-self:center">Tamat sesi</button></div>`;
+  <div style="display:grid;gap:4px"><button class="btn" data-go="surah">Kenal Pasti Surah &amp; Kedudukan Ayat</button><button class="btn ghost small" id="tj">${IC.eye}Tunjuk jawapan</button><button class="link" id="tamat" style="justify-self:center">Tamat sesi</button></div>`;
   document.getElementById('af').onclick=()=>{S.after++;R.soalan();[...V.querySelectorAll('.extra')].pop()?.scrollIntoView({block:'nearest',behavior:'smooth'})};
   document.getElementById('bf').onclick=()=>{S.before=true;R.soalan()};
+  // Tak tahu jawapan: terus ke halaman jawapan tanpa teka surah & kedudukan.
+  document.getElementById('tj').onclick=()=>{S.reveal=true;S.view=null;go('jawapan')};
   document.getElementById('tamat').onclick=tamat};
 function tamat(){S=null;go('mod')}
 
@@ -264,14 +267,16 @@ R.teka=()=>{
   document.getElementById('semak').onclick=()=>go('jawapan')};
 
 R.jawapan=()=>{
-  if(!S||!S.pick)return go(S?'teka':'mod');
-  const z=zoneOf(S.gi),okPos=S.pick[0]===z.side&&(z.half==='*'||S.pick[1]===z.half);
+  if(!S||(!S.pick&&!S.reveal))return go(S?'teka':'mod');
+  const z=zoneOf(S.gi),okPos=!!S.pick&&S.pick[0]===z.side&&(z.half==='*'||S.pick[1]===z.half);
   // Keputusan surah sudah ditunjuk di halaman Kenal Pasti Surah; di sini nilai kedudukan sahaja.
   const ok=okPos;
   if(S.view==null)S.view=z.p;
   const pos=`${z.side==='R'?'kanan':'kiri'}, ${z.half==='T'?'atas':z.half==='B'?'bawah':'tengah'}`;
-  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?'Betul! Masya-Allah.':'Salah, teruskan mengulang.'}</b><p>${esc(ref(S.gi))} · ms ${z.p} · ${pos}</p></div></div>
-  <div id="pg" data-scroll="1"><div class="pgload">Memuatkan muka surat ${S.view}…</div></div>
+  const nxt=S.gi+1<Q.as.length?`<div class="extra"><small>Sambungan ayat</small><div class="quran">${ayText(S.gi+1)}</div></div>`:'';
+  V.innerHTML=(S.reveal?`<div class="verdict show">${star(IC.eye)}<div><b>Jawapan</b><p>${esc(ref(S.gi))} · ms ${z.p} · ${pos}</p></div></div>${nxt}`
+  :`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?'Betul! Masya-Allah.':'Salah, teruskan mengulang.'}</b><p>${esc(ref(S.gi))} · ms ${z.p} · ${pos}</p></div></div>`)+`
+  <div id="pg"${S.reveal?'':' data-scroll="1"'}><div class="pgload">Memuatkan muka surat ${S.view}…</div></div>
   <div class="jnav"><button class="btn ghost pgb" id="pn"${S.view>=604?' disabled':''} aria-label="Muka surat selepas">‹</button><button class="btn" id="nx">Soalan seterusnya</button><button class="btn ghost pgb" id="pp"${S.view<=1?' disabled':''} aria-label="Muka surat sebelum">›</button></div>
   <div class="jlinks">${S.view!==z.p?`<button class="link" id="back">Kembali ke ms ${z.p}</button>`:''}<button class="link" id="tamat">Tamat sesi</button></div>`;
   showPage(document.getElementById('pg'),S.view,S.gi);
