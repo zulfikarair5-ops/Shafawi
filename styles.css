@@ -407,3 +407,72 @@ header{padding-bottom:8px}
 
 /* Mesej ralat pengaman (index.html) */
 .err{max-width:34em;margin:12px auto;padding:12px 14px;border-radius:14px;background:var(--surf);border:1px solid var(--line);color:var(--bad);font-size:13px;line-height:1.5;word-break:break-word}
+
+/* Skor & sejarah sesi */
+.scorep{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:1px;padding:6px 12px 6px 14px;border-radius:16px;background:var(--surf);border:1px solid color-mix(in srgb,var(--gold) 35%,transparent)}
+.scorep small{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.scorep b{font-size:22px;line-height:1;font-weight:700;color:var(--pri);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.scorep b span{font-size:14px;font-weight:600;color:var(--muted)}
+
+
+.verdict .pts{margin-left:auto;align-self:flex-start;flex:none;font-size:12.5px;font-weight:800;padding:3px 9px;border-radius:9px;color:var(--good);background:color-mix(in srgb,var(--good) 15%,transparent);font-variant-numeric:tabular-nums}
+.verdict .pts.z{color:var(--muted);background:var(--soft)}
+.sumcard{position:relative;text-align:center;border-radius:28px;padding:22px 18px 20px;margin:10px 0 12px;background:linear-gradient(160deg,var(--hero1),var(--hero2));color:var(--heroink);border:1px solid color-mix(in srgb,var(--heroacc) 30%,transparent);overflow:hidden}
+.sumcard::after{content:"";position:absolute;inset:7px;border:1.5px dashed var(--herorule);border-radius:22px;pointer-events:none}
+.sumcard>*{position:relative}
+.sring{width:136px;height:136px;display:block;margin:0 auto}
+.sring .tr{stroke:color-mix(in srgb,var(--heroacc) 22%,transparent)}
+.sring .pr{stroke:var(--heroacc)}
+.sring-n{position:absolute;left:0;right:0;top:22px;height:136px;display:grid;place-items:center}
+.sring-n b{font-size:38px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.sring-n small{font-size:18px;font-weight:600;color:var(--heromut);margin-left:1px}
+.sumcard h2{margin:10px 0 2px;font-size:24px;letter-spacing:-.015em;color:var(--heroacc)}
+.sumcard p{margin:0;font-size:14.5px;color:var(--heromut)}
+.sumcard .chip{margin-top:10px}
+.stat b small{font-size:16px;color:var(--muted);font-weight:600}
+.stats .stat span{display:block;line-height:1.3}
+.grow.wr{cursor:default;align-items:center}
+.grow.wr .aw{display:block;font-family:Hafs,serif;direction:rtl;text-align:left;font-size:19px;line-height:1.6;color:color-mix(in srgb,var(--ink) 80%,transparent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grow.wr .wt{flex:none;display:flex;flex-direction:column;gap:4px;align-items:flex-end}
+.grow.wr .mk{font-style:normal;font-size:11.5px}
+.chart{padding:16px 12px 10px}
+.bars{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;height:150px}
+.bc{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px;min-height:0}
+.bc em{font-style:normal;font-size:11.5px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;min-height:14px}
+.bc i{display:block;width:100%;max-width:26px;border-radius:8px 8px 4px 4px;background:color-mix(in srgb,var(--pri) 72%,var(--surf));max-height:100px}
+.bc i.z{height:4px!important;background:var(--line);border-radius:2px}
+.bc span{font-size:12px;font-weight:600;color:var(--muted)}
+.bc.td i{background:var(--gold)}
+.bc.td em,.bc.td span{color:var(--gold)}
+.grow.hs{cursor:default}
+.grow.hs>i{width:46px;height:46px;border-radius:14px;font-size:16px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.grow.hs>i small{font-size:10px;font-weight:700}
+.grow.hs>em.gr{font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:9px;white-space:nowrap;background:var(--soft);color:var(--muted)}
+.grow.hs>i.g0,.grow.hs>em.g0{background:var(--gold2);color:var(--gold)}
+.grow.hs>i.g1,.grow.hs>em.g1,.grow.hs>i.g2,.grow.hs>em.g2{background:color-mix(in srgb,var(--good) 15%,transparent);color:var(--good)}
+.grow.hs>i.g3{background:var(--soft);color:var(--muted)}
+.bars{height:auto}
+.bc small{font-size:10px;font-weight:700;color:var(--gold);white-space:nowrap;margin-top:-3px}
+.hday{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:10px 14px 2px;border-top:1px solid var(--line)}
+.group>.hday:first-child{border-top:0}
+.hday+.grow{border-top:0}
+.grow.hs>i{display:flex;align-items:baseline;justify-content:center;padding-top:13px}
+.bc i{background:color-mix(in srgb,var(--good) 70%,var(--surf))}
+.stat em{display:block;font-style:normal;font-size:11.5px;font-weight:700;color:var(--gold);margin-top:2px}
+.rule{display:flex;gap:8px;align-items:flex-start;margin:12px 2px 0;font-size:13px;line-height:1.45;color:var(--muted)}
+.rule::before{content:"";flex:none;width:9px;height:9px;margin-top:5px;background:var(--gold);clip-path:polygon(50% 0,64.6% 14.6%,85.4% 14.6%,85.4% 35.4%,100% 50%,85.4% 64.6%,85.4% 85.4%,64.6% 85.4%,50% 100%,35.4% 85.4%,14.6% 85.4%,14.6% 64.6%,0 50%,14.6% 35.4%,14.6% 14.6%,35.4% 14.6%)}
+.verdict .pts{white-space:nowrap}
+.sumcard p.kg{color:var(--heroacc);font-weight:600;margin:0 0 4px}
+.quote{margin:22px 6px 4px;text-align:center}
+.quote .orn{margin:0 auto 8px;max-width:220px}
+.quote blockquote{margin:0;font-size:17px;line-height:1.45;font-weight:600;font-style:italic;letter-spacing:-.01em;color:var(--pri)}
+/* 4 tab: Utama, Uji, Catatan, Pencapaian */
+.tabs{grid-template-columns:repeat(4,1fr)}
+.tab{font-size:12px;letter-spacing:-.01em;white-space:nowrap}
+/* Kad skor: satu baris, bawahnya selari dengan garis dasar tajuk "Soalan N" */
+.qhead{align-items:flex-end}
+.scorep{flex-direction:row;align-items:center;gap:8px;height:38px;padding:0 12px;margin-bottom:6px;border-radius:19px}
+.scorep small{font-size:10.5px;letter-spacing:.1em}
+.scorep b{font-size:18px}
+.scorep b span{font-size:13px}
+

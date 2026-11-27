@@ -11,7 +11,7 @@ const store={get(k,d){try{const v=localStorage.getItem('thebook.'+k);return v?JS
 const TX={
  ms:{
   langAria:'Bahasa',brandAria:'Shafawi, ke Home',themeDark:'Tukar ke mod gelap',themeLight:'Tukar ke mod cerah',
-  navAria:'Navigasi utama',tabHome:'Utama',tabUji:'Uji',tabLib:'Catatan',
+  navAria:'Navigasi utama',tabHome:'Utama',tabUji:'Tebuk',tabLib:'Catatan',tabProg:'Pencapaian',
   loading:'Memuatkan mushaf…',loadFail:'Data mushaf gagal dimuatkan. Cuba muat semula.',
   juz:'Juzuk',juzN:n=>'Juzuk '+n,pageRight:'Muka kanan',pageLeft:'Muka kiri',rehalAria:'Mushaf terbuka di atas rehal kayu',
   hTebuk:'Tebuk Ayat',hTebukSub:'Sambung ayat dan kenal pasti kedudukannya',hNota:"Catatan Muraja'ah",hNotaSub:'Rekod ayat yang selalu tersangkut',
@@ -23,9 +23,9 @@ const TX={
   modTitle:'Tebuk Hafazan',back:'‹ Kembali',pickMode:'Pilih mod hafazan',start:'Mula',
   lblSurah:n=>'Surah '+n,lblPages:(a,b)=>`Muka surat ${a}–${b}`,noAyat:'Tiada ayat dalam pilihan ini',
   nextAyah:'Ayat seterusnya',prevAyah:'Ayat sebelumnya',qN:n=>'Soalan '+n,contAyah:'Sambung ayat ini',idBoth:'Kenal Pasti Surah &amp; Kedudukan Ayat',endSess:'Tamat sesi',
-  surOk:'Masyallah mumtaz. Jawapan anda tepat sekali',surNo:'Jawapan anda salah. Teruskan murajaah',surAns:n=>`Jawapannya Surah ${n}`,idSurah:'Kenal Pasti Surah',whichSurah:'Ayat ini daripada surah apa?',idPos:'Kenal Pasti Kedudukan Ayat',checkSurah:'Semak surah',
+  surOk:'Masyallah mumtaz. Jawapan anda betul',surNo:'Jawapan anda salah. Teruskan murajaah',surAns:n=>`Jawapannya Surah ${n}`,idSurah:'Kenal Pasti Surah',whichSurah:'Ayat ini daripada surah apa?',idPos:'Kenal Pasti Kedudukan Ayat',checkSurah:'Semak surah',
   tapZone:'Tekan bahagian muka surat tempat ayat itu bermula.',top:'Atas',bottom:'Bawah',checkPos:'Semak kedudukan',
-  posOk:'Masyallah mumtaz. Jawapan anda tepat sekali',posNo:'Jawapan anda salah. Teruskan murajaah',pg:n=>'ms '+n,right:'kanan',left:'kiri',topL:'atas',bottomL:'bawah',mid:'tengah',
+  posOk:'Masyallah mumtaz. Jawapan anda betul',posNo:'Jawapan anda salah. Teruskan murajaah',pg:n=>'ms '+n,right:'kanan',left:'kiri',topL:'atas',bottomL:'bawah',mid:'tengah',
   loadingPage:n=>`Memuatkan muka surat ${n}…`,nextPage:'Muka surat selepas',prevPage:'Muka surat sebelum',nextQ:'Soalan seterusnya',backTo:n=>`Kembali ke ms ${n}`,
   noteHint:'Catat ayat yang perlu diulang.',ayah:'Ayat',katLbl:'Kategori catatan',catatan:'Catatan',writeNote:'Tulis catatan',saveNote:'Simpan nota',saved:r=>`Nota ${r} disimpan`,
   kat:{'Ayat Mutasyabihat':'Ayat Mutasyabihat','Perkataan':'Perkataan','Kepala ayat':'Kepala ayat','Kepala muka surat':'Kepala muka surat'},
@@ -36,10 +36,16 @@ const TX={
   markDone:'Tanda selesai',revOf5:n=>`${n} daripada 5 ulangan`,dataBackup:'Data &amp; sandaran',exp:'Eksport nota',expSub:'Simpan sandaran ke fail',imp:'Import nota',impSub:'Pulihkan daripada fail sandaran',
   off:'Mushaf luar talian',offSub:'Simpan semua muka surat (kira-kira 36 MB)',fine:'Nota disimpan dalam pelayar ini sahaja. Eksport selepas menambah nota supaya tidak hilang bila tukar telefon.',
   savingN:(n,t)=>`Menyimpan… ${n}/${t}`,failN:n=>`${n} fail gagal. Tekan untuk cuba lagi`,allSaved:'Semua muka surat disimpan ✓',
+  score:'Skor',progSub:'Rekod setiap sesi uji anda',noHist:'Belum ada sesi',noHistSub:'Tamatkan satu sesi Tebuk Ayat dan skornya akan direkod di sini.',quote:'Murajaah itu amanah, masyi itu satu anugerah.',ptsM:n=>`+${n} markah`,ruleTxt:'Setiap soalan 2 markah: surah betul 1 markah, kedudukan betul 1 markah.',ptsN:n=>`+${n}`,
+  sumTitle:'Sesi tamat',sumPts:(a,b,n)=>`${a}/${b} markah · ${n} soalan`,sumSurah:'Surah',sumPos:'Kedudukan',
+  grade:['Mumtaz','Jayyid Jiddan','Jayyid','Maqbul'],keepGoing:'Teruskan usaha',wrongT:'Ayat untuk diulang',wrongS:'Surah salah',wrongP:'Kedudukan salah',
+  saveWrong:n=>`Simpan ${n} ayat ke Catatan`,savedWrong:n=>`${n} ayat disimpan ke Catatan`,allSavedW:'Sudah disimpan ke Catatan ✓',newSess:'Sesi baharu',toHome:'Ke Utama',fromTest:'Dari sesi uji',
+  progT:'Perkembangan 7 hari',avgN:n=>`Purata ${n}%`,histT:'Sesi lepas',chartAria:'Peratus skor setiap hari, 7 hari lepas',
+  days:['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu'],dayS:['Ahd','Isn','Sel','Rab','Kha','Jum','Sab'],mon:['Jan','Feb','Mac','Apr','Mei','Jun','Jul','Ogo','Sep','Okt','Nov','Dis'],today:'Hari ini',nSess:n=>`${n} sesi`,qs:n=>`${n} soalan`,
   shareTitle:'Sandaran nota Shafawi',imported:n=>`${n} nota diimport`,badFile:'Fail ini bukan sandaran Shafawi',hMon:['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']},
  en:{
   langAria:'Language',brandAria:'Shafawi, go to Home',themeDark:'Switch to dark mode',themeLight:'Switch to light mode',
-  navAria:'Main navigation',tabHome:'Home',tabUji:'Test',tabLib:'Notes',
+  navAria:'Main navigation',tabHome:'Home',tabUji:'Test',tabLib:'Notes',tabProg:'Progress',
   loading:'Loading mushaf…',loadFail:'Could not load the mushaf data. Please reload.',
   juz:'Juz',juzN:n=>'Juz '+n,pageRight:'Right page',pageLeft:'Left page',rehalAria:'Open mushaf on a wooden rehal',
   hTebuk:'Ayah Test',hTebukSub:'Continue the ayah and identify its position',hNota:"Muraja'ah Notes",hNotaSub:'Keep track of ayahs you often get stuck on',
@@ -51,9 +57,9 @@ const TX={
   modTitle:'Memorization Test',back:'‹ Back',pickMode:'Choose a test mode',start:'Start',
   lblSurah:n=>'Surah '+n,lblPages:(a,b)=>`Pages ${a}–${b}`,noAyat:'No ayahs in this selection',
   nextAyah:'Next ayah',prevAyah:'Previous ayah',qN:n=>'Question '+n,contAyah:'Continue this ayah',idBoth:'Identify Surah &amp; Ayah Position',endSess:'End session',
-  surOk:'Masha Allah, mumtaz! Your answer is spot on',surNo:'Your answer is wrong. Keep up your muraja\'ah',surAns:n=>`The answer is Surah ${n}`,idSurah:'Identify the Surah',whichSurah:'Which surah is this ayah from?',idPos:'Identify Ayah Position',checkSurah:'Check surah',
+  surOk:'Masha Allah, mumtaz! Your answer is correct',surNo:'Your answer is wrong. Keep up your muraja\'ah',surAns:n=>`The answer is Surah ${n}`,idSurah:'Identify the Surah',whichSurah:'Which surah is this ayah from?',idPos:'Identify Ayah Position',checkSurah:'Check surah',
   tapZone:'Tap the part of the page where the ayah begins.',top:'Top',bottom:'Bottom',checkPos:'Check position',
-  posOk:'Masha Allah, mumtaz! Your answer is spot on',posNo:'Your answer is wrong. Keep up your muraja\'ah',pg:n=>'p. '+n,right:'right',left:'left',topL:'top',bottomL:'bottom',mid:'middle',
+  posOk:'Masha Allah, mumtaz! Your answer is correct',posNo:'Your answer is wrong. Keep up your muraja\'ah',pg:n=>'p. '+n,right:'right',left:'left',topL:'top',bottomL:'bottom',mid:'middle',
   loadingPage:n=>`Loading page ${n}…`,nextPage:'Next page',prevPage:'Previous page',nextQ:'Next question',backTo:n=>`Back to p. ${n}`,
   noteHint:'Note down ayahs that need revising.',ayah:'Ayah',katLbl:'Note category',catatan:'Note',writeNote:'Write a note',saveNote:'Save note',saved:r=>`Note ${r} saved`,
   kat:{'Ayat Mutasyabihat':'Mutashabihat ayah','Perkataan':'Word','Kepala ayat':'Start of ayah','Kepala muka surat':'Start of page'},
@@ -64,6 +70,12 @@ const TX={
   markDone:'Mark done',revOf5:n=>`${n} of 5 revisions`,dataBackup:'Data &amp; backup',exp:'Export notes',expSub:'Save a backup to a file',imp:'Import notes',impSub:'Restore from a backup file',
   off:'Offline mushaf',offSub:'Save all pages (about 36 MB)',fine:'Notes are stored in this browser only. Export after adding notes so they are not lost when you change phones.',
   savingN:(n,t)=>`Saving… ${n}/${t}`,failN:n=>`${n} files failed. Tap to try again`,allSaved:'All pages saved ✓',
+  score:'Score',progSub:'A record of every test session',noHist:'No sessions yet',noHistSub:'Finish an Ayah Test session and its score will be recorded here.',quote:'Muraja\'ah is a trust; fluent recitation is a gift.',ptsM:n=>`+${n} pt`,ruleTxt:'Each question is worth 2 points: 1 for the correct surah, 1 for the correct position.',ptsN:n=>`+${n}`,
+  sumTitle:'Session complete',sumPts:(a,b,n)=>`${a}/${b} points · ${n} questions`,sumSurah:'Surah',sumPos:'Position',
+  grade:['Mumtaz','Jayyid Jiddan','Jayyid','Maqbul'],keepGoing:'Keep going',wrongT:'Ayahs to revise',wrongS:'Wrong surah',wrongP:'Wrong position',
+  saveWrong:n=>`Save ${n} ayahs to Notes`,savedWrong:n=>`${n} ayahs saved to Notes`,allSavedW:'Saved to Notes ✓',newSess:'New session',toHome:'Go to Home',fromTest:'From a test session',
+  progT:'Last 7 days',avgN:n=>`Average ${n}%`,histT:'Past sessions',chartAria:'Score percentage per day, last 7 days',
+  days:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],dayS:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],mon:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],today:'Today',nSess:n=>`${n} sessions`,qs:n=>`${n} questions`,
   shareTitle:'Shafawi notes backup',imported:n=>`${n} notes imported`,badFile:'This file is not a Shafawi backup',}};
 let LANG=store.get('lang','ms');if(!TX[LANG])LANG='ms';
 const t=(k,...a)=>{const v=TX[LANG][k]??TX.ms[k];return typeof v==='function'?v(...a):v};
@@ -265,6 +277,59 @@ R.home=()=>{
   </div>
   <p class="credit">${t('credit')}</p>`};
 
+/* ---------- skor & sejarah sesi ---------- */
+// Setiap soalan: surah betul 1 markah, kedudukan betul 1 markah (maksimum 2).
+let hist=store.get('sesi',[]),LAST=null;
+const pct=x=>x.max?Math.round(x.pts*100/x.max):0;
+// Skala pangkat (zulfikar, 27 Nov 2026): Mumtaz 85-100, Jayyid Jiddan 70-84, Jayyid 50-69, Maqbul bawah 50.
+const gradeOf=p=>p>=85?0:p>=70?1:p>=50?2:3;
+const cfgKey=c=>[c.mode,c.mode==='juz'?c.juz:c.mode==='surah'?c.surah:c.mode==='julat'?c.from+'-'+c.to:c.skop||''].join(':');
+const dkey=d=>d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+function fdate(iso){const d=new Date(iso),td=new Date();const y=new Date(td);y.setDate(td.getDate()-1);
+  return dkey(d)===dkey(td)?t('today'):`${t('days')[d.getDay()]} ${d.getDate()} ${t('mon')[d.getMonth()]}`}
+const ftime=iso=>{const d=new Date(iso);return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
+function histHTML(){
+  if(!hist.length)return `<div class="empty">${star(IC.book,'gold')}<b>${t('noHist')}</b>${t('noHistSub')}<div style="margin-top:14px"><button class="btn" data-go="mod">${t('hTebuk')}</button></div></div>`;
+  const td=new Date(),days=[];
+  for(let i=6;i>=0;i--){const d=new Date(td);d.setDate(td.getDate()-i);const k=dkey(d),L=hist.filter(h=>dkey(new Date(h.t))===k);
+    const P=L.reduce((a,h)=>a+h.pts,0),X=L.reduce((a,h)=>a+h.max,0);days.push({d,v:X?Math.round(P*100/X):null,k:L.length,today:i===0})}
+  const vs=days.filter(x=>x.v!=null),avg=vs.length?Math.round(vs.reduce((a,x)=>a+x.v,0)/vs.length):0;
+  const bars=days.map(x=>`<div class="bc${x.today?' td':''}"><em>${x.v==null?'':x.v}</em><i style="height:${x.v==null?4:Math.max(6,x.v)}px"${x.v==null?' class="z"':''}></i><span>${t('dayS')[x.d.getDay()]}</span><small>${x.k>1?t('nSess',x.k):'&nbsp;'}</small></div>`).join('');
+  let lastD='';const rows=hist.slice(-40).reverse().map(h=>{const dk=dkey(new Date(h.t)),hd=dk!==lastD?`<div class="hday">${fdate(h.t)}</div>`:'';lastD=dk;const p=pct(h),g=gradeOf(p);
+    return hd+`<div class="grow hs"><i class="g${g}">${p}<small>%</small></i><span><b>${esc(label(h.cfg))}</b><small>${ftime(h.t)} · ${t('qs',h.n)} · ${h.pts}/${h.max}</small></span><em class="gr g${g}">${t('grade')[g]}</em></div>`}).join('');
+  return `<div class="sect">${t('progT')}${vs.length?`<span>${t('avgN',avg)}</span>`:''}</div>
+  <div class="group pad chart" role="img" aria-label="${t('chartAria')}"><div class="bars">${bars}</div></div>
+  <div class="sect">${t('histT')}</div><div class="group">${rows}</div>`}
+R.pencapaian=()=>{V.innerHTML=`<h1>${t('tabProg')}</h1><p class="sub" style="margin-bottom:0">${t('progSub')}</p>${histHTML()}`};
+function scoreHTML(){const c=S.sc;if(!c.n)return '';return `<div class="scorep" role="status" aria-label="${t('score')} ${c.pts}/${c.n*2}"><small>${t('score')}</small><b>${c.pts}<span>/${c.n*2}</span></b></div>`}
+function finish(){
+  const c=S.sc,cfg=S.cfg;
+  if(!c.n){S=null;return go('mod')}
+  const key=cfgKey(cfg);
+  const rec={t:new Date().toISOString(),cfg,key,n:c.n,s:c.s,p:c.p,pts:c.pts,max:c.n*2};
+  hist.push(rec);if(hist.length>300)hist=hist.slice(-300);store.set('sesi',hist);
+  LAST={...rec,wrong:c.wrong,saved:false};S=null;go('ringkasan')}
+R.ringkasan=()=>{
+  const L=LAST;if(!L)return go('home');
+  const p=pct(L),g=gradeOf(p),C=2*Math.PI*52;
+  const W=L.wrong.filter(w=>!notes.some(n=>gIdx(n.surah,n.ayah)===w.gi));
+  V.innerHTML=`<div class="qhead"><div><span class="eyebrow">${esc(label(L.cfg))}</span><h1>${t('sumTitle')}</h1></div></div>
+  <section class="sumcard g${g}">
+   <svg class="sring" viewBox="0 0 120 120" aria-hidden="true"><circle class="tr" cx="60" cy="60" r="52" fill="none" stroke-width="9"/><circle class="pr" cx="60" cy="60" r="52" fill="none" stroke-width="9" stroke-linecap="round" stroke-dasharray="${(C*p/100).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 60 60)"/></svg>
+   <div class="sring-n"><b>${p}<small>%</small></b></div>
+   <h2>${t('grade')[g]}</h2>${g===3?`<p class="kg">${t('keepGoing')}</p>`:''}<p>${t('sumPts',L.pts,L.max,L.n)}</p>
+  </section>
+  <div class="stats"><div class="stat"><b>${L.s}<small>/${L.n}</small></b><span>${t('sumSurah')}</span></div><div class="stat"><b>${L.p}<small>/${L.n}</small></b><span>${t('sumPos')}</span></div></div>
+  <p class="rule">${t('ruleTxt')}</p>
+  <figure class="quote">${ORN}<blockquote>${t('quote')}</blockquote></figure>
+  ${L.wrong.length?`<div class="sect">${t('wrongT')}<span>${L.wrong.length}</span></div>
+  <div class="group">${L.wrong.map(w=>`<div class="grow wr"><span><b>${esc(ref(w.gi))}</b><span class="aw" lang="ar">${ayHead(w.gi)}</span></span><span class="wt">${!w.s?`<em class="mk no">${t('wrongS')}</em>`:''}${!w.p?`<em class="mk no">${t('wrongP')}</em>`:''}</span></div>`).join('')}</div>
+  <button class="btn" id="svw" style="margin-top:14px"${W.length?'':' disabled'}>${W.length?t('saveWrong',W.length):t('allSavedW')}</button>`:''}
+  <div style="display:grid;gap:4px;margin-top:10px"><button class="btn ${L.wrong.length?'ghost':''}" data-go="mod">${t('newSess')}</button><button class="link" data-go="home" style="justify-self:center">${t('toHome')}</button></div>`;
+  const sv=document.getElementById('svw');sv&&(sv.onclick=()=>{const now=new Date().toISOString();
+    W.forEach((w,i)=>notes.push({id:Date.now().toString(36)+i+Math.random().toString(36).slice(2,5),surah:surOf(w.gi),ayah:ayNo(w.gi),kategori:w.p?'Perkataan':'Kepala muka surat',lain:'',perkataan:t('fromTest'),ulangan:[0,0,0,0,0],selesai:false,dibuat:now}));
+    save();toast(t('savedWrong',W.length));R.ringkasan()})};
+
 const MODES=['rawak','juz','surah','julat','maqra','awalsurah','nota'];
 R.mod=()=>{
   const act=notes.filter(n=>!n.selesai).length;
@@ -278,7 +343,7 @@ R.mod=()=>{
   <p class="sub" style="margin-bottom:6px">${t('pickMode')}</p>${ORN}
   <div class="modes">${MODES.map((m,i)=>`<button class="mode" data-mode="${m}" aria-pressed="${sel.mode===m}">${star(i+1)}<div><b>${t('modes')[m][0]}</b><span>${t('modes')[m][1]}</span></div><i class="tick"></i></button>`).join('')}</div>
   <div class="opts">${o}</div>
-  <div style="margin-top:20px"><button class="btn" id="mula"${(sel.mode==='nota'&&!act)||((sel.mode==='maqra'||sel.mode==='awalsurah')&&!pool().length)?' disabled':''}>${t('start')}</button></div>`;
+  <p class="rule">${t('ruleTxt')}</p><div style="margin-top:14px"><button class="btn" id="mula"${(sel.mode==='nota'&&!act)||((sel.mode==='maqra'||sel.mode==='awalsurah')&&!pool().length)?' disabled':''}>${t('start')}</button></div>`;
   V.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{sel.mode=b.dataset.mode;R.mod()});
   const g=id=>document.getElementById(id);
   g('juz')&&(g('juz').onchange=e=>sel.juz=+e.target.value);
@@ -300,8 +365,8 @@ function pool(){
 // Label sesi dikira semasa paparan supaya ikut bahasa semasa.
 function label(c=sel){const M_=t('modes'),sk=c.skop?' · '+t('juzN',c.skop):'';return {rawak:M_.rawak[0],juz:t('juzN',c.juz),surah:t('lblSurah',sName(c.surah)),julat:t('lblPages',c.from,c.to),maqra:M_.maqra[0]+sk,awalsurah:M_.awalsurah[0]+sk,nota:M_.nota[0]}[c.mode]}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function start(){const p=pool();if(!p.length){toast(t('noAyat'));return}S={pool:p,bag:shuffle(p.slice()),n:0,cfg:{...sel}};next()}
-function next(){if(!S.bag.length)S.bag=shuffle(S.pool.slice());S.gi=S.bag.pop();S.n++;S.after=0;S.before=false;S.pick=null;S.view=null;S.sur=null;S.jfx=false;go('soalan')}
+function start(){const p=pool();if(!p.length){toast(t('noAyat'));return}S={pool:p,bag:shuffle(p.slice()),n:0,cfg:{...sel},sc:{n:0,s:0,p:0,pts:0,wrong:[]}};next()}
+function next(){if(!S.bag.length)S.bag=shuffle(S.pool.slice());S.gi=S.bag.pop();S.n++;S.after=0;S.before=false;S.pick=null;S.view=null;S.sur=null;S.jfx=false;S.got=null;go('soalan')}
 const corners='<i class="corner" style="top:-7px;left:50%;margin-left:-7px"></i><i class="corner" style="bottom:-7px;left:50%;margin-left:-7px"></i>';
 
 R.soalan=()=>{
@@ -309,14 +374,14 @@ R.soalan=()=>{
   const gi=S.gi,A=Q.as.length;
   let after='';for(let k=1;k<=S.after&&gi+k<A;k++)after+=`<div class="extra"><small>${t('nextAyah')}${S.after>1?' '+k:''}</small><div class="quran">${ayText(gi+k)}</div></div>`;
   const before=S.before&&gi>0?`<div class="extra"><small>${t('prevAyah')}</small><div class="quran">${ayText(gi-1)}</div></div>`:'';
-  V.innerHTML=`<div class="qhead"><div><span class="eyebrow">${esc(label(S.cfg))}</span><h1>${t('qN',S.n)}</h1></div></div>
+  V.innerHTML=`<div class="qhead"><div><span class="eyebrow">${esc(label(S.cfg))}</span><h1>${t('qN',S.n)}</h1></div>${scoreHTML()}</div>
   ${before}<div class="qcard big">${corners}<span class="lbl">${t('contAyah')}</span><div class="quran">${ayText(gi)}</div></div>${after}
   <div class="qtools"><button class="btn ghost small" id="bf"${S.before||gi===0?' disabled':''}>${t('prevAyah')}</button><button class="btn ghost small" id="af"${gi+S.after+1>=A?' disabled':''}>${t('nextAyah')}</button></div>
   <div style="display:grid;gap:4px"><button class="btn" data-go="surah">${t('idBoth')}</button><button class="link" id="tamat" style="justify-self:center">${t('endSess')}</button></div>`;
   document.getElementById('af').onclick=()=>{S.after++;R.soalan();[...V.querySelectorAll('.extra')].pop()?.scrollIntoView({block:'nearest',behavior:'smooth'})};
   document.getElementById('bf').onclick=()=>{S.before=true;R.soalan()};
   document.getElementById('tamat').onclick=tamat};
-function tamat(){S=null;go('mod')}
+function tamat(){finish()}
 
 // Kenal pasti surah: 4 pilihan, 3 daripadanya surah berdekatan supaya mengelirukan.
 function surOpts(s){
@@ -340,7 +405,7 @@ R.surah=()=>{
   const cls=o=>!U.done?(U.pick===o?' sel':''):o===s?' ok':U.pick===o?' no':' dim';
   // Selepas semak: kad keputusan di atas (gaya sama dengan Kenal Pasti Kedudukan Ayat).
   const ok=U.pick===s,fx=U.done&&!U.shown;if(U.done)U.shown=true;
-  const head=U.done?`<div class="verdict sv ${ok?'ok':'no'}${fx?' fx':''}">${star(ok?IC.ok:IC.no)}<div>${vtx(ok?t('surOk'):t('surNo'))}<p>${ok?'Surah '+esc(ref(S.gi)):t('surAns',esc(sName(s)))}</p></div></div>`
+  const head=U.done?`<div class="verdict sv ${ok?'ok':'no'}${fx?' fx':''}">${star(ok?IC.ok:IC.no)}<div>${vtx(ok?t('surOk'):t('surNo'))}<p>${ok?'Surah '+esc(ref(S.gi)):t('surAns',esc(sName(s)))}</p></div><span class="pts${ok?'':' z'}">${t('ptsM',ok?1:0)}</span></div>`
     :`<h1>${t('idSurah')}</h1><p class="sub">${t('whichSurah')}</p>`;
   V.innerHTML=`${head}
   <div class="qcard" style="padding:10px 14px;margin:0 0 14px"><div class="quran" style="font-size:21px;line-height:1.9;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${ayText(S.gi)}</div></div>
@@ -375,7 +440,10 @@ R.jawapan=()=>{
   const pos=`${z.side==='R'?t('right'):t('left')}, ${z.half==='T'?t('topL'):z.half==='B'?t('bottomL'):t('mid')}`;
   // Animasi hanya kali pertama keputusan keluar, bukan bila tukar muka surat atau tema.
   const fx=!S.jfx;S.jfx=true;
-  V.innerHTML=`<div class="verdict sv ${ok?'ok':'no'}${fx?' fx':''}">${star(ok?IC.ok:IC.no)}<div>${vtx(ok?t('posOk'):t('posNo'))}<p>${esc(ref(S.gi))} · ${t('pg',z.p)} · ${pos}</p></div></div>
+  // Kira markah sekali sahaja untuk setiap soalan.
+  if(!S.got){const c=S.sc,sOk=!!(S.sur&&S.sur.pick===surOf(S.gi)),g=(sOk?1:0)+(okPos?1:0);S.got={g};
+    c.n++;c.s+=sOk;c.p+=okPos;c.pts+=g;if(g<2)c.wrong.push({gi:S.gi,s:sOk,p:okPos})}
+  V.innerHTML=`<div class="verdict sv ${ok?'ok':'no'}${fx?' fx':''}">${star(ok?IC.ok:IC.no)}<div>${vtx(ok?t('posOk'):t('posNo'))}<p>${esc(ref(S.gi))} · ${t('pg',z.p)} · ${pos}</p></div><span class="pts${okPos?'':' z'}">${t('ptsM',okPos?1:0)}</span></div>
   <div id="pg" data-scroll="1"><div class="pgload">${t('loadingPage',S.view)}</div></div>
   <div class="jnav"><button class="btn ghost pgb" id="pn"${S.view>=604?' disabled':''} aria-label="${t('nextPage')}">‹</button><button class="btn" id="nx">${t('nextQ')}</button><button class="btn ghost pgb" id="pp"${S.view<=1?' disabled':''} aria-label="${t('prevPage')}">›</button></div>
   <div class="jlinks">${S.view!==z.p?`<button class="link" id="back">${t('backTo',z.p)}</button>`:''}<button class="link" id="tamat">${t('endSess')}</button></div>`;
@@ -476,7 +544,7 @@ function go(r){if(location.hash==='#'+r)render();else location.hash=r}
 function render(){if(!Q)return;const r=(location.hash||'#home').slice(1);(R[r]||R.home)();markTab(R[r]?r:'home');window.scrollTo(0,0)}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b){e.preventDefault();go(b.dataset.go)}});
 document.querySelectorAll('[data-tab-go]').forEach(b=>b.onclick=()=>{const t=b.dataset.tabGo;go(t==='uji'?(S?'soalan':'mod'):t)});
-const TABOF={home:'home',mod:'uji',soalan:'uji',surah:'uji',teka:'uji',jawapan:'uji',nota:'library',notad:'library',library:'library'};
+const TABOF={home:'home',ringkasan:'uji',mod:'uji',soalan:'uji',surah:'uji',teka:'uji',jawapan:'uji',nota:'library',notad:'library',library:'library',pencapaian:'pencapaian'};
 function markTab(r){const t=TABOF[r]||'home';document.querySelectorAll('[data-tab-go]').forEach(b=>b.dataset.tabGo===t?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current'))}
 document.getElementById('brand').onclick=()=>go('home');
 addEventListener('hashchange',render);
