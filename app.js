@@ -266,12 +266,11 @@ R.teka=()=>{
 R.jawapan=()=>{
   if(!S||!S.pick)return go(S?'teka':'mod');
   const z=zoneOf(S.gi),okPos=S.pick[0]===z.side&&(z.half==='*'||S.pick[1]===z.half);
-  const okSur=S.sur&&S.sur.done?S.sur.pick===surOf(S.gi):null,ok=okPos&&okSur!==false;
-  const mark=(t,v)=>`<span class="mk ${v?'ok':'no'}">${v?'✓':'✗'} ${t}</span>`;
-  const marks=okSur===null?'':`<div class="mks">${mark('Surah',okSur)}${mark('Kedudukan',okPos)}</div>`;
+  // Keputusan surah sudah ditunjuk di halaman Kenal Pasti Surah; di sini nilai kedudukan sahaja.
+  const ok=okPos;
   if(S.view==null)S.view=z.p;
   const pos=`${z.side==='R'?'kanan':'kiri'}, ${z.half==='T'?'atas':z.half==='B'?'bawah':'tengah'}`;
-  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?'Betul! Masya-Allah.':'Salah, teruskan mengulang.'}</b><p>${esc(ref(S.gi))} · ms ${z.p} · ${pos}</p></div>${marks}</div>
+  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?'Betul! Masya-Allah.':'Salah, teruskan mengulang.'}</b><p>${esc(ref(S.gi))} · ms ${z.p} · ${pos}</p></div></div>
   <div id="pg" data-scroll="1"><div class="pgload">Memuatkan muka surat ${S.view}…</div></div>
   <div class="jnav"><button class="btn ghost pgb" id="pn"${S.view>=604?' disabled':''} aria-label="Muka surat selepas">‹</button><button class="btn" id="nx">Soalan seterusnya</button><button class="btn ghost pgb" id="pp"${S.view<=1?' disabled':''} aria-label="Muka surat sebelum">›</button></div>
   <div class="jlinks">${S.view!==z.p?`<button class="link" id="back">Kembali ke ms ${z.p}</button>`:''}<button class="link" id="tamat">Tamat sesi</button></div>`;
