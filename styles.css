@@ -358,3 +358,52 @@ header{padding-bottom:8px}
 .ndfoot .del{margin:0;padding:8px 0;font-size:14px}
 .datab summary{cursor:pointer;list-style:none}.datab summary::-webkit-details-marker{display:none}
 .datab summary::after{content:"›";transform:rotate(90deg);transition:transform .2s;color:var(--muted)}.datab[open] summary::after{transform:rotate(-90deg)}
+/* Semakan suara (Suara AI) */
+.seg.seg2{grid-template-columns:1fr 1fr;margin:4px 0 10px}
+.seg2 button{display:flex;align-items:center;justify-content:center;gap:7px}
+.seg2 svg{width:17px;height:17px;flex:none}
+.seg2 button[aria-pressed=true]{color:var(--pri)}
+.vpanel{position:relative;background:color-mix(in srgb,var(--surf) 70%,transparent);border:1px solid color-mix(in srgb,var(--gold) 40%,transparent);border-radius:24px;padding:14px 16px 12px;margin:0 0 8px}
+.vload,.vmsg{text-align:center;color:var(--muted);font-size:14px;padding:18px 6px}
+.vintro{display:grid;gap:10px;justify-items:center;text-align:center;padding:6px 2px}
+.vintro b{font-size:17px;font-weight:650;letter-spacing:-.01em}
+.vintro p{margin:0;color:var(--muted);font-size:14px;line-height:1.45}
+.vintro small{color:var(--muted);font-size:12.5px;line-height:1.45}
+.vintro .btn{min-height:50px;font-size:15.5px}
+.vic{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--gold)}
+.vic svg{width:26px;height:26px}
+.vbar{width:100%;height:8px;border-radius:4px;background:var(--soft);overflow:hidden}
+.vbar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold),var(--btn2));transition:width .3s}
+.vread{min-height:104px;max-height:46vh;overflow-y:auto;font-size:25px;line-height:2.05;padding:4px 2px;display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:0 .32em}
+.vread.empty{color:var(--muted)}
+.vph{font:500 14px var(--sans);letter-spacing:.12em;text-transform:uppercase;opacity:.55;direction:ltr}
+.vw{display:inline-block;animation:vw-in .45s ease-out both}
+.vw.am{color:var(--gold)}
+.vw.bad{color:var(--bad);text-decoration:line-through;text-decoration-thickness:1.5px;animation:vw-shake .5s cubic-bezier(.36,.07,.19,.97) both,vw-flash 1.2s ease-out both;border-radius:10px;padding:0 .18em}
+.vw.hint{color:var(--gold);opacity:.75;border-bottom:1.5px dashed color-mix(in srgb,var(--gold) 70%,transparent)}
+.vdots{display:inline-flex;gap:5px;align-items:center;padding:0 .3em;direction:ltr}
+.vdots i{width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:.35;animation:vw-dot 1.2s infinite}
+.vdots i:nth-child(2){animation-delay:.2s}.vdots i:nth-child(3){animation-delay:.4s}
+.vrow{display:flex;align-items:center;justify-content:center;gap:10px;min-height:22px;margin-top:4px;flex-wrap:wrap}
+.vst{font-size:13.5px;color:var(--muted);text-align:center}
+.vst.bad{color:var(--bad);font-weight:600}
+.vok{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:var(--good);background:color-mix(in srgb,var(--good) 13%,transparent);padding:2px 9px 2px 6px;border-radius:12px}
+.vok svg{width:14px;height:14px}
+.vctl{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-top:8px}
+.vctl .link{font-size:14px;padding:8px 0}
+.vctl>:first-child{justify-self:start}.vctl>:last-child{justify-self:end}
+.vctl .link:disabled{opacity:.4}
+.vcount{font-size:13px;font-weight:600;color:var(--bad)}
+.mic{position:relative;width:68px;height:68px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:var(--onbtn);background:linear-gradient(180deg,var(--btn2),var(--btn));box-shadow:0 10px 24px -10px color-mix(in srgb,var(--btn) 80%,transparent),inset 0 1px 0 rgba(255,255,255,.2);transition:transform .12s}
+.mic svg{width:28px;height:28px}
+.mic:active{transform:scale(.95)}
+.mic[aria-pressed=true]{background:linear-gradient(180deg,color-mix(in srgb,var(--bad) 85%,#fff),var(--bad));color:#fff}
+.mic[aria-pressed=true]::before,.mic[aria-pressed=true]::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid color-mix(in srgb,var(--bad) 55%,transparent);animation:vw-ring 1.6s ease-out infinite}
+.mic[aria-pressed=true]::after{animation-delay:.8s}
+@keyframes vw-in{from{opacity:0;transform:translateY(6px) scale(.96);filter:blur(2px)}to{opacity:1;transform:none;filter:none}}
+@keyframes vw-shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}}
+@keyframes vw-flash{0%{background:color-mix(in srgb,var(--bad) 30%,transparent)}100%{background:transparent}}
+@keyframes vw-dot{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+@keyframes vw-ring{from{transform:scale(1);opacity:.9}to{transform:scale(1.45);opacity:0}}
+@media(prefers-reduced-motion:reduce){.vw,.vw.bad,.vdots i,.mic::before,.mic::after{animation:none!important}}
+.vw.o,.vw.bad.o{animation:none}

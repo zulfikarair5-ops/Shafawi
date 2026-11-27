@@ -4,7 +4,7 @@
   const M = self.ShafawiMatch;
   const MODEL = 'nael239/tasme3-whisper-base-ar-quran-web';
   const REV = 'de82316c38fe2a9f03217aad7eb5865877cc0899';
-  const CHECK = `https://huggingface.co/${MODEL}/resolve/${REV}/onnx/decoder_model_merged_quantized.onnx`;
+  const CHECK = 'https://huggingface.co/' + MODEL + '/resolve/' + REV + '/onnx/decoder_model_merged_quantized.onnx';
   const SR = 16000;
 
   /* ---------- model (Web Worker) ---------- */
@@ -67,9 +67,13 @@
     }
 
     async function start() {
-      stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+      // Mula (atau sambung) rakaman. AudioContext dicipta segera dalam ketikan supaya iOS benarkan audio.
       ctx = new (window.AudioContext || window.webkitAudioContext)();
-      await ctx.resume();
+      const resumed = ctx.resume();
+      len = 0; segStart = 0; lastPass = 0; speechAt = -1; pendKey = ''; frAcc = 0; frN = 0;
+      s.base = s.err ? s.err.pos : s.conf;
+      stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+      await resumed;
       ratio = ctx.sampleRate / SR;
       src = ctx.createMediaStreamSource(stream);
       proc = ctx.createScriptProcessor(4096, 1, 1);
@@ -79,10 +83,20 @@
       timer = setInterval(tick, 200);
     }
     function stop() {
+      const wasOn = s.running;
       s.running = false; clearInterval(timer);
       try { proc && proc.disconnect(); src && src.disconnect(); } catch (e) {}
       try { stream && stream.getTracks().forEach(t => t.stop()); } catch (e) {}
-      try { ctx && ctx.close(); } catch (e) {}
+      try { ctx && ctx.state !== 'closed' && ctx.close(); } catch (e) {}
+      proc = src = stream = ctx = null;
+      // Semak baki bacaan yang belum disahkan.
+      if (wasOn && !s.busy && speechAt >= segStart && lastPass <= speechAt && eng.state === 'ready') pass(len, true);
+      update();
+    }
+    // Pengguna tekan "AI salah dengar": terima perkataan yang ditanda sebagai betul.
+    function accept() {
+      if (!s.err) return;
+      s.conf = s.base = s.err.pos + 1; s.err = null; s.mistakes = Math.max(0, s.mistakes - 1); pendKey = ''; segStart = len;
       update();
     }
 
@@ -102,7 +116,7 @@
       const audio = buf.slice(segStart, end);
       const m = await transcribe(audio);
       s.busy = false;
-      if (!s.running && !opts.finalOnStop) return;
+      
       if (m.type === 'error') { opts.onError && opts.onError(m.msg); return; }
       s.lastMs = m.ms;
       let hyp = M.words(m.text);
@@ -143,7 +157,10 @@
       return h.slice(k);
     }
 
-    s.start = start; s.stop = stop;
+    // Untuk ujian: suap audio 16 kHz terus tanpa mikrofon.
+    s.startFeed = () => { len = 0; segStart = 0; lastPass = 0; speechAt = -1; pendKey = ''; s.base = s.err ? s.err.pos : s.conf; s.running = true; update(); timer = setInterval(tick, 200); };
+    s.feed = x => { if (s.running) push(x); };
+    s.start = start; s.stop = stop; s.accept = accept;
     return s;
   }
 

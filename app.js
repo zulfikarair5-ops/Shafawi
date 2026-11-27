@@ -23,6 +23,9 @@ const IC={
  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7c-2-1.6-5-2-8-1.5v12c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-12c-3-.5-6-.1-8 1.5zM12 7v12"/></svg>',
  pen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/></svg>',
  ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+ mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg>',
+ stop:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="7" width="10" height="10" rx="2.5"/></svg>',
+ hand:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 013 0V11m0-1.5v-5a1.5 1.5 0 013 0V11m0-3a1.5 1.5 0 013 0v6a7 7 0 01-7 7h-.5a6 6 0 01-5-2.7L4.6 15a1.6 1.6 0 012.6-1.9L9 15V8.5a1.5 1.5 0 013 0"/></svg>',
  no:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg>'};
 
 /* ---------- theme ---------- */
@@ -210,22 +213,91 @@ function pool(){
 function label(){return {rawak:'30 juzuk',juz:'Juzuk '+sel.juz,surah:'Surah '+sName(sel.surah),julat:`Muka surat ${sel.from}–${sel.to}`,maqra:"Awal maqra'"+(sel.skop?' · Juzuk '+sel.skop:''),awalsurah:'Awal surah'+(sel.skop?' · Juzuk '+sel.skop:''),nota:'Dari nota'}[sel.mode]}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function start(){const p=pool();if(!p.length){toast('Tiada ayat dalam pilihan ini');return}S={pool:p,bag:shuffle(p.slice()),n:0,label:label()};next()}
-function next(){if(!S.bag.length)S.bag=shuffle(S.pool.slice());S.gi=S.bag.pop();S.n++;S.after=0;S.before=false;S.pick=null;S.view=null;S.sur=null;go('soalan')}
+function next(){stopVoice();S.vs=null;S.vx=null;if(!S.bag.length)S.bag=shuffle(S.pool.slice());S.gi=S.bag.pop();S.n++;S.after=0;S.before=false;S.pick=null;S.view=null;S.sur=null;go('soalan')}
 const corners='<i class="corner" style="top:-7px;left:50%;margin-left:-7px"></i><i class="corner" style="bottom:-7px;left:50%;margin-left:-7px"></i>';
 
 R.soalan=()=>{
   if(!S)return go('mod');
-  const gi=S.gi,A=Q.as.length;
-  let after='';for(let k=1;k<=S.after&&gi+k<A;k++)after+=`<div class="extra"><small>Ayat seterusnya${S.after>1?' '+k:''}</small><div class="quran">${ayText(gi+k)}</div></div>`;
+  const gi=S.gi,A=Q.as.length,voice=semak==='suara';
+  let after='';if(!voice)for(let k=1;k<=S.after&&gi+k<A;k++)after+=`<div class="extra"><small>Ayat seterusnya${S.after>1?' '+k:''}</small><div class="quran">${ayText(gi+k)}</div></div>`;
   const before=S.before&&gi>0?`<div class="extra"><small>Ayat sebelumnya</small><div class="quran">${ayText(gi-1)}</div></div>`:'';
+  const seg=`<div class="seg seg2" role="group" aria-label="Cara semak ayat seterusnya"><button data-semak="manual" aria-pressed="${!voice}">${IC.hand}Manual</button><button data-semak="suara" aria-pressed="${voice}">${IC.mic}Suara AI</button></div>`;
+  const tools=voice
+    ?`<div class="vpanel" id="vp" aria-live="polite"></div><div class="qtools"><button class="btn ghost small" id="bf"${S.before||gi===0?' disabled':''}>Ayat sebelumnya</button></div>`
+    :`<div class="qtools"><button class="btn ghost small" id="bf"${S.before||gi===0?' disabled':''}>Ayat sebelumnya</button><button class="btn ghost small" id="af"${gi+S.after+1>=A?' disabled':''}>Ayat seterusnya</button></div>`;
   V.innerHTML=`<div class="qhead"><div><span class="eyebrow">${esc(S.label)}</span><h1>Soalan ${S.n}</h1></div></div>
   ${before}<div class="qcard big">${corners}<span class="lbl">Sambung ayat ini</span><div class="quran">${ayText(gi)}</div></div>${after}
-  <div class="qtools"><button class="btn ghost small" id="bf"${S.before||gi===0?' disabled':''}>Ayat sebelumnya</button><button class="btn ghost small" id="af"${gi+S.after+1>=A?' disabled':''}>Ayat seterusnya</button></div>
+  ${gi+1<A?seg:''}${tools}
   <div style="display:grid;gap:4px"><button class="btn" data-go="surah">Kenal Pasti Surah &amp; Kedudukan Ayat</button><button class="link" id="tamat" style="justify-self:center">Tamat sesi</button></div>`;
-  document.getElementById('af').onclick=()=>{S.after++;R.soalan();[...V.querySelectorAll('.extra')].pop()?.scrollIntoView({block:'nearest',behavior:'smooth'})};
+  const af=document.getElementById('af');
+  af&&(af.onclick=()=>{S.after++;R.soalan();[...V.querySelectorAll('.extra')].pop()?.scrollIntoView({block:'nearest',behavior:'smooth'})});
   document.getElementById('bf').onclick=()=>{S.before=true;R.soalan()};
-  document.getElementById('tamat').onclick=tamat};
-function tamat(){S=null;go('mod')}
+  V.querySelectorAll('[data-semak]').forEach(b=>b.onclick=()=>{if(semak===b.dataset.semak)return;semak=b.dataset.semak;store.set('semak',semak);if(semak==='manual')stopVoice();R.soalan()});
+  document.getElementById('tamat').onclick=tamat;
+  if(voice&&gi+1<A)vpanel()};
+function tamat(){stopVoice();S=null;go('mod')}
+
+/* ---------- semakan suara (Suara AI) ---------- */
+// Fail AI hanya dimuatkan bila mod suara dipilih, supaya app kekal ringan.
+let semak=store.get('semak','manual'),voiceLib=null;
+function loadVoice(){
+  if(!voiceLib)voiceLib=['voice-match.js','voice.js'].reduce((p,src)=>p.then(()=>new Promise((ok,no)=>{const sc=document.createElement('script');sc.src=src;sc.onload=ok;sc.onerror=()=>{voiceLib=null;no(new Error(src))};document.head.appendChild(sc)})),Promise.resolve());
+  return voiceLib}
+function stopVoice(){if(S&&S.vs){S.vs.stop();}}
+// Perkataan dijangka: ayat seterusnya hingga 10 ayat selepasnya (bacaan boleh diteruskan).
+function voiceExp(gi){const A=Q.as.length,exp=[],ends=[];for(let k=gi+1;k<Math.min(A,gi+11);k++){const [a,b]=rng(k);for(let w=a;w<=b;w++)exp.push(Q.w[w]);ends.push(exp.length)}return {exp,ends}}
+async function vpanel(){
+  const vp=document.getElementById('vp');if(!vp)return;
+  vp.innerHTML='<div class="vload">Menyediakan semakan suara…</div>';
+  try{await loadVoice()}catch(e){vp.innerHTML='<div class="vmsg">Fail semakan suara gagal dimuatkan. Semak sambungan internet dan cuba lagi.</div>';return}
+  const SV=window.ShafawiVoice;
+  if(!S.vx){const x=voiceExp(S.gi);S.vx={...x,hint:-1,helps:0}}
+  const draw=()=>{if(document.getElementById('vp'))vdraw(SV)};
+  SV.eng.subs.clear();SV.eng.subs.add(draw);
+  if(SV.eng.state==='idle'&&(store.get('asr',0)||await SV.cached()))SV.load();
+  draw()}
+const MB=n=>Math.round(n/1e6);
+function vdraw(SV){
+  const vp=document.getElementById('vp');if(!vp||!S)return;const e=SV.eng,x=S.vx,vs=S.vs;
+  if(e.state==='idle'){
+    vp.innerHTML=`<div class="vintro"><i class="vic">${IC.mic}</i><b>Semak bacaan dengan suara</b><p>Baca ayat seterusnya. Perkataan yang betul akan muncul satu demi satu, dan perkataan yang salah akan ditanda.</p>
+    <button class="btn" id="vdl">Muat turun model AI (${SV.sizeMB} MB)</button><small>Sekali sahaja. Guna Wi-Fi. Selepas itu berfungsi tanpa internet. Suara anda diproses dalam telefon ini sahaja dan tidak dihantar ke mana-mana.</small></div>`;
+    document.getElementById('vdl').onclick=()=>SV.load();return}
+  if(e.state==='loading'){
+    const pc=e.total?Math.min(100,Math.round(e.loaded/e.total*100)):0;
+    vp.innerHTML=`<div class="vintro"><b>${e.total&&pc<100?'Memuat turun model AI…':'Menyediakan model AI…'}</b>
+    <div class="vbar"><i style="width:${e.total?pc:8}%"></i></div><small>${e.total&&pc<100?`${MB(e.loaded)} / ${MB(e.total)} MB · ${pc}%`:'Sekejap sahaja'}</small></div>`;return}
+  if(e.state==='error'){
+    vp.innerHTML=`<div class="vintro"><b>Model AI tidak dapat dimuatkan</b><p>${esc(e.err||'')}</p><button class="btn" id="vdl">Cuba lagi</button></div>`;
+    document.getElementById('vdl').onclick=()=>SV.load();return}
+  // Sedia: papar bacaan
+  const conf=vs?vs.conf:0,err=vs&&vs.err,run=!!(vs&&vs.running);
+  let html='',ay=0;
+  const sh=x.shown||0;
+  for(let w=0;w<conf;w++){const o=w<sh?' o':'';html+=`<span class="vw${o}">${esc(x.exp[w])}</span> `;if(x.ends.includes(w+1)){ay++;html+=`<span class="am vw${o}">۝${AD(ayNo(S.gi+ay))}</span> `}}
+  if(err)html+=`<span class="vw bad${x.badAt===err.at?' o':''}" title="Salah">${esc(err.heard)}</span> `;
+  const hp=err?err.pos:conf;
+  if(x.hint===hp&&hp<x.exp.length)html+=`<span class="vw hint">${esc(x.exp[hp])}</span> `;
+  if(run)html+='<span class="vdots" aria-hidden="true"><i></i><i></i><i></i></span>';
+  const done=x.ends.filter(n=>n<=conf).length;
+  const st=err?'Salah sambung. Baca semula dari perkataan yang ditanda.'
+    :run?(vs.busy||conf?'Mendengar…':'Mendengar… mula baca ayat seterusnya')
+    :conf?'Dijeda. Tekan mikrofon untuk sambung.':'Tekan mikrofon, kemudian baca ayat seterusnya.';
+  vp.innerHTML=`<div class="vread quran${conf||err||run?'':' empty'}">${html||'<span class="vph">ayat seterusnya</span>'}</div>
+  <div class="vrow"><span class="vst${err?' bad':''}">${st}</span>${done?`<span class="vok">${IC.ok}${done} ayat</span>`:''}</div>
+  <div class="vctl"><button class="link small" id="vhelp"${hp>=x.exp.length?' disabled':''}>Bantu</button>
+  <button class="mic" id="vmic" aria-pressed="${run}" aria-label="${run?'Berhenti':'Mula baca'}">${run?IC.stop:IC.mic}</button>
+  ${err?'<button class="link small" id="vacc">AI salah dengar</button>':`<span class="vcount">${vs&&vs.mistakes?`Salah ${vs.mistakes}`:''}</span>`}</div>`;
+  document.getElementById('vmic').onclick=()=>vmic(SV);
+  document.getElementById('vhelp').onclick=()=>{x.hint=hp;x.helps++;vdraw(SV)};
+  const acc=document.getElementById('vacc');acc&&(acc.onclick=()=>{vs.accept();vdraw(SV)});
+  if(done>S.after)S.after=done;
+  x.shown=conf;x.badAt=err?err.at:0;
+  const rd=vp.querySelector('.vread');rd.scrollTop=rd.scrollHeight}
+async function vmic(SV){
+  if(S.vs&&S.vs.running){S.vs.stop();return}
+  if(!S.vs){S.vs=SV.Session(S.vx.exp,{onUpdate:()=>vdraw(SV),onError:m=>toast('Ralat AI: '+m)})}
+  try{await S.vs.start()}catch(e){S.vs.stop();toast(e&&e.name==='NotAllowedError'?'Benarkan akses mikrofon dalam Tetapan Safari':'Mikrofon tidak dapat dibuka')}}
 
 // Kenal pasti surah: 4 pilihan, 3 daripadanya surah berdekatan supaya mengelirukan.
 function surOpts(s){
@@ -367,7 +439,7 @@ function toast(m){let t=document.querySelector('.toast');if(!t){t=document.creat
 
 /* ---------- routing ---------- */
 function go(r){if(location.hash==='#'+r)render();else location.hash=r}
-function render(){if(!Q)return;const r=(location.hash||'#home').slice(1);(R[r]||R.home)();markTab(R[r]?r:'home');window.scrollTo(0,0)}
+function render(){if(!Q)return;const r=(location.hash||'#home').slice(1);if(r!=='soalan')stopVoice();(R[r]||R.home)();markTab(R[r]?r:'home');window.scrollTo(0,0)}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b){e.preventDefault();go(b.dataset.go)}});
 document.querySelectorAll('[data-tab-go]').forEach(b=>b.onclick=()=>{const t=b.dataset.tabGo;go(t==='uji'?(S?'soalan':'mod'):t)});
 const TABOF={home:'home',mod:'uji',soalan:'uji',surah:'uji',teka:'uji',jawapan:'uji',nota:'library',notad:'library',library:'library'};
