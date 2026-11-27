@@ -3,6 +3,77 @@ const V=document.getElementById('view');
 const AD=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const store={get(k,d){try{const v=localStorage.getItem('thebook.'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('thebook.'+k,JSON.stringify(v))}catch(e){}}};
+/* ---------- bahasa (i18n) ---------- */
+// Semua teks UI di sini. Tambah kunci baharu dalam KEDUA-DUA ms dan en.
+// Nilai boleh teks biasa atau fungsi (untuk teks yang ada nombor/nama).
+const TX={
+ ms:{
+  langAria:'Bahasa',brandAria:'Shafawi, ke Home',themeDark:'Tukar ke mod gelap',themeLight:'Tukar ke mod cerah',
+  navAria:'Navigasi utama',tabHome:'Utama',tabUji:'Uji',tabLib:'Library',
+  loading:'Memuatkan mushaf…',loadFail:'Data mushaf gagal dimuatkan. Cuba muat semula.',
+  juz:'Juzuk',juzN:n=>'Juzuk '+n,pageRight:'Muka kanan',pageLeft:'Muka kiri',rehalAria:'Mushaf terbuka di atas rehal kayu',
+  hTebuk:'Tebuk Ayat',hTebukSub:'Sambung ayat dan kenal pasti kedudukannya',hNota:"Catatan Muraja'ah",hNotaSub:'Rekod ayat yang selalu tersangkut',
+  ringAria:(r,t)=>`${r} daripada ${t} ulangan`,activeNotes:'nota aktif',done:'selesai',
+  credit:'Teks dan susun atur Mushaf Madinah: KFGQPC, melalui dataset quran-text (CC BY 4.0).',
+  modes:{rawak:['30 juzuk','Mana-mana ayat dalam Quran'],juz:['Juzuk','Pilih satu juzuk'],surah:['Surah','Pilih satu surah'],julat:['Julat muka surat','Dari muka surat X hingga Y'],maqra:["Awal maqra'","Ayat pertama setiap maqra' (rubu' hizb)"],awalsurah:['Awal surah','Ayat pertama setiap surah'],nota:['Dari nota','Ayat sebelum setiap ayat lemah']},
+  surah:'Surah',fromPage:'Dari muka surat',to:'Hingga',scope:'Skop',all30:'Semua 30 juzuk',inSel:n=>`${n} ayat dalam pilihan ini`,
+  notaMode:n=>`${n} nota aktif. App akan tanya ayat sebelum setiap ayat lemah.`,noActive:'Tiada nota aktif lagi. Catat ayat lemah dahulu.',
+  modTitle:'Tebuk Hafazan',back:'‹ Kembali',pickMode:'Pilih mod hafazan',start:'Mula',
+  lblSurah:n=>'Surah '+n,lblPages:(a,b)=>`Muka surat ${a}–${b}`,noAyat:'Tiada ayat dalam pilihan ini',
+  nextAyah:'Ayat seterusnya',prevAyah:'Ayat sebelumnya',qN:n=>'Soalan '+n,contAyah:'Sambung ayat ini',idBoth:'Kenal Pasti Surah &amp; Kedudukan Ayat',endSess:'Tamat sesi',
+  surOk:n=>`Betul! Surah ${n}.`,surNo:n=>`Salah. Jawapannya Surah ${n}.`,idSurah:'Kenal Pasti Surah',whichSurah:'Ayat ini daripada surah apa?',idPos:'Kenal Pasti Kedudukan Ayat',checkSurah:'Semak surah',
+  tapZone:'Tekan bahagian muka surat tempat ayat itu bermula.',top:'Atas',bottom:'Bawah',checkPos:'Semak kedudukan',
+  posOk:'Betul! Masya-Allah.',posNo:'Salah, teruskan mengulang.',pg:n=>'ms '+n,right:'kanan',left:'kiri',topL:'atas',bottomL:'bawah',mid:'tengah',
+  loadingPage:n=>`Memuatkan muka surat ${n}…`,nextPage:'Muka surat selepas',prevPage:'Muka surat sebelum',nextQ:'Soalan seterusnya',backTo:n=>`Kembali ke ms ${n}`,
+  noteHint:'Catat ayat yang perlu diulang.',ayah:'Ayat',katLbl:'Kategori catatan',catatan:'Catatan',writeNote:'Tulis catatan',saveNote:'Simpan nota',saved:r=>`Nota ${r} disimpan`,
+  kat:{'Ayat Mutasyabihat':'Ayat Mutasyabihat','Perkataan':'Perkataan','Kepala ayat':'Kepala ayat','Kepala muka surat':'Kepala muka surat'},
+  pageN:n=>'Muka surat '+n,revN:n=>'Ulangan '+n,doneT:'Selesai',tapDel:'Tekan lagi untuk padam',delNote:'Padam nota',
+  fiveDone:'5 ulangan lengkap. Nota ditanda selesai.',markedDone:'Ditanda selesai',backActive:'Dikembalikan ke aktif',deleted:'Nota dipadam',
+  libSub:'Ayat lemah, ikut turutan mushaf',addNoteAria:'Tambah nota',addNote:'＋ Nota',filterAria:'Tapis nota',fAktif:'Aktif',fSelesai:'Selesai',fSemua:'Semua',
+  emptyList:'Tiada nota dalam senarai ini.',noNotes:'Belum ada nota',noNotesSub:'Catat ayat yang selalu tersangkut, kemudian tanda setiap kali anda ulang.',firstNote:'Catat nota pertama',demo:'Isi 3 nota contoh untuk cuba',
+  markDone:'Tanda selesai',revOf5:n=>`${n} daripada 5 ulangan`,dataBackup:'Data &amp; sandaran',exp:'Eksport nota',expSub:'Simpan sandaran ke fail',imp:'Import nota',impSub:'Pulihkan daripada fail sandaran',
+  off:'Mushaf luar talian',offSub:'Simpan semua muka surat (kira-kira 36 MB)',fine:'Nota disimpan dalam pelayar ini sahaja. Eksport selepas menambah nota supaya tidak hilang bila tukar telefon.',
+  savingN:(n,t)=>`Menyimpan… ${n}/${t}`,failN:n=>`${n} fail gagal. Tekan untuk cuba lagi`,allSaved:'Semua muka surat disimpan ✓',
+  shareTitle:'Sandaran nota Shafawi',imported:n=>`${n} nota diimport`,badFile:'Fail ini bukan sandaran Shafawi',hijriLoc:'ms-MY'},
+ en:{
+  langAria:'Language',brandAria:'Shafawi, go to Home',themeDark:'Switch to dark mode',themeLight:'Switch to light mode',
+  navAria:'Main navigation',tabHome:'Home',tabUji:'Test',tabLib:'Library',
+  loading:'Loading mushaf…',loadFail:'Could not load the mushaf data. Please reload.',
+  juz:'Juz',juzN:n=>'Juz '+n,pageRight:'Right page',pageLeft:'Left page',rehalAria:'Open mushaf on a wooden rehal',
+  hTebuk:'Ayah Test',hTebukSub:'Continue the ayah and identify its position',hNota:"Muraja'ah Notes",hNotaSub:'Keep track of ayahs you often get stuck on',
+  ringAria:(r,t)=>`${r} of ${t} revisions`,activeNotes:'active notes',done:'done',
+  credit:'Mushaf Madinah text and layout: KFGQPC, via the quran-text dataset (CC BY 4.0).',
+  modes:{rawak:['All 30 juz','Any ayah in the Quran'],juz:['Juz','Pick one juz'],surah:['Surah','Pick one surah'],julat:['Page range','From page X to Y'],maqra:["Start of maqra'","First ayah of each maqra' (rub' al-hizb)"],awalsurah:['Start of surah','First ayah of each surah'],nota:['From notes','The ayah before each weak ayah']},
+  surah:'Surah',fromPage:'From page',to:'To',scope:'Scope',all30:'All 30 juz',inSel:n=>`${n} ayahs in this selection`,
+  notaMode:n=>`${n} active notes. The app will ask the ayah before each weak ayah.`,noActive:'No active notes yet. Note down your weak ayahs first.',
+  modTitle:'Memorization Test',back:'‹ Back',pickMode:'Choose a test mode',start:'Start',
+  lblSurah:n=>'Surah '+n,lblPages:(a,b)=>`Pages ${a}–${b}`,noAyat:'No ayahs in this selection',
+  nextAyah:'Next ayah',prevAyah:'Previous ayah',qN:n=>'Question '+n,contAyah:'Continue this ayah',idBoth:'Identify Surah &amp; Ayah Position',endSess:'End session',
+  surOk:n=>`Correct! Surah ${n}.`,surNo:n=>`Wrong. The answer is Surah ${n}.`,idSurah:'Identify the Surah',whichSurah:'Which surah is this ayah from?',idPos:'Identify Ayah Position',checkSurah:'Check surah',
+  tapZone:'Tap the part of the page where the ayah begins.',top:'Top',bottom:'Bottom',checkPos:'Check position',
+  posOk:'Correct! Masha-Allah.',posNo:'Wrong, keep revising.',pg:n=>'p. '+n,right:'right',left:'left',topL:'top',bottomL:'bottom',mid:'middle',
+  loadingPage:n=>`Loading page ${n}…`,nextPage:'Next page',prevPage:'Previous page',nextQ:'Next question',backTo:n=>`Back to p. ${n}`,
+  noteHint:'Note down ayahs that need revising.',ayah:'Ayah',katLbl:'Note category',catatan:'Note',writeNote:'Write a note',saveNote:'Save note',saved:r=>`Note ${r} saved`,
+  kat:{'Ayat Mutasyabihat':'Mutashabihat ayah','Perkataan':'Word','Kepala ayat':'Start of ayah','Kepala muka surat':'Start of page'},
+  pageN:n=>'Page '+n,revN:n=>'Revision '+n,doneT:'Done',tapDel:'Tap again to delete',delNote:'Delete note',
+  fiveDone:'5 revisions complete. Note marked done.',markedDone:'Marked done',backActive:'Moved back to active',deleted:'Note deleted',
+  libSub:'Weak ayahs, in mushaf order',addNoteAria:'Add note',addNote:'＋ Note',filterAria:'Filter notes',fAktif:'Active',fSelesai:'Done',fSemua:'All',
+  emptyList:'No notes in this list.',noNotes:'No notes yet',noNotesSub:'Note down ayahs you often get stuck on, then tick them each time you revise.',firstNote:'Write your first note',demo:'Add 3 sample notes to try',
+  markDone:'Mark done',revOf5:n=>`${n} of 5 revisions`,dataBackup:'Data &amp; backup',exp:'Export notes',expSub:'Save a backup to a file',imp:'Import notes',impSub:'Restore from a backup file',
+  off:'Offline mushaf',offSub:'Save all pages (about 36 MB)',fine:'Notes are stored in this browser only. Export after adding notes so they are not lost when you change phones.',
+  savingN:(n,t)=>`Saving… ${n}/${t}`,failN:n=>`${n} files failed. Tap to try again`,allSaved:'All pages saved ✓',
+  shareTitle:'Shafawi notes backup',imported:n=>`${n} notes imported`,badFile:'This file is not a Shafawi backup',hijriLoc:'en-GB'}};
+let LANG=store.get('lang','ms');if(!TX[LANG])LANG='ms';
+const t=(k,...a)=>{const v=TX[LANG][k]??TX.ms[k];return typeof v==='function'?v(...a):v};
+const katName=k=>TX[LANG].kat[k]||k;
+// Teks statik dalam index.html (data-t = kunci, data-ta = kunci untuk aria-label).
+function applyLang(){
+  document.documentElement.lang=LANG;
+  document.querySelectorAll('[data-t]').forEach(el=>el.textContent=t(el.dataset.t));
+  document.querySelectorAll('[data-ta]').forEach(el=>el.setAttribute('aria-label',t(el.dataset.ta)));
+  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG));
+  document.getElementById('theme')&&applyTheme()}
+document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{if(LANG===b.dataset.lang)return;LANG=b.dataset.lang;store.set('lang',LANG);applyLang();render()});
 const ub=(a,x)=>{let lo=0,hi=a.length;while(lo<hi){const m=(lo+hi)>>1;if(a[m]<=x)lo=m+1;else hi=m}return lo};
 const KAT=['Ayat Mutasyabihat','Perkataan','Kepala ayat','Kepala muka surat'];
 // Kategori lama (sebelum 26 Nov 2026) dipetakan ke kategori baru.
@@ -29,10 +100,10 @@ const IC={
 const MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg>';
 const SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
 function isDark(){const m=store.get('theme',null);if(m)return m==='dark';const t=document.documentElement.dataset.theme;if(t)return t==='dark';return matchMedia('(prefers-color-scheme: dark)').matches}
-function applyTheme(){const d=isDark();document.documentElement.style.colorScheme=d?'dark':'light';document.documentElement.dataset.mode=d?'dark':'light';const b=document.getElementById('theme');b.innerHTML=d?SUN:MOON;b.setAttribute('aria-label',d?'Tukar ke mod cerah':'Tukar ke mod gelap')}
+function applyTheme(){const d=isDark();document.documentElement.style.colorScheme=d?'dark':'light';document.documentElement.dataset.mode=d?'dark':'light';const b=document.getElementById('theme');b.innerHTML=d?SUN:MOON;b.setAttribute('aria-label',d?t('themeLight'):t('themeDark'))}
 document.getElementById('theme').onclick=()=>{store.set('theme',isDark()?'light':'dark');applyTheme();if(location.hash==='#jawapan')render()};
 matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',applyTheme);
-applyTheme();
+applyTheme();applyLang();
 
 /* ---------- data helpers ---------- */
 const nWords=()=>Q.w.length;
@@ -55,7 +126,7 @@ function slots(p){
 function zoneOf(gi){const p=pageOf(Q.as[gi]),sl=slots(p),st=Q.as[gi];
   const idx=sl.findIndex(x=>x.t==='l'&&st>=x.a&&st<=x.b),mid=(sl.length-1)/2;
   return {p,side:p%2?'R':'L',half:idx<mid?'T':idx>mid?'B':'*'}}
-function hijri(){try{return new Intl.DateTimeFormat('ms-MY-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(new Date())}catch(e){return ''}}
+function hijri(){try{return new Intl.DateTimeFormat(t('hijriLoc')+'-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(new Date())}catch(e){return ''}}
 
 /* ---------- mushaf page ---------- */
 // Glyph rendering with the KFGQPC QCF4 (1441H) fonts, loaded from jsDelivr and cached offline by sw.js.
@@ -78,7 +149,7 @@ function glyphHTML(p,gi){
 function frameHTML(p,rows,short){
   const s=surOf(ub(Q.as,Q.ps[p-1])-1);
   const side=p%2?'r':'l';
-  return `<div class="mush-wrap${short?' short':''}"><div class="mushaf ${side}" aria-label="Muka ${side==='r'?'kanan':'kiri'}"><i class="spine"></i><i class="edge"></i><div class="phead"><span>Juzuk ${juzOf(Q.ps[p-1])}</span><span class="ar" lang="ar">${esc(Q.s[s-1][0])}</span></div><div class="lines">${rows}</div><div class="pfoot"><span>${p}</span></div></div></div>`}
+  return `<div class="mush-wrap${short?' short':''}"><div class="mushaf ${side}" aria-label="${side==='r'?t('pageRight'):t('pageLeft')}"><i class="spine"></i><i class="edge"></i><div class="phead"><span>${t('juzN',juzOf(Q.ps[p-1]))}</span><span class="ar" lang="ar">${esc(Q.s[s-1][0])}</span></div><div class="lines">${rows}</div><div class="pfoot"><span>${p}</span></div></div></div>`}
 async function showPage(el,p,gi){
   const tok=el.dataset.tok=String(Math.random());
   let html=null;
@@ -114,7 +185,7 @@ function rehal(){
     lines+=`<path d="M${74+s} ${y-3}Q112 ${y+1} 141 ${y+12}"/><path d="M${226-s} ${y-3}Q188 ${y+1} 159 ${y+12}"/>`}
   // page-edge strata
   let edgeL='',edgeR='';for(let i=1;i<5;i++){edgeL+=`<path d="M${52+i*.3} ${101+i*1.6}Q102 ${97+i*1.6} 150 ${121+i*1.6}"/>`;edgeR+=`<path d="M${248-i*.3} ${101+i*1.6}Q198 ${97+i*1.6} 150 ${121+i*1.6}"/>`}
-  return `<svg class="ill" viewBox="0 0 300 190" role="img" aria-label="Mushaf terbuka di atas rehal kayu">
+  return `<svg class="ill" viewBox="0 0 300 190" role="img" aria-label="${t('rehalAria')}">
   <defs>
    <radialGradient id="rg-glow" cx="50%" cy="42%" r="52%"><stop offset="0" stop-color="#f4d99a" stop-opacity=".38"/><stop offset="1" stop-color="#f4d99a" stop-opacity="0"/></radialGradient>
    <linearGradient id="rg-wf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c98a4e"/><stop offset=".5" stop-color="#9a5f30"/><stop offset="1" stop-color="#6e3f1e"/></linearGradient>
@@ -169,26 +240,26 @@ R.home=()=>{
   <section class="hero"><div class="date"><span>بِسۡمِ ٱللَّهِ</span></div>
   ${rehal()}<div class="quran">${ayText(gi)}</div><div class="cap">Al-Hijr · 15:9</div></section>
   <div class="actions">
-   <button class="tile main" data-go="mod">${star(IC.book)}<div><b>Tebuk Ayat</b><span>Sambung ayat dan kenal pasti kedudukannya</span></div><i class="go">›</i></button>
-   <button class="tile" data-go="nota">${star(IC.pen,'gold')}<div><b>Catatan Muraja'ah</b><span>Rekod ayat yang selalu tersangkut</span></div><i class="go">›</i></button>
+   <button class="tile main" data-go="mod">${star(IC.book)}<div><b>${t('hTebuk')}</b><span>${t('hTebukSub')}</span></div><i class="go">›</i></button>
+   <button class="tile" data-go="nota">${star(IC.pen,'gold')}<div><b>${t('hNota')}</b><span>${t('hNotaSub')}</span></div><i class="go">›</i></button>
   </div>
-  <button class="ring" data-go="library"><svg viewBox="0 0 56 56" role="img" aria-label="${rep} daripada ${tot} ulangan"><circle class="tr" cx="28" cy="28" r="23" fill="none" stroke-width="5"/><circle class="pr" cx="28" cy="28" r="23" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="${f.toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 28 28)"/></svg><div><small>Muraja'ah</small><span><b>${act}</b> nota aktif · <i>${done}</i> selesai</span></div><i class="go" style="margin-left:auto;opacity:.5;font-size:22px">›</i></button>
-  <p class="credit">Teks dan susun atur Mushaf Madinah: KFGQPC, melalui dataset quran-text (CC BY 4.0).</p>`};
+  <button class="ring" data-go="library"><svg viewBox="0 0 56 56" role="img" aria-label="${t('ringAria',rep,tot)}"><circle class="tr" cx="28" cy="28" r="23" fill="none" stroke-width="5"/><circle class="pr" cx="28" cy="28" r="23" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="${f.toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 28 28)"/></svg><div><small>Muraja'ah</small><span><b>${act}</b> ${t('activeNotes')} · <i>${done}</i> ${t('done')}</span></div><i class="go" style="margin-left:auto;opacity:.5;font-size:22px">›</i></button>
+  <p class="credit">${t('credit')}</p>`};
 
-const MODES=[['rawak','30 juzuk','Mana-mana ayat dalam Quran'],['juz','Juzuk','Pilih satu juzuk'],['surah','Surah','Pilih satu surah'],['julat','Julat muka surat','Dari muka surat X hingga Y'],['maqra',"Awal maqra'",'Ayat pertama setiap maqra\' (rubu\' hizb)'],['awalsurah','Awal surah','Ayat pertama setiap surah'],['nota','Dari nota','Ayat sebelum setiap ayat lemah']];
+const MODES=['rawak','juz','surah','julat','maqra','awalsurah','nota'];
 R.mod=()=>{
   const act=notes.filter(n=>!n.selesai).length;
   let o='';
-  if(sel.mode==='juz')o=`<label class="f" for="juz">Juzuk</label><select id="juz">${Array.from({length:30},(_,i)=>`<option value="${i+1}"${sel.juz==i+1?' selected':''}>Juzuk ${i+1}</option>`).join('')}</select>`;
-  if(sel.mode==='surah')o=`<label class="f" for="surah">Surah</label><select id="surah">${Q.s.map((x,i)=>`<option value="${i+1}"${sel.surah==i+1?' selected':''}>${i+1}. ${esc(sName(i+1))}</option>`).join('')}</select>`;
-  if(sel.mode==='julat')o=`<div class="row"><div><label class="f" for="from">Dari muka surat</label><input type="number" id="from" min="1" max="604" inputmode="numeric" value="${sel.from}"></div><div><label class="f" for="to">Hingga</label><input type="number" id="to" min="1" max="604" inputmode="numeric" value="${sel.to}"></div></div>`;
-  if(sel.mode==='maqra'||sel.mode==='awalsurah')o=`<label class="f" for="skop">Skop</label><select id="skop"><option value="0">Semua 30 juzuk</option>${Array.from({length:30},(_,i)=>`<option value="${i+1}"${sel.skop==i+1?' selected':''}>Juzuk ${i+1}</option>`).join('')}</select><p class="sub" style="margin:8px 2px 0;font-size:13px">${pool().length} ayat dalam pilihan ini</p>`;
-  if(sel.mode==='nota')o=`<p class="sub" style="margin:12px 0 0">${act?`${act} nota aktif. App akan tanya ayat sebelum setiap ayat lemah.`:'Tiada nota aktif lagi. Catat ayat lemah dahulu.'}</p>`;
-  V.innerHTML=`<div class="top"><h1>Tebuk Hafazan</h1><button class="link" data-go="home">‹ Kembali</button></div>
-  <p class="sub" style="margin-bottom:6px">Pilih mod hafazan</p>${ORN}
-  <div class="modes">${MODES.map((m,i)=>`<button class="mode" data-mode="${m[0]}" aria-pressed="${sel.mode===m[0]}">${star(i+1)}<div><b>${m[1]}</b><span>${m[2]}</span></div><i class="tick"></i></button>`).join('')}</div>
+  if(sel.mode==='juz')o=`<label class="f" for="juz">${t('juz')}</label><select id="juz">${Array.from({length:30},(_,i)=>`<option value="${i+1}"${sel.juz==i+1?' selected':''}>${t('juzN',i+1)}</option>`).join('')}</select>`;
+  if(sel.mode==='surah')o=`<label class="f" for="surah">${t('surah')}</label><select id="surah">${Q.s.map((x,i)=>`<option value="${i+1}"${sel.surah==i+1?' selected':''}>${i+1}. ${esc(sName(i+1))}</option>`).join('')}</select>`;
+  if(sel.mode==='julat')o=`<div class="row"><div><label class="f" for="from">${t('fromPage')}</label><input type="number" id="from" min="1" max="604" inputmode="numeric" value="${sel.from}"></div><div><label class="f" for="to">${t('to')}</label><input type="number" id="to" min="1" max="604" inputmode="numeric" value="${sel.to}"></div></div>`;
+  if(sel.mode==='maqra'||sel.mode==='awalsurah')o=`<label class="f" for="skop">${t('scope')}</label><select id="skop"><option value="0">${t('all30')}</option>${Array.from({length:30},(_,i)=>`<option value="${i+1}"${sel.skop==i+1?' selected':''}>${t('juzN',i+1)}</option>`).join('')}</select><p class="sub" style="margin:8px 2px 0;font-size:13px">${t('inSel',pool().length)}</p>`;
+  if(sel.mode==='nota')o=`<p class="sub" style="margin:12px 0 0">${act?t('notaMode',act):t('noActive')}</p>`;
+  V.innerHTML=`<div class="top"><h1>${t('modTitle')}</h1><button class="link" data-go="home">${t('back')}</button></div>
+  <p class="sub" style="margin-bottom:6px">${t('pickMode')}</p>${ORN}
+  <div class="modes">${MODES.map((m,i)=>`<button class="mode" data-mode="${m}" aria-pressed="${sel.mode===m}">${star(i+1)}<div><b>${t('modes')[m][0]}</b><span>${t('modes')[m][1]}</span></div><i class="tick"></i></button>`).join('')}</div>
   <div class="opts">${o}</div>
-  <div style="margin-top:20px"><button class="btn" id="mula"${(sel.mode==='nota'&&!act)||((sel.mode==='maqra'||sel.mode==='awalsurah')&&!pool().length)?' disabled':''}>Mula</button></div>`;
+  <div style="margin-top:20px"><button class="btn" id="mula"${(sel.mode==='nota'&&!act)||((sel.mode==='maqra'||sel.mode==='awalsurah')&&!pool().length)?' disabled':''}>${t('start')}</button></div>`;
   V.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{sel.mode=b.dataset.mode;R.mod()});
   const g=id=>document.getElementById(id);
   g('juz')&&(g('juz').onchange=e=>sel.juz=+e.target.value);
@@ -207,21 +278,22 @@ function pool(){
   if(sel.mode==='maqra'||sel.mode==='awalsurah'){const src=sel.mode==='maqra'?MAQRA:FA;src.forEach(gi=>{if(!sel.skop||juzOf(Q.as[gi])===sel.skop)all.push(gi)})}
   if(sel.mode==='nota'){notes.filter(n=>!n.selesai).forEach(n=>{const q=Math.max(0,gIdx(n.surah,n.ayah)-1);if(!all.includes(q))all.push(q)})}
   return all}
-function label(){return {rawak:'30 juzuk',juz:'Juzuk '+sel.juz,surah:'Surah '+sName(sel.surah),julat:`Muka surat ${sel.from}–${sel.to}`,maqra:"Awal maqra'"+(sel.skop?' · Juzuk '+sel.skop:''),awalsurah:'Awal surah'+(sel.skop?' · Juzuk '+sel.skop:''),nota:'Dari nota'}[sel.mode]}
+// Label sesi dikira semasa paparan supaya ikut bahasa semasa.
+function label(c=sel){const M_=t('modes'),sk=c.skop?' · '+t('juzN',c.skop):'';return {rawak:M_.rawak[0],juz:t('juzN',c.juz),surah:t('lblSurah',sName(c.surah)),julat:t('lblPages',c.from,c.to),maqra:M_.maqra[0]+sk,awalsurah:M_.awalsurah[0]+sk,nota:M_.nota[0]}[c.mode]}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function start(){const p=pool();if(!p.length){toast('Tiada ayat dalam pilihan ini');return}S={pool:p,bag:shuffle(p.slice()),n:0,label:label()};next()}
+function start(){const p=pool();if(!p.length){toast(t('noAyat'));return}S={pool:p,bag:shuffle(p.slice()),n:0,cfg:{...sel}};next()}
 function next(){if(!S.bag.length)S.bag=shuffle(S.pool.slice());S.gi=S.bag.pop();S.n++;S.after=0;S.before=false;S.pick=null;S.view=null;S.sur=null;go('soalan')}
 const corners='<i class="corner" style="top:-7px;left:50%;margin-left:-7px"></i><i class="corner" style="bottom:-7px;left:50%;margin-left:-7px"></i>';
 
 R.soalan=()=>{
   if(!S)return go('mod');
   const gi=S.gi,A=Q.as.length;
-  let after='';for(let k=1;k<=S.after&&gi+k<A;k++)after+=`<div class="extra"><small>Ayat seterusnya${S.after>1?' '+k:''}</small><div class="quran">${ayText(gi+k)}</div></div>`;
-  const before=S.before&&gi>0?`<div class="extra"><small>Ayat sebelumnya</small><div class="quran">${ayText(gi-1)}</div></div>`:'';
-  V.innerHTML=`<div class="qhead"><div><span class="eyebrow">${esc(S.label)}</span><h1>Soalan ${S.n}</h1></div></div>
-  ${before}<div class="qcard big">${corners}<span class="lbl">Sambung ayat ini</span><div class="quran">${ayText(gi)}</div></div>${after}
-  <div class="qtools"><button class="btn ghost small" id="bf"${S.before||gi===0?' disabled':''}>Ayat sebelumnya</button><button class="btn ghost small" id="af"${gi+S.after+1>=A?' disabled':''}>Ayat seterusnya</button></div>
-  <div style="display:grid;gap:4px"><button class="btn" data-go="surah">Kenal Pasti Surah &amp; Kedudukan Ayat</button><button class="link" id="tamat" style="justify-self:center">Tamat sesi</button></div>`;
+  let after='';for(let k=1;k<=S.after&&gi+k<A;k++)after+=`<div class="extra"><small>${t('nextAyah')}${S.after>1?' '+k:''}</small><div class="quran">${ayText(gi+k)}</div></div>`;
+  const before=S.before&&gi>0?`<div class="extra"><small>${t('prevAyah')}</small><div class="quran">${ayText(gi-1)}</div></div>`:'';
+  V.innerHTML=`<div class="qhead"><div><span class="eyebrow">${esc(label(S.cfg))}</span><h1>${t('qN',S.n)}</h1></div></div>
+  ${before}<div class="qcard big">${corners}<span class="lbl">${t('contAyah')}</span><div class="quran">${ayText(gi)}</div></div>${after}
+  <div class="qtools"><button class="btn ghost small" id="bf"${S.before||gi===0?' disabled':''}>${t('prevAyah')}</button><button class="btn ghost small" id="af"${gi+S.after+1>=A?' disabled':''}>${t('nextAyah')}</button></div>
+  <div style="display:grid;gap:4px"><button class="btn" data-go="surah">${t('idBoth')}</button><button class="link" id="tamat" style="justify-self:center">${t('endSess')}</button></div>`;
   document.getElementById('af').onclick=()=>{S.after++;R.soalan();[...V.querySelectorAll('.extra')].pop()?.scrollIntoView({block:'nearest',behavior:'smooth'})};
   document.getElementById('bf').onclick=()=>{S.before=true;R.soalan()};
   document.getElementById('tamat').onclick=tamat};
@@ -238,12 +310,12 @@ R.surah=()=>{
   if(!S.sur)S.sur={opts:surOpts(s),pick:null,done:false};
   const U=S.sur;
   const cls=o=>!U.done?(U.pick===o?' sel':''):o===s?' ok':U.pick===o?' no':' dim';
-  const res=U.done?`<p class="sres ${U.pick===s?'ok':'no'}">${U.pick===s?'Betul! Surah '+esc(sName(s))+'.':'Salah. Jawapannya Surah '+esc(sName(s))+'.'}</p>`:'';
-  V.innerHTML=`<h1>Kenal Pasti Surah</h1><p class="sub">Ayat ini daripada surah apa?</p>
+  const res=U.done?`<p class="sres ${U.pick===s?'ok':'no'}">${U.pick===s?t('surOk',esc(sName(s))):t('surNo',esc(sName(s)))}</p>`:'';
+  V.innerHTML=`<h1>${t('idSurah')}</h1><p class="sub">${t('whichSurah')}</p>
   <div class="qcard" style="padding:10px 14px;margin:0 0 14px"><div class="quran" style="font-size:21px;line-height:1.9;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${ayText(S.gi)}</div></div>
   <div class="sopts">${U.opts.map(o=>`<button class="sopt${cls(o)}" data-s="${o}"${U.done?' disabled':''}><i>${o}</i><span><b>${esc(sName(o))}</b><span class="ar" lang="ar">${esc(Q.s[o-1][0])}</span></span></button>`).join('')}</div>
   ${res}
-  <button class="btn" id="sk" style="margin-top:22px"${!U.done&&!U.pick?' disabled':''}>${U.done?'Kenal Pasti Kedudukan Ayat':'Semak surah'}</button>`;
+  <button class="btn" id="sk" style="margin-top:22px"${!U.done&&!U.pick?' disabled':''}>${U.done?t('idPos'):t('checkSurah')}</button>`;
   // Letak butang di tengah antara kandungan di atasnya dan butang Home.
   const sk=document.getElementById('sk'),hm=document.getElementById('tabs');
   const place=()=>{if(!sk.isConnected)return;sk.style.marginTop='22px';const above=sk.previousElementSibling.getBoundingClientRect().bottom,top=hm.getBoundingClientRect().top;
@@ -255,11 +327,11 @@ R.surah=()=>{
 R.teka=()=>{
   if(!S)return go('mod');
   const z=(side,half,txt)=>`<button class="zone" data-z="${side}${half}" aria-pressed="${S.pick===side+half}"><i class="rules"></i><span>${txt}</span></button>`;
-  V.innerHTML=`<h1>Kenal Pasti Kedudukan Ayat</h1><p class="sub">Tekan bahagian muka surat tempat ayat itu bermula.</p>
+  V.innerHTML=`<h1>${t('idPos')}</h1><p class="sub">${t('tapZone')}</p>
   <div class="qcard" style="padding:10px 14px;margin:0"><div class="quran" style="font-size:21px;line-height:1.9;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${ayText(S.gi)}</div></div>
-  <div class="book"><div class="pg l">${z('L','T','Atas')}${z('L','B','Bawah')}</div><div class="pg r">${z('R','T','Atas')}${z('R','B','Bawah')}</div></div>
-  <div class="side"><span>Muka kiri</span><span>Muka kanan</span></div>
-  <button class="btn" id="semak"${S.pick?'':' disabled'}>Semak kedudukan</button>`;
+  <div class="book"><div class="pg l">${z('L','T',t('top'))}${z('L','B',t('bottom'))}</div><div class="pg r">${z('R','T',t('top'))}${z('R','B',t('bottom'))}</div></div>
+  <div class="side"><span>${t('pageLeft')}</span><span>${t('pageRight')}</span></div>
+  <button class="btn" id="semak"${S.pick?'':' disabled'}>${t('checkPos')}</button>`;
   V.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{S.pick=b.dataset.z;R.teka()});
   document.getElementById('semak').onclick=()=>go('jawapan')};
 
@@ -269,11 +341,11 @@ R.jawapan=()=>{
   // Keputusan surah sudah ditunjuk di halaman Kenal Pasti Surah; di sini nilai kedudukan sahaja.
   const ok=okPos;
   if(S.view==null)S.view=z.p;
-  const pos=`${z.side==='R'?'kanan':'kiri'}, ${z.half==='T'?'atas':z.half==='B'?'bawah':'tengah'}`;
-  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?'Betul! Masya-Allah.':'Salah, teruskan mengulang.'}</b><p>${esc(ref(S.gi))} · ms ${z.p} · ${pos}</p></div></div>
-  <div id="pg" data-scroll="1"><div class="pgload">Memuatkan muka surat ${S.view}…</div></div>
-  <div class="jnav"><button class="btn ghost pgb" id="pn"${S.view>=604?' disabled':''} aria-label="Muka surat selepas">‹</button><button class="btn" id="nx">Soalan seterusnya</button><button class="btn ghost pgb" id="pp"${S.view<=1?' disabled':''} aria-label="Muka surat sebelum">›</button></div>
-  <div class="jlinks">${S.view!==z.p?`<button class="link" id="back">Kembali ke ms ${z.p}</button>`:''}<button class="link" id="tamat">Tamat sesi</button></div>`;
+  const pos=`${z.side==='R'?t('right'):t('left')}, ${z.half==='T'?t('topL'):z.half==='B'?t('bottomL'):t('mid')}`;
+  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?t('posOk'):t('posNo')}</b><p>${esc(ref(S.gi))} · ${t('pg',z.p)} · ${pos}</p></div></div>
+  <div id="pg" data-scroll="1"><div class="pgload">${t('loadingPage',S.view)}</div></div>
+  <div class="jnav"><button class="btn ghost pgb" id="pn"${S.view>=604?' disabled':''} aria-label="${t('nextPage')}">‹</button><button class="btn" id="nx">${t('nextQ')}</button><button class="btn ghost pgb" id="pp"${S.view<=1?' disabled':''} aria-label="${t('prevPage')}">›</button></div>
+  <div class="jlinks">${S.view!==z.p?`<button class="link" id="back">${t('backTo',z.p)}</button>`:''}<button class="link" id="tamat">${t('endSess')}</button></div>`;
   showPage(document.getElementById('pg'),S.view,S.gi);
   const nav=d=>{S.view=Math.min(604,Math.max(1,S.view+d));R.jawapan()};
   document.getElementById('pn').onclick=()=>nav(1);document.getElementById('pp').onclick=()=>nav(-1);
@@ -283,15 +355,15 @@ R.jawapan=()=>{
 let form={surah:1,ayah:1,kat:KAT[0],lain:'',kata:''};
 R.nota=()=>{
   const n=Q.s[form.surah-1][2];if(form.ayah>n)form.ayah=n;
-  V.innerHTML=`<div class="top"><h1>Catatan Muraja'ah</h1><button class="btn ghost small" data-go="library">Library</button></div>
-  <p class="sub" style="margin-bottom:6px">Catat ayat yang perlu diulang.</p>${ORN}
+  V.innerHTML=`<div class="top"><h1>${t('hNota')}</h1><button class="btn ghost small" data-go="library">${t('tabLib')}</button></div>
+  <p class="sub" style="margin-bottom:6px">${t('noteHint')}</p>${ORN}
   <form id="nf" autocomplete="off" class="panel">
-  <div class="row"><div style="flex:1.6"><label class="f" for="fs">Surah</label><select id="fs">${Q.s.map((x,i)=>`<option value="${i+1}"${form.surah==i+1?' selected':''}>${i+1}. ${esc(sName(i+1))}</option>`).join('')}</select></div>
-  <div><label class="f" for="fa">Ayat</label><select id="fa">${Array.from({length:n},(_,i)=>`<option${form.ayah==i+1?' selected':''}>${i+1}</option>`).join('')}</select></div></div>
+  <div class="row"><div style="flex:1.6"><label class="f" for="fs">${t('surah')}</label><select id="fs">${Q.s.map((x,i)=>`<option value="${i+1}"${form.surah==i+1?' selected':''}>${i+1}. ${esc(sName(i+1))}</option>`).join('')}</select></div>
+  <div><label class="f" for="fa">${t('ayah')}</label><select id="fa">${Array.from({length:n},(_,i)=>`<option${form.ayah==i+1?' selected':''}>${i+1}</option>`).join('')}</select></div></div>
   <div class="preview"><div class="quran">${ayText(gIdx(form.surah,form.ayah))}</div></div>
-  <label class="f" for="fk">Kategori catatan</label><select id="fk">${KAT.map(k=>`<option${form.kat===k?' selected':''}>${k}</option>`).join('')}</select>
-  <label class="f" for="fw">Catatan</label><input type="text" id="fw" dir="auto" placeholder="Tulis catatan" value="${esc(form.kata)}">
-  <div style="margin-top:20px"><button class="btn" type="submit">Simpan nota</button></div></form>`;
+  <label class="f" for="fk">${t('katLbl')}</label><select id="fk">${KAT.map(k=>`<option value="${esc(k)}"${form.kat===k?' selected':''}>${esc(katName(k))}</option>`).join('')}</select>
+  <label class="f" for="fw">${t('catatan')}</label><input type="text" id="fw" dir="auto" placeholder="${t('writeNote')}" value="${esc(form.kata)}">
+  <div style="margin-top:20px"><button class="btn" type="submit">${t('saveNote')}</button></div></form>`;
   const g=id=>document.getElementById(id);
   g('fs').onchange=e=>{form.surah=+e.target.value;form.ayah=1;R.nota()};
   g('fa').onchange=e=>{form.ayah=+e.target.value;R.nota()};
@@ -299,7 +371,7 @@ R.nota=()=>{
   g('fw').oninput=e=>form.kata=e.target.value;
   g('nf').onsubmit=e=>{e.preventDefault();
     notes.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),surah:form.surah,ayah:form.ayah,kategori:form.kat,lain:'',perkataan:form.kata.trim(),ulangan:[0,0,0,0,0],selesai:false,dibuat:new Date().toISOString()});
-    save();toast(`Nota ${sName(form.surah)} ${form.surah}:${form.ayah} disimpan`);form.kata='';tab='aktif';go('library')}};
+    save();toast(t('saved',`${sName(form.surah)} ${form.surah}:${form.ayah}`));form.kata='';tab='aktif';go('library')}};
 
 function save(){store.set('notes',notes)}
 function sorted(){return notes.slice().sort((a,b)=>(a.selesai-b.selesai)||(gIdx(a.surah,a.ayah)-gIdx(b.surah,b.ayah)))}
@@ -309,15 +381,15 @@ R.notad=()=>{
   const gi=gIdx(n.surah,n.ayah),p=pageOf(Q.as[gi]),kat=n.kategori;
   const uc=n.ulangan.filter(Boolean).length;
   V.innerHTML=`<button class="back" data-go="library">‹ Library</button>
-  <div class="dhead"><i class="star jz"><small>Juzuk</small>${juzOf(Q.as[gi])}</i><div><h1>${esc(sName(n.surah))} : ${n.ayah}</h1><p class="sub" style="margin:0">Muka surat ${p} · <span class="katx">${esc(kat)}</span></p></div></div>
-  ${n.perkataan?`<div class="ncat"><small>Catatan</small><span dir="auto">${esc(n.perkataan)}</span></div>`:''}
-  <div id="pg"><div class="pgload">Memuatkan muka surat ${p}…</div></div>
-  <div class="ulrow"><div class="boxes">${n.ulangan.map((u,i)=>`<button class="box" data-i="${i}" aria-pressed="${!!u}" aria-label="Ulangan ${i+1}">${u?'✓':i+1}</button>`).join('')}</div><span id="ucn">${uc}/5</span></div>
-  <div class="ndfoot"><label class="sw2"><input type="checkbox" class="tg" id="nd-done"${n.selesai?' checked':''}><span>Selesai</span></label><button class="del" id="nd-del">${n.confirm?'Tekan lagi untuk padam':'Padam nota'}</button></div>`;
+  <div class="dhead"><i class="star jz"><small>${t('juz')}</small>${juzOf(Q.as[gi])}</i><div><h1>${esc(sName(n.surah))} : ${n.ayah}</h1><p class="sub" style="margin:0">${t('pageN',p)} · <span class="katx">${esc(katName(kat))}</span></p></div></div>
+  ${n.perkataan?`<div class="ncat"><small>${t('catatan')}</small><span dir="auto">${esc(n.perkataan)}</span></div>`:''}
+  <div id="pg"><div class="pgload">${t('loadingPage',p)}</div></div>
+  <div class="ulrow"><div class="boxes">${n.ulangan.map((u,i)=>`<button class="box" data-i="${i}" aria-pressed="${!!u}" aria-label="${t('revN',i+1)}">${u?'✓':i+1}</button>`).join('')}</div><span id="ucn">${uc}/5</span></div>
+  <div class="ndfoot"><label class="sw2"><input type="checkbox" class="tg" id="nd-done"${n.selesai?' checked':''}><span>${t('doneT')}</span></label><button class="del" id="nd-del">${n.confirm?t('tapDel'):t('delNote')}</button></div>`;
   showPage(document.getElementById('pg'),p,gi);
-  V.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;n.ulangan[i]=n.ulangan[i]?0:1;if(n.ulangan.every(Boolean)&&!n.selesai){n.selesai=true;toast('5 ulangan lengkap. Nota ditanda selesai.')}save();syncND(n)});
-  document.getElementById('nd-done').onchange=e=>{n.selesai=e.target.checked;save();toast(n.selesai?'Ditanda selesai':'Dikembalikan ke aktif')};
-  document.getElementById('nd-del').onclick=()=>{if(n.confirm){notes=notes.filter(x=>x!==n);openNote=null;save();toast('Nota dipadam');go('library')}else{n.confirm=true;setTimeout(()=>{delete n.confirm},4000);document.getElementById('nd-del').textContent='Tekan lagi untuk padam'}}};
+  V.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;n.ulangan[i]=n.ulangan[i]?0:1;if(n.ulangan.every(Boolean)&&!n.selesai){n.selesai=true;toast(t('fiveDone'))}save();syncND(n)});
+  document.getElementById('nd-done').onchange=e=>{n.selesai=e.target.checked;save();toast(n.selesai?t('markedDone'):t('backActive'))};
+  document.getElementById('nd-del').onclick=()=>{if(n.confirm){notes=notes.filter(x=>x!==n);openNote=null;save();toast(t('deleted'));go('library')}else{n.confirm=true;setTimeout(()=>{delete n.confirm},4000);document.getElementById('nd-del').textContent=t('tapDel')}}};
 // Kemas kini kotak tanpa lukis semula mushaf.
 function syncND(n){V.querySelectorAll('[data-i]').forEach(b=>{const i=+b.dataset.i,u=n.ulangan[i];b.setAttribute('aria-pressed',!!u);b.textContent=u?'✓':i+1});const d=document.getElementById('nd-done');d&&(d.checked=n.selesai);const c=document.getElementById('ucn');c&&(c.textContent=n.ulangan.filter(Boolean).length+'/5')}
 
@@ -325,43 +397,43 @@ R.library=()=>{
   const act=notes.filter(n=>!n.selesai).length,done=notes.length-act;
   const L=sorted().filter(n=>tab==='semua'||(tab==='aktif'?!n.selesai:n.selesai));
   const item=n=>{const gi=gIdx(n.surah,n.ayah),uc=n.ulangan.filter(Boolean).length,kat=n.kategori;
-    return `<div class="note${n.selesai?' done':''}"><div class="nrow"><button class="open" data-open="${n.id}"><i class="star jz"><small>Juzuk</small>${juzOf(Q.as[gi])}</i><span class="t"><b>${esc(sName(n.surah))} : ${n.ayah}</b><span class="aw" lang="ar">${ayHead(gi)}</span><em class="kat">${esc(kat)}</em><span class="ub" aria-label="${uc} daripada 5 ulangan">${n.ulangan.map(u=>`<i${u?' class="on"':''}></i>`).join('')}<em>${uc}/5</em></span></span></button><label class="ck" aria-label="Tanda selesai"><input type="checkbox" class="rk" data-done="${n.id}"${n.selesai?' checked':''}></label></div></div>`};
-  V.innerHTML=`<div class="top"><div><h1>Library</h1><p class="sub" style="margin:0">Ayat lemah, ikut turutan mushaf</p></div><button class="btn small addn" data-go="nota" aria-label="Tambah nota">＋ Nota</button></div>
-  <div class="seg" role="group" aria-label="Tapis nota">${[['aktif','Aktif',act],['selesai','Selesai',done],['semua','Semua',notes.length]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${tab===t[0]}">${t[1]} ${t[2]}</button>`).join('')}</div>
-  <div class="list">${L.length?L.map(item).join(''):notes.length?`<div class="empty">Tiada nota dalam senarai ini.</div>`:`<div class="empty">${star(IC.pen,'gold')}<b>Belum ada nota</b>Catat ayat yang selalu tersangkut, kemudian tanda setiap kali anda ulang.<div style="margin-top:14px;display:grid;gap:6px"><button class="btn" data-go="nota">Catat nota pertama</button><button class="link" id="demo">Isi 3 nota contoh untuk cuba</button></div></div>`}</div>
-  <details class="datab"><summary class="sect">Data &amp; sandaran</summary>
+    return `<div class="note${n.selesai?' done':''}"><div class="nrow"><button class="open" data-open="${n.id}"><i class="star jz"><small>${t('juz')}</small>${juzOf(Q.as[gi])}</i><span class="t"><b>${esc(sName(n.surah))} : ${n.ayah}</b><span class="aw" lang="ar">${ayHead(gi)}</span><em class="kat">${esc(katName(kat))}</em><span class="ub" aria-label="${t('revOf5',uc)}">${n.ulangan.map(u=>`<i${u?' class="on"':''}></i>`).join('')}<em>${uc}/5</em></span></span></button><label class="ck" aria-label="${t('markDone')}"><input type="checkbox" class="rk" data-done="${n.id}"${n.selesai?' checked':''}></label></div></div>`};
+  V.innerHTML=`<div class="top"><div><h1>Library</h1><p class="sub" style="margin:0">${t('libSub')}</p></div><button class="btn small addn" data-go="nota" aria-label="${t('addNoteAria')}">${t('addNote')}</button></div>
+  <div class="seg" role="group" aria-label="${t('filterAria')}">${[['aktif',t('fAktif'),act],['selesai',t('fSelesai'),done],['semua',t('fSemua'),notes.length]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${tab===t[0]}">${t[1]} ${t[2]}</button>`).join('')}</div>
+  <div class="list">${L.length?L.map(item).join(''):notes.length?`<div class="empty">${t('emptyList')}</div>`:`<div class="empty">${star(IC.pen,'gold')}<b>${t('noNotes')}</b>${t('noNotesSub')}<div style="margin-top:14px;display:grid;gap:6px"><button class="btn" data-go="nota">${t('firstNote')}</button><button class="link" id="demo">${t('demo')}</button></div></div>`}</div>
+  <details class="datab"><summary class="sect">${t('dataBackup')}</summary>
   <div class="group">
-    <button class="grow" id="ex"${notes.length?'':' disabled'}><i><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5M5 21h14"/></svg></i><span><b>Eksport nota</b><small>Simpan sandaran ke fail</small></span><em>›</em></button>
-    <label class="grow" for="im"><i><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></i><span><b>Import nota</b><small>Pulihkan daripada fail sandaran</small></span><em>›</em><input type="file" id="im" accept=".json,application/json" hidden></label>
-    <button class="grow" id="dl"${M?'':' disabled'}><i><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zM4 19V5M9 7h6"/></svg></i><span><b>Mushaf luar talian</b><small id="dls">Simpan semua muka surat (kira-kira 36 MB)</small></span><em>›</em></button>
+    <button class="grow" id="ex"${notes.length?'':' disabled'}><i><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5M5 21h14"/></svg></i><span><b>${t('exp')}</b><small>${t('expSub')}</small></span><em>›</em></button>
+    <label class="grow" for="im"><i><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></i><span><b>${t('imp')}</b><small>${t('impSub')}</small></span><em>›</em><input type="file" id="im" accept=".json,application/json" hidden></label>
+    <button class="grow" id="dl"${M?'':' disabled'}><i><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zM4 19V5M9 7h6"/></svg></i><span><b>${t('off')}</b><small id="dls">${t('offSub')}</small></span><em>›</em></button>
   </div>
-  <p class="fine">Nota disimpan dalam pelayar ini sahaja. Eksport selepas menambah nota supaya tidak hilang bila tukar telefon.</p></details>`;
+  <p class="fine">${t('fine')}</p></details>`;
   V.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;R.library()});
   V.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{openNote=b.dataset.open;go('notad')});
-  V.querySelectorAll('[data-done]').forEach(c=>c.onchange=()=>{const n=notes.find(x=>x.id===c.dataset.done);n.selesai=c.checked;save();toast(c.checked?'Ditanda selesai':'Dikembalikan ke aktif');R.library()});
-  V.querySelectorAll('[data-ul]').forEach(b=>b.onclick=()=>{const n=notes.find(x=>x.id===b.dataset.ul),i=+b.dataset.i;n.ulangan[i]=n.ulangan[i]?0:1;if(n.ulangan.every(Boolean)&&!n.selesai){n.selesai=true;toast('5 ulangan lengkap. Nota ditanda selesai.')}save();R.library()});
-  V.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const n=notes.find(x=>x.id===b.dataset.del);if(n.confirm){notes=notes.filter(x=>x!==n);openNote=null;save();toast('Nota dipadam')}else{n.confirm=true;setTimeout(()=>{delete n.confirm},4000)}R.library()});
+  V.querySelectorAll('[data-done]').forEach(c=>c.onchange=()=>{const n=notes.find(x=>x.id===c.dataset.done);n.selesai=c.checked;save();toast(c.checked?t('markedDone'):t('backActive'));R.library()});
+  V.querySelectorAll('[data-ul]').forEach(b=>b.onclick=()=>{const n=notes.find(x=>x.id===b.dataset.ul),i=+b.dataset.i;n.ulangan[i]=n.ulangan[i]?0:1;if(n.ulangan.every(Boolean)&&!n.selesai){n.selesai=true;toast(t('fiveDone'))}save();R.library()});
+  V.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const n=notes.find(x=>x.id===b.dataset.del);if(n.confirm){notes=notes.filter(x=>x!==n);openNote=null;save();toast(t('deleted'))}else{n.confirm=true;setTimeout(()=>{delete n.confirm},4000)}R.library()});
   const d=document.getElementById('demo');d&&(d.onclick=()=>{const t=Date.now().toString(36),now=new Date().toISOString();
     notes=[{id:t+'a',surah:2,ayah:102,kategori:'Perkataan',lain:'',perkataan:'وَمَا هُم بِضَآرِّينَ',ulangan:[1,1,0,0,0],selesai:false,dibuat:now},
     {id:t+'b',surah:18,ayah:57,kategori:'Ayat Mutasyabihat',lain:'',perkataan:'وَمَنۡ أَظۡلَمُ',ulangan:[1,0,0,0,0],selesai:false,dibuat:now},
     {id:t+'c',surah:36,ayah:47,kategori:'Kepala ayat',lain:'',perkataan:'',ulangan:[1,1,1,1,1],selesai:true,dibuat:now}];save();R.library()});
   document.getElementById('ex').onclick=exportNotes;
   document.getElementById('dl').onclick=async e=>{const b=e.currentTarget,s=document.getElementById('dls');b.disabled=true;let n=0,bad=0;
-    for(const f of M.fonts){if(!(await qfont(f)))bad++;n++;s.textContent=`Menyimpan… ${n}/${M.fonts.length}`}
-    s.textContent=bad?`${bad} fail gagal. Tekan untuk cuba lagi`:'Semua muka surat disimpan ✓';b.disabled=!bad};
+    for(const f of M.fonts){if(!(await qfont(f)))bad++;n++;s.textContent=t('savingN',n,M.fonts.length)}
+    s.textContent=bad?t('failN',bad):t('allSaved');b.disabled=!bad};
   document.getElementById('im').onchange=importNotes};
 
 async function exportNotes(){
   const data=new TextEncoder().encode(JSON.stringify({app:'Shafawi',versi:1,dieksport:new Date().toISOString(),nota:notes.map(({confirm,...n})=>n)},null,1));
   const filename=`shafawi-nota-${new Date().toISOString().slice(0,10)}.json`;
   try{const file=new File([data],filename,{type:'application/json'});
-    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Sandaran nota Shafawi'});return}}catch(e){if(e&&e.name==='AbortError')return}
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:t('shareTitle')});return}}catch(e){if(e&&e.name==='AbortError')return}
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 function importNotes(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();
   r.onload=()=>{try{const j=JSON.parse(r.result);const arr=Array.isArray(j)?j:j.nota;if(!Array.isArray(arr))throw 0;let add=0;
     arr.forEach(n=>{if(!n||!(n.surah>=1&&n.surah<=114)||!(n.ayah>=1&&n.ayah<=Q.s[n.surah-1][2]))return;const id=String(n.id||Math.random().toString(36).slice(2));
       if(notes.some(x=>x.id===id))return;notes.push(fixKat({id,surah:+n.surah,ayah:+n.ayah,kategori:String(n.kategori||''),lain:String(n.lain||''),perkataan:String(n.perkataan||''),ulangan:(Array.isArray(n.ulangan)?n.ulangan:[]).concat([0,0,0,0,0]).slice(0,5).map(x=>x?1:0),selesai:!!n.selesai,dibuat:String(n.dibuat||'')}));add++});
-    save();toast(`${add} nota diimport`);R.library()}catch(_){toast('Fail ini bukan sandaran Shafawi')}};r.readAsText(f)}
+    save();toast(t('imported',add));R.library()}catch(_){toast(t('badFile'))}};r.readAsText(f)}
 
 function toast(m){let t=document.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';t.setAttribute('role','status');document.body.appendChild(t)}t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,2600)}
 
@@ -384,6 +456,6 @@ fetch('data/mushaf.json').then(r=>r.json()).then(d=>{M=d}).catch(()=>{});
 Promise.all([fetch('data/quran.json').then(r=>r.json()),document.fonts.load('20px Hafs').catch(()=>0)]).then(([d])=>{
   Q=d;FA=Q.s.map(x=>x[3]);END=new Int16Array(Q.w.length);
   for(let i=0;i<Q.as.length;i++){const e=(i+1<Q.as.length?Q.as[i+1]:Q.w.length)-1;END[e]=i-FA[ub(FA,i)-1]+1}
-  render();hideSplash()}).catch(()=>{V.innerHTML='<div class="loading">Data mushaf gagal dimuatkan. Cuba muat semula.</div>';hideSplash()});
+  render();hideSplash()}).catch(()=>{V.innerHTML=`<div class="loading">${t('loadFail')}</div>`;hideSplash()});
 if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 }
