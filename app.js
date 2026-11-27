@@ -21,9 +21,9 @@ const TX={
   modTitle:'Tebuk Hafazan',back:'‹ Kembali',pickMode:'Pilih mod hafazan',start:'Mula',
   lblSurah:n=>'Surah '+n,lblPages:(a,b)=>`Muka surat ${a}–${b}`,noAyat:'Tiada ayat dalam pilihan ini',
   nextAyah:'Ayat seterusnya',prevAyah:'Ayat sebelumnya',qN:n=>'Soalan '+n,contAyah:'Sambung ayat ini',idBoth:'Kenal Pasti Surah &amp; Kedudukan Ayat',endSess:'Tamat sesi',
-  surOk:n=>`Betul! Surah ${n}.`,surNo:n=>`Salah. Jawapannya Surah ${n}.`,idSurah:'Kenal Pasti Surah',whichSurah:'Ayat ini daripada surah apa?',idPos:'Kenal Pasti Kedudukan Ayat',checkSurah:'Semak surah',
+  surOk:'Masyallah mumtaz. Jawapan anda tepat sekali',surNo:'Jawapan anda salah. Teruskan murajaah',surAns:n=>`Jawapannya Surah ${n}`,idSurah:'Kenal Pasti Surah',whichSurah:'Ayat ini daripada surah apa?',idPos:'Kenal Pasti Kedudukan Ayat',checkSurah:'Semak surah',
   tapZone:'Tekan bahagian muka surat tempat ayat itu bermula.',top:'Atas',bottom:'Bawah',checkPos:'Semak kedudukan',
-  posOk:'Betul! Masya-Allah.',posNo:'Salah, teruskan mengulang.',pg:n=>'ms '+n,right:'kanan',left:'kiri',topL:'atas',bottomL:'bawah',mid:'tengah',
+  posOk:'Masyallah mumtaz. Jawapan anda tepat sekali',posNo:'Jawapan anda salah. Teruskan murajaah',pg:n=>'ms '+n,right:'kanan',left:'kiri',topL:'atas',bottomL:'bawah',mid:'tengah',
   loadingPage:n=>`Memuatkan muka surat ${n}…`,nextPage:'Muka surat selepas',prevPage:'Muka surat sebelum',nextQ:'Soalan seterusnya',backTo:n=>`Kembali ke ms ${n}`,
   noteHint:'Catat ayat yang perlu diulang.',ayah:'Ayat',katLbl:'Kategori catatan',catatan:'Catatan',writeNote:'Tulis catatan',saveNote:'Simpan nota',saved:r=>`Nota ${r} disimpan`,
   kat:{'Ayat Mutasyabihat':'Ayat Mutasyabihat','Perkataan':'Perkataan','Kepala ayat':'Kepala ayat','Kepala muka surat':'Kepala muka surat'},
@@ -49,9 +49,9 @@ const TX={
   modTitle:'Memorization Test',back:'‹ Back',pickMode:'Choose a test mode',start:'Start',
   lblSurah:n=>'Surah '+n,lblPages:(a,b)=>`Pages ${a}–${b}`,noAyat:'No ayahs in this selection',
   nextAyah:'Next ayah',prevAyah:'Previous ayah',qN:n=>'Question '+n,contAyah:'Continue this ayah',idBoth:'Identify Surah &amp; Ayah Position',endSess:'End session',
-  surOk:n=>`Correct! Surah ${n}.`,surNo:n=>`Wrong. The answer is Surah ${n}.`,idSurah:'Identify the Surah',whichSurah:'Which surah is this ayah from?',idPos:'Identify Ayah Position',checkSurah:'Check surah',
+  surOk:'Masha Allah, mumtaz! Your answer is spot on',surNo:'Your answer is wrong. Keep up your muraja\'ah',surAns:n=>`The answer is Surah ${n}`,idSurah:'Identify the Surah',whichSurah:'Which surah is this ayah from?',idPos:'Identify Ayah Position',checkSurah:'Check surah',
   tapZone:'Tap the part of the page where the ayah begins.',top:'Top',bottom:'Bottom',checkPos:'Check position',
-  posOk:'Correct! Masha-Allah.',posNo:'Wrong, keep revising.',pg:n=>'p. '+n,right:'right',left:'left',topL:'top',bottomL:'bottom',mid:'middle',
+  posOk:'Masha Allah, mumtaz! Your answer is spot on',posNo:'Your answer is wrong. Keep up your muraja\'ah',pg:n=>'p. '+n,right:'right',left:'left',topL:'top',bottomL:'bottom',mid:'middle',
   loadingPage:n=>`Loading page ${n}…`,nextPage:'Next page',prevPage:'Previous page',nextQ:'Next question',backTo:n=>`Back to p. ${n}`,
   noteHint:'Note down ayahs that need revising.',ayah:'Ayah',katLbl:'Note category',catatan:'Note',writeNote:'Write a note',saveNote:'Save note',saved:r=>`Note ${r} saved`,
   kat:{'Ayat Mutasyabihat':'Mutashabihat ayah','Perkataan':'Word','Kepala ayat':'Start of ayah','Kepala muka surat':'Start of page'},
@@ -88,6 +88,8 @@ let sel={mode:'rawak',juz:1,surah:1,from:1,to:20,skop:0};
 // Sumber: quran-meta (MIT) HizbQuarterList, disemak dengan tanda ۞ QCF4; 15:49 ikut Mushaf Madinah.
 const MAQRA=[0,32,50,66,81,98,112,130,148,164,183,195,209,225,239,249,259,269,278,289,307,325,344,367,385,405,425,445,463,478,493,504,516,528,550,566,580,592,606,627,640,655,669,680,695,709,719,735,750,765,777,801,824,847,862,883,899,915,929,939,954,984,1000,1018,1041,1070,1095,1109,1124,1142,1160,1181,1200,1220,1235,1253,1268,1280,1294,1309,1327,1345,1356,1374,1389,1416,1434,1453,1478,1496,1513,1533,1556,1580,1602,1625,1648,1672,1696,1711,1725,1741,1759,1777,1802,1850,1901,1930,1951,1975,1990,2011,2029,2051,2078,2098,2127,2156,2171,2190,2214,2238,2271,2308,2348,2402,2430,2458,2483,2511,2533,2565,2595,2613,2632,2654,2673,2708,2747,2791,2811,2825,2843,2855,2875,2907,2932,2983,3042,3112,3159,3185,3214,3240,3263,3280,3302,3327,3340,3365,3385,3409,3439,3462,3490,3513,3533,3550,3563,3583,3592,3615,3629,3651,3674,3700,3732,3764,3809,3870,3932,3990,4021,4065,4089,4110,4133,4153,4173,4198,4226,4242,4264,4284,4298,4322,4348,4381,4430,4484,4510,4530,4554,4577,4600,4612,4625,4656,4705,4758,4809,4854,4901,4979,5053,5090,5104,5117,5136,5156,5177,5191,5217,5229,5241,5271,5323,5393,5447,5494,5551,5609,5672,5758,5829,5884,5948,6023,6090,6154];
 let openNote=null,toastT=null,tab='aktif';
+// Ayat keputusan dipecah dua: ayat pertama jadi tajuk, selebihnya baris kedua.
+const vtx=x=>{const m=/^(.+?[.!])\s+(.+)$/.exec(x);return m?`<b>${esc(m[1])}</b><span class="vl">${esc(m[2])}</span>`:`<b>${esc(x)}</b>`};
 const star=(c,cls='')=>`<i class="star ${cls}">${c}</i>`;
 const ORN='<div class="orn"><i></i></div>';
 const IC={
@@ -303,23 +305,35 @@ function surOpts(s){
   const near=[];for(let d=1;d<=4;d++){if(s-d>=1)near.push(s-d);if(s+d<=114)near.push(s+d)}
   near.sort((x,y)=>Math.abs(x-s)-Math.abs(y-s)||Math.random()-.5);
   return shuffle([s,...shuffle(near.slice(0,5)).slice(0,3)])}
+// Kesan bila keputusan surah keluar. Betul: kad melantun + bintang emas memercik dari lencana; salah: goyang perlahan.
+function celebrate(card,ok){
+  if(!card||!ok||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const st=card.querySelector('.star'),b=document.createElement('span');b.className='burst';
+  b.style.left=st.offsetLeft+st.offsetWidth/2+'px';b.style.top=st.offsetTop+st.offsetHeight/2+'px';b.innerHTML='<i class="ring"></i>';card.appendChild(b);
+  for(let i=0;i<10;i++){const p=document.createElement('i');p.className='spk';
+    const a=i/10*Math.PI*2+Math.random()*.4,d=34+Math.random()*26;p.style.setProperty('--x',Math.cos(a)*d+'px');p.style.setProperty('--y',Math.sin(a)*d+'px');
+    p.style.animationDelay=(.18+Math.random()*.12)+'s';b.appendChild(p)}
+  setTimeout(()=>b.remove(),1400)}
 R.surah=()=>{
   if(!S)return go('mod');
   const s=surOf(S.gi);
   if(!S.sur)S.sur={opts:surOpts(s),pick:null,done:false};
   const U=S.sur;
   const cls=o=>!U.done?(U.pick===o?' sel':''):o===s?' ok':U.pick===o?' no':' dim';
-  const res=U.done?`<p class="sres ${U.pick===s?'ok':'no'}">${U.pick===s?t('surOk',esc(sName(s))):t('surNo',esc(sName(s)))}</p>`:'';
-  V.innerHTML=`<h1>${t('idSurah')}</h1><p class="sub">${t('whichSurah')}</p>
+  // Selepas semak: kad keputusan di atas (gaya sama dengan Kenal Pasti Kedudukan Ayat).
+  const ok=U.pick===s,fx=U.done&&!U.shown;if(U.done)U.shown=true;
+  const head=U.done?`<div class="verdict sv ${ok?'ok':'no'}${fx?' fx':''}">${star(ok?IC.ok:IC.no)}<div>${vtx(ok?t('surOk'):t('surNo'))}<p>${ok?'Surah '+esc(ref(S.gi)):t('surAns',esc(sName(s)))}</p></div></div>`
+    :`<h1>${t('idSurah')}</h1><p class="sub">${t('whichSurah')}</p>`;
+  V.innerHTML=`${head}
   <div class="qcard" style="padding:10px 14px;margin:0 0 14px"><div class="quran" style="font-size:21px;line-height:1.9;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${ayText(S.gi)}</div></div>
   <div class="sopts">${U.opts.map(o=>`<button class="sopt${cls(o)}" data-s="${o}"${U.done?' disabled':''}><i>${o}</i><span><b>${esc(sName(o))}</b><span class="ar" lang="ar">${esc(Q.s[o-1][0])}</span></span></button>`).join('')}</div>
-  ${res}
   <button class="btn" id="sk" style="margin-top:22px"${!U.done&&!U.pick?' disabled':''}>${U.done?t('idPos'):t('checkSurah')}</button>`;
   // Letak butang di tengah antara kandungan di atasnya dan butang Home.
   const sk=document.getElementById('sk'),hm=document.getElementById('tabs');
   const place=()=>{if(!sk.isConnected)return;sk.style.marginTop='22px';const above=sk.previousElementSibling.getBoundingClientRect().bottom,top=hm.getBoundingClientRect().top;
     sk.style.marginTop=Math.max(22,(top-above-sk.offsetHeight)/2)+'px'};
   if(U.done&&sk&&hm){place();document.fonts&&document.fonts.ready.then(place)}
+  if(fx)celebrate(V.querySelector('.verdict'),ok);
   V.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{U.pick=+b.dataset.s;R.surah()});
   document.getElementById('sk').onclick=()=>{if(U.done)go('teka');else{U.done=true;R.surah()}}};
 
@@ -341,7 +355,7 @@ R.jawapan=()=>{
   const ok=okPos;
   if(S.view==null)S.view=z.p;
   const pos=`${z.side==='R'?t('right'):t('left')}, ${z.half==='T'?t('topL'):z.half==='B'?t('bottomL'):t('mid')}`;
-  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?t('posOk'):t('posNo')}</b><p>${esc(ref(S.gi))} · ${t('pg',z.p)} · ${pos}</p></div></div>
+  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div>${vtx(ok?t('posOk'):t('posNo'))}<p>${esc(ref(S.gi))} · ${t('pg',z.p)} · ${pos}</p></div></div>
   <div id="pg" data-scroll="1"><div class="pgload">${t('loadingPage',S.view)}</div></div>
   <div class="jnav"><button class="btn ghost pgb" id="pn"${S.view>=604?' disabled':''} aria-label="${t('nextPage')}">‹</button><button class="btn" id="nx">${t('nextQ')}</button><button class="btn ghost pgb" id="pp"${S.view<=1?' disabled':''} aria-label="${t('prevPage')}">›</button></div>
   <div class="jlinks">${S.view!==z.p?`<button class="link" id="back">${t('backTo',z.p)}</button>`:''}<button class="link" id="tamat">${t('endSess')}</button></div>`;
