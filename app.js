@@ -34,7 +34,7 @@ const TX={
   markDone:'Tanda selesai',revOf5:n=>`${n} daripada 5 ulangan`,dataBackup:'Data &amp; sandaran',exp:'Eksport nota',expSub:'Simpan sandaran ke fail',imp:'Import nota',impSub:'Pulihkan daripada fail sandaran',
   off:'Mushaf luar talian',offSub:'Simpan semua muka surat (kira-kira 36 MB)',fine:'Nota disimpan dalam pelayar ini sahaja. Eksport selepas menambah nota supaya tidak hilang bila tukar telefon.',
   savingN:(n,t)=>`Menyimpan… ${n}/${t}`,failN:n=>`${n} fail gagal. Tekan untuk cuba lagi`,allSaved:'Semua muka surat disimpan ✓',
-  shareTitle:'Sandaran nota Shafawi',imported:n=>`${n} nota diimport`,badFile:'Fail ini bukan sandaran Shafawi',hMon:['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah'],hEra:'H'},
+  shareTitle:'Sandaran nota Shafawi',imported:n=>`${n} nota diimport`,badFile:'Fail ini bukan sandaran Shafawi',hMon:['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']},
  en:{
   langAria:'Language',brandAria:'Shafawi, go to Home',themeDark:'Switch to dark mode',themeLight:'Switch to light mode',
   navAria:'Main navigation',tabHome:'Home',tabUji:'Test',tabLib:'Notes',
@@ -62,7 +62,7 @@ const TX={
   markDone:'Mark done',revOf5:n=>`${n} of 5 revisions`,dataBackup:'Data &amp; backup',exp:'Export notes',expSub:'Save a backup to a file',imp:'Import notes',impSub:'Restore from a backup file',
   off:'Offline mushaf',offSub:'Save all pages (about 36 MB)',fine:'Notes are stored in this browser only. Export after adding notes so they are not lost when you change phones.',
   savingN:(n,t)=>`Saving… ${n}/${t}`,failN:n=>`${n} files failed. Tap to try again`,allSaved:'All pages saved ✓',
-  shareTitle:'Shafawi notes backup',imported:n=>`${n} notes imported`,badFile:'This file is not a Shafawi backup',hMon:['Muharram','Safar','Rabiʻ I','Rabiʻ II','Jumada I','Jumada II','Rajab','Shaʻban','Ramadan','Shawwal','Dhuʻl-Qiʻdah','Dhuʻl-Hijjah'],hEra:'AH'}};
+  shareTitle:'Shafawi notes backup',imported:n=>`${n} notes imported`,badFile:'This file is not a Shafawi backup',}};
 let LANG=store.get('lang','ms');if(!TX[LANG])LANG='ms';
 const t=(k,...a)=>{const v=TX[LANG][k]??TX.ms[k];return typeof v==='function'?v(...a):v};
 const katName=k=>TX[LANG].kat[k]||k;
@@ -144,7 +144,7 @@ function hijriYMD(d){const day=Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()
     const k=JAKIM_H0[1]-1+i;return {y:JAKIM_H0[0]+Math.floor(k/12),m:k%12+1,d:n}}
   try{const p=Object.fromEntries(new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{day:'numeric',month:'numeric',year:'numeric'}).formatToParts(d).map(x=>[x.type,x.value]));
     return {y:parseInt(p.year),m:+p.month,d:+p.day}}catch(e){return null}}
-function hijri(d=new Date()){const h=hijriYMD(d);return h?`${h.d} ${t('hMon')[h.m-1]} ${h.y} ${t('hEra')}`:''}
+function hijri(d=new Date()){const h=hijriYMD(d);return h?`${h.d} ${TX.ms.hMon[h.m-1]} ${h.y}H`:''}
 
 /* ---------- mushaf page ---------- */
 // Glyph rendering with the KFGQPC QCF4 (1441H) fonts, loaded from jsDelivr and cached offline by sw.js.
