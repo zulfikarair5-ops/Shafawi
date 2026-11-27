@@ -392,3 +392,7 @@ header{padding-bottom:8px}
 @keyframes sv-spk{0%{opacity:0;transform:scale(.3)}25%{opacity:1}100%{opacity:0;transform:translate(var(--x),var(--y)) scale(1.1) rotate(90deg)}}
 @keyframes sv-ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(2.2)}}
 @media(prefers-reduced-motion:reduce){.verdict.fx,.verdict.fx .star{animation:none}}
+/* Telefon kecil (iPhone SE/mini, iPhone notch 390px, Android 360px): tajuk muat satu baris. */
+@media (max-width:391px){h1:not(.greet h1){font-size:26px}}
+/* Skrin pendek (iPhone SE, 667px): pilihan surah lebih rapat supaya butang tak terlindung di belakang tab. */
+@media (max-height:700px){.sopts{gap:8px;margin-bottom:10px}.sopt{min-height:50px;padding:7px 14px}}
