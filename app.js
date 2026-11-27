@@ -9,7 +9,7 @@ const store={get(k,d){try{const v=localStorage.getItem('thebook.'+k);return v?JS
 const TX={
  ms:{
   langAria:'Bahasa',brandAria:'Shafawi, ke Home',themeDark:'Tukar ke mod gelap',themeLight:'Tukar ke mod cerah',
-  navAria:'Navigasi utama',tabHome:'Utama',tabUji:'Uji',tabLib:'Library',
+  navAria:'Navigasi utama',tabHome:'Utama',tabUji:'Uji',tabLib:'Catatan',
   loading:'Memuatkan mushaf…',loadFail:'Data mushaf gagal dimuatkan. Cuba muat semula.',
   juz:'Juzuk',juzN:n=>'Juzuk '+n,pageRight:'Muka kanan',pageLeft:'Muka kiri',rehalAria:'Mushaf terbuka di atas rehal kayu',
   hTebuk:'Tebuk Ayat',hTebukSub:'Sambung ayat dan kenal pasti kedudukannya',hNota:"Catatan Muraja'ah",hNotaSub:'Rekod ayat yang selalu tersangkut',
@@ -37,7 +37,7 @@ const TX={
   shareTitle:'Sandaran nota Shafawi',imported:n=>`${n} nota diimport`,badFile:'Fail ini bukan sandaran Shafawi',hijriLoc:'ms-MY'},
  en:{
   langAria:'Language',brandAria:'Shafawi, go to Home',themeDark:'Switch to dark mode',themeLight:'Switch to light mode',
-  navAria:'Main navigation',tabHome:'Home',tabUji:'Test',tabLib:'Library',
+  navAria:'Main navigation',tabHome:'Home',tabUji:'Test',tabLib:'Notes',
   loading:'Loading mushaf…',loadFail:'Could not load the mushaf data. Please reload.',
   juz:'Juz',juzN:n=>'Juz '+n,pageRight:'Right page',pageLeft:'Left page',rehalAria:'Open mushaf on a wooden rehal',
   hTebuk:'Ayah Test',hTebukSub:'Continue the ayah and identify its position',hNota:"Muraja'ah Notes",hNotaSub:'Keep track of ayahs you often get stuck on',
@@ -241,9 +241,8 @@ R.home=()=>{
   ${rehal()}<div class="quran">${ayText(gi)}</div><div class="cap">Al-Hijr · 15:9</div></section>
   <div class="actions">
    <button class="tile main" data-go="mod">${star(IC.book)}<div><b>${t('hTebuk')}</b><span>${t('hTebukSub')}</span></div><i class="go">›</i></button>
-   <button class="tile" data-go="nota">${star(IC.pen,'gold')}<div><b>${t('hNota')}</b><span>${t('hNotaSub')}</span></div><i class="go">›</i></button>
+   <button class="tile notes" data-go="library"><svg class="mring" viewBox="0 0 56 56" role="img" aria-label="${t('ringAria',rep,tot)}"><circle class="tr" cx="28" cy="28" r="23" fill="none" stroke-width="5"/><circle class="pr" cx="28" cy="28" r="23" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="${f.toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 28 28)"/></svg><div><b>${t('hNota')}</b><span>${notes.length?`<em>${act}</em> ${t('activeNotes')} · <em>${done}</em> ${t('done')}`:t('hNotaSub')}</span></div><i class="go">›</i></button>
   </div>
-  <button class="ring" data-go="library"><svg viewBox="0 0 56 56" role="img" aria-label="${t('ringAria',rep,tot)}"><circle class="tr" cx="28" cy="28" r="23" fill="none" stroke-width="5"/><circle class="pr" cx="28" cy="28" r="23" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="${f.toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 28 28)"/></svg><div><small>Muraja'ah</small><span><b>${act}</b> ${t('activeNotes')} · <i>${done}</i> ${t('done')}</span></div><i class="go" style="margin-left:auto;opacity:.5;font-size:22px">›</i></button>
   <p class="credit">${t('credit')}</p>`};
 
 const MODES=['rawak','juz','surah','julat','maqra','awalsurah','nota'];
@@ -380,7 +379,7 @@ R.notad=()=>{
   const n=notes.find(x=>x.id===openNote);if(!n)return go('library');
   const gi=gIdx(n.surah,n.ayah),p=pageOf(Q.as[gi]),kat=n.kategori;
   const uc=n.ulangan.filter(Boolean).length;
-  V.innerHTML=`<button class="back" data-go="library">‹ Library</button>
+  V.innerHTML=`<button class="back" data-go="library">‹ ${t('tabLib')}</button>
   <div class="dhead"><i class="star jz"><small>${t('juz')}</small>${juzOf(Q.as[gi])}</i><div><h1>${esc(sName(n.surah))} : ${n.ayah}</h1><p class="sub" style="margin:0">${t('pageN',p)} · <span class="katx">${esc(katName(kat))}</span></p></div></div>
   ${n.perkataan?`<div class="ncat"><small>${t('catatan')}</small><span dir="auto">${esc(n.perkataan)}</span></div>`:''}
   <div id="pg"><div class="pgload">${t('loadingPage',p)}</div></div>
@@ -398,7 +397,7 @@ R.library=()=>{
   const L=sorted().filter(n=>tab==='semua'||(tab==='aktif'?!n.selesai:n.selesai));
   const item=n=>{const gi=gIdx(n.surah,n.ayah),uc=n.ulangan.filter(Boolean).length,kat=n.kategori;
     return `<div class="note${n.selesai?' done':''}"><div class="nrow"><button class="open" data-open="${n.id}"><i class="star jz"><small>${t('juz')}</small>${juzOf(Q.as[gi])}</i><span class="t"><b>${esc(sName(n.surah))} : ${n.ayah}</b><span class="aw" lang="ar">${ayHead(gi)}</span><em class="kat">${esc(katName(kat))}</em><span class="ub" aria-label="${t('revOf5',uc)}">${n.ulangan.map(u=>`<i${u?' class="on"':''}></i>`).join('')}<em>${uc}/5</em></span></span></button><label class="ck" aria-label="${t('markDone')}"><input type="checkbox" class="rk" data-done="${n.id}"${n.selesai?' checked':''}></label></div></div>`};
-  V.innerHTML=`<div class="top"><div><h1>Library</h1><p class="sub" style="margin:0">${t('libSub')}</p></div><button class="btn small addn" data-go="nota" aria-label="${t('addNoteAria')}">${t('addNote')}</button></div>
+  V.innerHTML=`<div class="top"><div><h1>${t('tabLib')}</h1><p class="sub" style="margin:0">${t('libSub')}</p></div><button class="btn small addn" data-go="nota" aria-label="${t('addNoteAria')}">${t('addNote')}</button></div>
   <div class="seg" role="group" aria-label="${t('filterAria')}">${[['aktif',t('fAktif'),act],['selesai',t('fSelesai'),done],['semua',t('fSemua'),notes.length]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${tab===t[0]}">${t[1]} ${t[2]}</button>`).join('')}</div>
   <div class="list">${L.length?L.map(item).join(''):notes.length?`<div class="empty">${t('emptyList')}</div>`:`<div class="empty">${star(IC.pen,'gold')}<b>${t('noNotes')}</b>${t('noNotesSub')}<div style="margin-top:14px;display:grid;gap:6px"><button class="btn" data-go="nota">${t('firstNote')}</button><button class="link" id="demo">${t('demo')}</button></div></div>`}</div>
   <details class="datab"><summary class="sect">${t('dataBackup')}</summary>
@@ -448,7 +447,7 @@ document.getElementById('brand').onclick=()=>go('home');
 addEventListener('hashchange',render);
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{const p=document.getElementById('pg');p&&fitPage(p)},150)});
 // Splash: icon pops in, crescent & star follow, then zooms out into Home (min 1.5s, or 0.4s if reduced motion)
-const SPL=document.getElementById('splash'),SPL_T0=performance.now(),SPL_MIN=matchMedia('(prefers-reduced-motion: reduce)').matches?300:3000;
+const SPL=document.getElementById('splash'),SPL_T0=performance.now(),SPL_MIN=matchMedia('(prefers-reduced-motion: reduce)').matches?300:1000;
 function hideSplash(){if(!SPL||SPL.classList.contains('out'))return;setTimeout(()=>{requestAnimationFrame(()=>{SPL.classList.add('out');setTimeout(()=>SPL.remove(),450)})},Math.max(0,SPL_MIN-(performance.now()-SPL_T0)))}
 setTimeout(hideSplash,6000);
 fetch('data/mushaf.json').then(r=>r.json()).then(d=>{M=d}).catch(()=>{});
