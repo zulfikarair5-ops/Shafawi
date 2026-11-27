@@ -123,7 +123,8 @@ select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),
 /* result */
 .verdict{display:flex;align-items:center;gap:12px;border-radius:22px;padding:12px 14px;margin:4px 0 14px;background:var(--surf);border:1px solid var(--line);box-shadow:var(--sh)}
 .verdict b{font-size:19px;display:block;letter-spacing:-.01em}
-.verdict.ok b{color:var(--good)}.verdict.no b{color:var(--bad)}
+.verdict.ok b{color:var(--good)}.verdict.no b{color:var(--bad)}.verdict.half b{color:var(--gold)}
+.verdict.half .star{--c:color-mix(in srgb,var(--gold) 18%,var(--surf));color:var(--gold)}
 .verdict.no .star{--c:color-mix(in srgb,var(--bad) 16%,var(--surf));color:var(--bad)}
 .verdict.ok .star{--c:var(--btn);color:var(--onbtn)}
 .verdict p{margin:1px 0 0;font-size:14px;color:var(--muted)}

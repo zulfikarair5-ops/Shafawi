@@ -23,7 +23,8 @@ const IC={
  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7c-2-1.6-5-2-8-1.5v12c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-12c-3-.5-6-.1-8 1.5zM12 7v12"/></svg>',
  pen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/></svg>',
  ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
- no:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg>'};
+ no:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg>',
+ half:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6.5 12h11"/></svg>'};
 
 /* ---------- theme ---------- */
 const MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg>';
@@ -266,12 +267,15 @@ R.teka=()=>{
 R.jawapan=()=>{
   if(!S||!S.pick)return go(S?'teka':'mod');
   const z=zoneOf(S.gi),okPos=S.pick[0]===z.side&&(z.half==='*'||S.pick[1]===z.half);
-  const okSur=S.sur&&S.sur.done?S.sur.pick===surOf(S.gi):null,ok=okPos&&okSur!==false;
+  const okSur=S.sur&&S.sur.done?S.sur.pick===surOf(S.gi):null;
+  // ok = semua betul, half = satu betul satu salah (surah vs kedudukan), no = semua salah.
+  const st=okSur===null?(okPos?'ok':'no'):okPos&&okSur?'ok':okPos||okSur?'half':'no';
+  const head={ok:'Betul! Masya-Allah.',half:'Separuh betul.',no:'Salah, teruskan mengulang.'}[st];
   const mark=(t,v)=>`<span class="mk ${v?'ok':'no'}">${v?'✓':'✗'} ${t}</span>`;
   const marks=okSur===null?'':`<div class="mks">${mark('Surah',okSur)}${mark('Kedudukan',okPos)}</div>`;
   if(S.view==null)S.view=z.p;
   const pos=`${z.side==='R'?'kanan':'kiri'}, ${z.half==='T'?'atas':z.half==='B'?'bawah':'tengah'}`;
-  V.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${star(ok?IC.ok:IC.no)}<div><b>${ok?'Betul! Masya-Allah.':'Salah, teruskan mengulang.'}</b><p>${esc(ref(S.gi))} · ms ${z.p} · ${pos}</p></div>${marks}</div>
+  V.innerHTML=`<div class="verdict ${st}">${star(st==='ok'?IC.ok:st==='half'?IC.half:IC.no)}<div><b>${head}</b><p>${esc(ref(S.gi))} · ms ${z.p} · ${pos}</p></div>${marks}</div>
   <div id="pg" data-scroll="1"><div class="pgload">Memuatkan muka surat ${S.view}…</div></div>
   <div class="jnav"><button class="btn ghost pgb" id="pn"${S.view>=604?' disabled':''} aria-label="Muka surat selepas">‹</button><button class="btn" id="nx">Soalan seterusnya</button><button class="btn ghost pgb" id="pp"${S.view<=1?' disabled':''} aria-label="Muka surat sebelum">›</button></div>
   <div class="jlinks">${S.view!==z.p?`<button class="link" id="back">Kembali ke ms ${z.p}</button>`:''}<button class="link" id="tamat">Tamat sesi</button></div>`;
