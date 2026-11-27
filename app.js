@@ -28,7 +28,7 @@ const TX={
   posOk:'Masyallah mumtaz. Jawapan anda betul',posNo:'Jawapan anda salah. Teruskan murajaah',pg:n=>'ms '+n,right:'kanan',left:'kiri',topL:'atas',bottomL:'bawah',mid:'tengah',
   loadingPage:n=>`Memuatkan muka surat ${n}…`,nextPage:'Muka surat selepas',prevPage:'Muka surat sebelum',nextQ:'Soalan seterusnya',backTo:n=>`Kembali ke ms ${n}`,
   noteHint:'Catat ayat yang perlu diulang.',ayah:'Ayat',katLbl:'Kategori catatan',catatan:'Catatan',writeNote:'Tulis catatan',saveNote:'Simpan nota',saved:r=>`Nota ${r} disimpan`,
-  kat:{'Ayat Mutasyabihat':'Ayat Mutasyabihat','Perkataan':'Perkataan','Kepala ayat':'Kepala ayat','Kepala muka surat':'Kepala muka surat'},
+  kat:{'Salah teka surah':'Salah teka surah','Salah kedudukan':'Salah kedudukan','Ayat Mutasyabihat':'Ayat Mutasyabihat','Perkataan':'Perkataan','Kepala ayat':'Kepala ayat','Kepala muka surat':'Kepala muka surat'},
   pageN:n=>'Muka surat '+n,revN:n=>'Ulangan '+n,doneT:'Selesai',tapDel:'Tekan lagi untuk padam',delNote:'Padam nota',
   fiveDone:'5 ulangan lengkap. Nota ditanda selesai.',markedDone:'Ditanda selesai',backActive:'Dikembalikan ke aktif',deleted:'Nota dipadam',
   libSub:'Ayat lemah, ikut turutan mushaf',addNoteAria:'Tambah nota',addNote:'＋ Nota',filterAria:'Tapis nota',fAktif:'Aktif',fSelesai:'Selesai',fSemua:'Semua',
@@ -39,7 +39,7 @@ const TX={
   score:'Skor',progSub:'Rekod setiap sesi uji anda',noHist:'Belum ada sesi',noHistSub:'Tamatkan satu sesi Tebuk Ayat dan skornya akan direkod di sini.',quote:'Murajaah itu amanah, masyi itu satu anugerah.',ptsM:n=>`+${n} markah`,ruleTxt:'Setiap soalan 2 markah: surah betul 1 markah, kedudukan betul 1 markah.',ptsN:n=>`+${n}`,
   sumTitle:'Sesi tamat',sumPts:(a,b,n)=>`${a}/${b} markah · ${n} soalan`,sumSurah:'Surah',sumPos:'Kedudukan',
   grade:['Mumtaz','Jayyid Jiddan','Jayyid','Maqbul'],keepGoing:'Teruskan usaha',wrongT:'Ayat untuk diulang',wrongS:'Surah salah',wrongP:'Kedudukan salah',
-  saveWrong:n=>`Simpan ${n} ayat ke Catatan`,savedWrong:n=>`${n} ayat disimpan ke Catatan`,allSavedW:'Sudah disimpan ke Catatan ✓',newSess:'Sesi baharu',toHome:'Ke Utama',fromTest:'Dari sesi uji',
+  saveWrong:n=>`Simpan ${n} ayat ke Catatan`,savedWrong:n=>`${n} ayat disimpan ke Catatan`,allSavedW:'Sudah disimpan ke Catatan ✓',newSess:'Sesi baharu',toHome:'Ke Utama',bothWrong:'Surah dan kedudukan salah',
   progT:'Perkembangan 7 hari',avgN:n=>`Purata ${n}%`,histT:'Sesi lepas',chartAria:'Peratus skor setiap hari, 7 hari lepas',
   days:['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu'],dayS:['Ahd','Isn','Sel','Rab','Kha','Jum','Sab'],mon:['Jan','Feb','Mac','Apr','Mei','Jun','Jul','Ogo','Sep','Okt','Nov','Dis'],today:'Hari ini',nSess:n=>`${n} sesi`,qs:n=>`${n} soalan`,
   shareTitle:'Sandaran nota Shafawi',imported:n=>`${n} nota diimport`,badFile:'Fail ini bukan sandaran Shafawi',hMon:['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']},
@@ -62,7 +62,7 @@ const TX={
   posOk:'Masha Allah, mumtaz! Your answer is correct',posNo:'Your answer is wrong. Keep up your muraja\'ah',pg:n=>'p. '+n,right:'right',left:'left',topL:'top',bottomL:'bottom',mid:'middle',
   loadingPage:n=>`Loading page ${n}…`,nextPage:'Next page',prevPage:'Previous page',nextQ:'Next question',backTo:n=>`Back to p. ${n}`,
   noteHint:'Note down ayahs that need revising.',ayah:'Ayah',katLbl:'Note category',catatan:'Note',writeNote:'Write a note',saveNote:'Save note',saved:r=>`Note ${r} saved`,
-  kat:{'Ayat Mutasyabihat':'Mutashabihat ayah','Perkataan':'Word','Kepala ayat':'Start of ayah','Kepala muka surat':'Start of page'},
+  kat:{'Salah teka surah':'Wrong surah','Salah kedudukan':'Wrong position','Ayat Mutasyabihat':'Mutashabihat ayah','Perkataan':'Word','Kepala ayat':'Start of ayah','Kepala muka surat':'Start of page'},
   pageN:n=>'Page '+n,revN:n=>'Revision '+n,doneT:'Done',tapDel:'Tap again to delete',delNote:'Delete note',
   fiveDone:'5 revisions complete. Note marked done.',markedDone:'Marked done',backActive:'Moved back to active',deleted:'Note deleted',
   libSub:'Weak ayahs, in mushaf order',addNoteAria:'Add note',addNote:'＋ Note',filterAria:'Filter notes',fAktif:'Active',fSelesai:'Done',fSemua:'All',
@@ -73,7 +73,7 @@ const TX={
   score:'Score',progSub:'A record of every test session',noHist:'No sessions yet',noHistSub:'Finish an Ayah Test session and its score will be recorded here.',quote:'Muraja\'ah is a trust; fluent recitation is a gift.',ptsM:n=>`+${n} pt`,ruleTxt:'Each question is worth 2 points: 1 for the correct surah, 1 for the correct position.',ptsN:n=>`+${n}`,
   sumTitle:'Session complete',sumPts:(a,b,n)=>`${a}/${b} points · ${n} questions`,sumSurah:'Surah',sumPos:'Position',
   grade:['Mumtaz','Jayyid Jiddan','Jayyid','Maqbul'],keepGoing:'Keep going',wrongT:'Ayahs to revise',wrongS:'Wrong surah',wrongP:'Wrong position',
-  saveWrong:n=>`Save ${n} ayahs to Notes`,savedWrong:n=>`${n} ayahs saved to Notes`,allSavedW:'Saved to Notes ✓',newSess:'New session',toHome:'Go to Home',fromTest:'From a test session',
+  saveWrong:n=>`Save ${n} ayahs to Notes`,savedWrong:n=>`${n} ayahs saved to Notes`,allSavedW:'Saved to Notes ✓',newSess:'New session',toHome:'Go to Home',bothWrong:'Surah and position both wrong',
   progT:'Last 7 days',avgN:n=>`Average ${n}%`,histT:'Past sessions',chartAria:'Score percentage per day, last 7 days',
   days:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],dayS:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],mon:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],today:'Today',nSess:n=>`${n} sessions`,qs:n=>`${n} questions`,
   shareTitle:'Shafawi notes backup',imported:n=>`${n} notes imported`,badFile:'This file is not a Shafawi backup',}};
@@ -90,9 +90,11 @@ function applyLang(){
 document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{if(LANG===b.dataset.lang)return;LANG=b.dataset.lang;store.set('lang',LANG);applyLang();render()});
 const ub=(a,x)=>{let lo=0,hi=a.length;while(lo<hi){const m=(lo+hi)>>1;if(a[m]<=x)lo=m+1;else hi=m}return lo};
 const KAT=['Ayat Mutasyabihat','Perkataan','Kepala ayat','Kepala muka surat'];
+// Kategori untuk nota yang disimpan dari halaman Tamat sesi (tiada dalam borang Catatan).
+const KAT_SESI=['Salah teka surah','Salah kedudukan'];
 // Kategori lama (sebelum 26 Nov 2026) dipetakan ke kategori baru.
 const KAT_OLD={'Tertukar mutasyabihat':'Ayat Mutasyabihat','Tertinggal perkataan':'Perkataan','Salah baris':'Perkataan','Lupa ayat':'Kepala ayat','Lain-lain':'Perkataan'};
-function fixKat(n){if(!KAT.includes(n.kategori)){if(n.kategori==='Lain-lain'&&n.lain)n.perkataan=[n.lain,n.perkataan].filter(Boolean).join(' · ');n.kategori=KAT_OLD[n.kategori]||'Perkataan';n.lain=''}return n}
+function fixKat(n){if(!KAT.includes(n.kategori)&&!KAT_SESI.includes(n.kategori)){if(n.kategori==='Lain-lain'&&n.lain)n.perkataan=[n.lain,n.perkataan].filter(Boolean).join(' · ');n.kategori=KAT_OLD[n.kategori]||'Perkataan';n.lain=''}return n}
 const NAMEFIX={3:"Ali 'Imran"};
 let Q=null,FA=null,END=null;
 let notes=store.get('notes',[]).map(fixKat);
@@ -327,7 +329,7 @@ R.ringkasan=()=>{
   <button class="btn" id="svw" style="margin-top:14px"${W.length?'':' disabled'}>${W.length?t('saveWrong',W.length):t('allSavedW')}</button>`:''}
   <div style="display:grid;gap:4px;margin-top:10px"><button class="btn ${L.wrong.length?'ghost':''}" data-go="mod">${t('newSess')}</button><button class="link" data-go="home" style="justify-self:center">${t('toHome')}</button></div>`;
   const sv=document.getElementById('svw');sv&&(sv.onclick=()=>{const now=new Date().toISOString();
-    W.forEach((w,i)=>notes.push({id:Date.now().toString(36)+i+Math.random().toString(36).slice(2,5),surah:surOf(w.gi),ayah:ayNo(w.gi),kategori:w.p?'Perkataan':'Kepala muka surat',lain:'',perkataan:t('fromTest'),ulangan:[0,0,0,0,0],selesai:false,dibuat:now}));
+    W.forEach((w,i)=>notes.push({id:Date.now().toString(36)+i+Math.random().toString(36).slice(2,5),surah:surOf(w.gi),ayah:ayNo(w.gi),kategori:w.s?'Salah kedudukan':'Salah teka surah',lain:'',perkataan:!w.s&&!w.p?t('bothWrong'):'',ulangan:[0,0,0,0,0],selesai:false,dibuat:now}));
     save();toast(t('savedWrong',W.length));R.ringkasan()})};
 
 const MODES=['rawak','juz','surah','julat','maqra','awalsurah','nota'];
