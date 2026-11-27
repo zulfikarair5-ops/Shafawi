@@ -329,22 +329,20 @@ h1,.stat b,.ring b,.star.jz,.verdict b{font-variant-numeric:lining-nums}
 
 /* Splash screen */
 #splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--bg1);will-change:opacity;--sp-c:var(--pri)}
-/* Animasi ikon: cincin -> titik -> jalur berpusing -> bekas ikon melantun -> khat masuk -> bulan & bintang */
+/* Animasi ikon: jalur berpusing -> bekas ikon melantun -> khat masuk -> bulan & bintang */
 #splash .sp-wrap{position:relative;width:124px;height:124px;margin-top:-8vh}
 #splash .sp-wrap>*{position:absolute;left:50%;top:50%}
-#splash .sp-ring{width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;border:5px solid var(--sp-c);box-sizing:border-box;animation:sp-ring .5s cubic-bezier(.5,0,.3,1) both}
-#splash .sp-orbit{width:0;height:0;animation:sp-orbit .5s cubic-bezier(.3,0,.2,1) .34s both}
-#splash .sp-orbit i{position:absolute;left:-16px;top:-4px;width:32px;height:8px;border-radius:4px;background:var(--sp-c);filter:blur(1.4px);animation:sp-streak .5s cubic-bezier(.3,0,.2,1) .34s both}
+#splash .sp-orbit{width:0;height:0;animation:sp-orbit .5s cubic-bezier(.3,0,.2,1) both}
+#splash .sp-orbit i{position:absolute;left:-16px;top:-4px;width:32px;height:8px;border-radius:4px;background:var(--sp-c);filter:blur(1.4px);animation:sp-streak .5s cubic-bezier(.3,0,.2,1) both}
 #splash .sp-orbit i:nth-child(1){--r:0deg}#splash .sp-orbit i:nth-child(2){--r:90deg}#splash .sp-orbit i:nth-child(3){--r:180deg}#splash .sp-orbit i:nth-child(4){--r:270deg}
-#splash .sp-icon{width:124px;height:124px;margin:-62px 0 0 -62px;border-radius:28px;overflow:hidden;box-shadow:0 18px 40px -18px rgba(15,61,43,.45);will-change:transform,border-radius;animation:sp-pop .5s cubic-bezier(.34,1.5,.5,1) .7s both}
+#splash .sp-icon{width:124px;height:124px;margin:-62px 0 0 -62px;border-radius:28px;overflow:hidden;box-shadow:0 18px 40px -18px rgba(15,61,43,.45);will-change:transform,border-radius;animation:sp-pop .5s cubic-bezier(.34,1.5,.5,1) .36s both}
 #splash .sp-icon svg{display:block;width:100%;height:100%}
 #splash .sp-l1,#splash .sp-l2,#splash .sp-ms{transform-box:fill-box;transform-origin:center}
-#splash .sp-l1{animation:sp-l1 .5s cubic-bezier(.3,1.35,.5,1) .86s both}
-#splash .sp-l2{animation:sp-l2 .5s cubic-bezier(.3,1.35,.5,1) .96s both}
-#splash .sp-ms{animation:sp-ms .4s cubic-bezier(.34,1.8,.5,1) 1.2s both}
+#splash .sp-l1{animation:sp-l1 .5s cubic-bezier(.3,1.35,.5,1) .52s both}
+#splash .sp-l2{animation:sp-l2 .5s cubic-bezier(.3,1.35,.5,1) .62s both}
+#splash .sp-ms{animation:sp-ms .4s cubic-bezier(.34,1.8,.5,1) .86s both}
 #splash.out{animation:sp-fade .35s cubic-bezier(.4,0,.2,1) forwards;pointer-events:none}
 #splash.out .sp-icon{animation:sp-zoom .35s cubic-bezier(.4,0,.2,1) forwards}
-@keyframes sp-ring{0%{transform:scale(0);border-width:5px}35%{transform:scale(1.15);border-width:5px}60%{transform:scale(1);border-width:7px}100%{transform:scale(.16);border-width:28px;opacity:1}}
 @keyframes sp-orbit{from{transform:rotate(-150deg) scale(1.5)}to{transform:rotate(40deg) scale(.55)}}
 @keyframes sp-streak{0%{opacity:0;transform:rotate(var(--r)) translateY(-52px) scaleX(.2)}25%{opacity:1}55%{transform:rotate(var(--r)) translateY(-58px) scaleX(1.8)}100%{opacity:0;transform:rotate(var(--r)) translateY(-40px) scaleX(.3)}}
 @keyframes sp-pop{0%{transform:scale(.06);border-radius:62px;opacity:0}20%{opacity:1}60%{border-radius:50px}100%{transform:scale(1);border-radius:28px;opacity:1}}
@@ -353,7 +351,7 @@ h1,.stat b,.ring b,.star.jz,.verdict b{font-variant-numeric:lining-nums}
 @keyframes sp-ms{0%{transform:scale(0) rotate(-60deg);opacity:0}100%{transform:none;opacity:1}}
 @keyframes sp-zoom{to{transform:scale(1.18)}}
 @keyframes sp-fade{to{opacity:0}}
-@media (prefers-reduced-motion:reduce){#splash .sp-ring,#splash .sp-orbit{display:none}#splash .sp-icon,#splash .sp-l1,#splash .sp-l2,#splash .sp-ms,#splash.out .sp-icon{animation:none}}
+@media (prefers-reduced-motion:reduce){#splash .sp-orbit{display:none}#splash .sp-icon,#splash .sp-l1,#splash .sp-l2,#splash .sp-ms,#splash.out .sp-icon{animation:none}}
 
 /* Muat satu skrin (iPhone 15) */
 header{padding-bottom:8px}
