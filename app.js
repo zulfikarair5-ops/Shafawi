@@ -1,4 +1,6 @@
-{
+// Seluruh app dalam fungsi (IIFE), bukan blok { }. Safari 16 (iPhone X) tidak dapat melihat const/let
+// blok dari dalam fungsi yang diisytihar dalam blok itu ("Can't find variable: store").
+(function(){
 const V=document.getElementById('view');
 const AD=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -490,4 +492,4 @@ Promise.all([fetch('data/quran.json').then(r=>r.json()),Promise.race([document.f
   for(let i=0;i<Q.as.length;i++){const e=(i+1<Q.as.length?Q.as[i+1]:Q.w.length)-1;END[e]=i-FA[ub(FA,i)-1]+1}
   render();hideSplash()}).catch(e=>{V.innerHTML=`<div class="loading">${t('loadFail')}</div><p class="err">${esc(e&&e.message||e)}</p>`;hideSplash()});
 if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
-}
+})();
