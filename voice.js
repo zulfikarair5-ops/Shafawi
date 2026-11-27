@@ -42,7 +42,7 @@
     const s = { conf: 0, base: 0, err: null, mistakes: 0, running: false, busy: false, lastMs: 0 };
     let ctx, src, proc, stream, timer;
     let buf = new Float32Array(SR * 120), len = 0;
-    let segStart = 0, lastPass = 0, pendKey = '', speechAt = -1, noise = 0.004, ratio = 1;
+    let fin = false, segStart = 0, lastPass = 0, pendKey = '', speechAt = -1, noise = 0.004, ratio = 1;
     const FR = 480; let frAcc = 0, frN = 0; // VAD setiap 30ms
     const update = () => opts.onUpdate && opts.onUpdate(s);
 
@@ -70,7 +70,7 @@
       // Mula (atau sambung) rakaman. AudioContext dicipta segera dalam ketikan supaya iOS benarkan audio.
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       const resumed = ctx.resume();
-      len = 0; segStart = 0; lastPass = 0; speechAt = -1; pendKey = ''; frAcc = 0; frN = 0;
+      len = 0; segStart = 0; lastPass = 0; speechAt = -1; pendKey = ''; frAcc = 0; frN = 0; fin = false;
       s.base = s.err ? s.err.pos : s.conf;
       stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
       await resumed;
@@ -90,7 +90,7 @@
       try { ctx && ctx.state !== 'closed' && ctx.close(); } catch (e) {}
       proc = src = stream = ctx = null;
       // Semak baki bacaan yang belum disahkan.
-      if (wasOn && !s.busy && speechAt >= segStart && lastPass <= speechAt && eng.state === 'ready') pass(len, true);
+      if (wasOn && speechAt >= segStart && eng.state === 'ready') { if (s.busy) fin = true; else pass(len, true); }
       update();
     }
     // Pengguna tekan "AI salah dengar": terima perkataan yang ditanda sebagai betul.
@@ -117,7 +117,7 @@
       const m = await transcribe(audio);
       s.busy = false;
       
-      if (m.type === 'error') { opts.onError && opts.onError(m.msg); return; }
+      if (m.type === 'error') { fin = false; opts.onError && opts.onError(m.msg); return; }
       s.lastMs = m.ms;
       let hyp = M.words(m.text);
       hyp = strip(hyp);
@@ -130,7 +130,7 @@
           s.err = { pos: r.err.pos, heard: r.err.heard, at: Date.now() };
           s.mistakes++;
           s.base = r.err.pos; segStart = end; pendKey = '';
-          update(); return;
+          update(); fin = false; return;
         }
         pendKey = key;
       } else pendKey = '';
@@ -143,6 +143,8 @@
       if (c > s.conf) { s.conf = c; if (s.err && s.conf > s.err.pos) s.err = null; }
       if (paused && !r.err) { s.base = r.j; s.conf = Math.max(s.conf, r.j); segStart = end; if (s.err && s.conf > s.err.pos) s.err = null; }
       update();
+      // Mikrofon dimatikan semasa AI sedang memproses: semak baki audio terakhir.
+      if (fin && !s.running) { fin = false; if (len > segStart && speechAt >= segStart) pass(len, true); }
     }
 
     // Buang isti'azah / basmalah di awal bacaan (contoh bila ayat seterusnya ialah awal surah).
