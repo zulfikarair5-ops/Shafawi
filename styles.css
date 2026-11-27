@@ -328,17 +328,25 @@ h1,.stat b,.ring b,.star.jz,.verdict b{font-variant-numeric:lining-nums}
 .mush-wrap,.pgload{--paper:light-dark(#fffcf3,#141f19);--gold:light-dark(#b88b3a,#d4b06a);--gold2:light-dark(#f4ead2,#2a2616);--pink:light-dark(#1a1a17,#e9efe9);--muted:light-dark(#5c7567,#91ab9c);--line:light-dark(#e1ebe4,#1f3529);--sh2:light-dark(0 10px 30px -12px rgba(15,61,43,.28),0 10px 30px -12px rgba(0,0,0,.6));--hltext:light-dark(#0f7a4c,#6fdca6)}
 
 /* Splash screen */
-#splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--bg1);will-change:opacity}
-#splash .sp-wrap{display:flex;flex-direction:column;align-items:center;gap:26px;margin-top:-8vh}
-/* Hanya transform & opacity (dikomposit GPU), ikon sebagai bitmap supaya tak dilukis semula setiap bingkai */
-#splash .sp-icon{display:block;width:124px;height:124px;border-radius:28px;will-change:transform,opacity;animation:sp-in .6s cubic-bezier(.34,1.56,.64,1) both}
-#splash.out{animation:sp-fade .4s cubic-bezier(.4,0,.2,1) forwards;pointer-events:none}
-#splash.out .sp-icon{animation:sp-zoom .4s cubic-bezier(.4,0,.2,1) forwards}
-@keyframes sp-in{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+#splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--bg1);will-change:opacity;--sp-c:var(--pri)}
+/* Animasi ikon: bekas ikon melantun -> khat masuk -> bulan & bintang */
+#splash .sp-wrap{position:relative;width:124px;height:124px;margin-top:-8vh}
+#splash .sp-wrap>*{position:absolute;left:50%;top:50%}
+#splash .sp-icon{width:124px;height:124px;margin:-62px 0 0 -62px;border-radius:28px;overflow:hidden;box-shadow:0 18px 40px -18px rgba(15,61,43,.45);will-change:transform,border-radius;animation:sp-pop .5s cubic-bezier(.34,1.5,.5,1) .05s both}
+#splash .sp-icon svg{display:block;width:100%;height:100%}
+#splash .sp-l1,#splash .sp-l2,#splash .sp-ms{transform-box:fill-box;transform-origin:center}
+#splash .sp-l1{animation:sp-l1 .5s cubic-bezier(.3,1.35,.5,1) .21s both}
+#splash .sp-l2{animation:sp-l2 .5s cubic-bezier(.3,1.35,.5,1) .31s both}
+#splash .sp-ms{animation:sp-ms .4s cubic-bezier(.34,1.8,.5,1) .55s both}
+#splash.out{animation:sp-fade .35s cubic-bezier(.4,0,.2,1) forwards;pointer-events:none}
+#splash.out .sp-icon{animation:sp-zoom .35s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes sp-pop{0%{transform:scale(.06);border-radius:62px;opacity:0}20%{opacity:1}60%{border-radius:50px}100%{transform:scale(1);border-radius:28px;opacity:1}}
+@keyframes sp-l1{0%{transform:translate(1500px,0) scale(1.4,.7);opacity:0}30%{opacity:1}100%{transform:none;opacity:1}}
+@keyframes sp-l2{0%{transform:translate(-1500px,0) scale(1.4,.7);opacity:0}30%{opacity:1}100%{transform:none;opacity:1}}
+@keyframes sp-ms{0%{transform:scale(0) rotate(-60deg);opacity:0}100%{transform:none;opacity:1}}
 @keyframes sp-zoom{to{transform:scale(1.18)}}
 @keyframes sp-fade{to{opacity:0}}
-@media (prefers-reduced-motion:reduce){#splash .sp-icon{animation:none}#splash.out .sp-icon{animation:none}}
-
+@media (prefers-reduced-motion:reduce){#splash .sp-icon,#splash .sp-l1,#splash .sp-l2,#splash .sp-ms,#splash.out .sp-icon{animation:none}}
 /* Muat satu skrin (iPhone 15) */
 header{padding-bottom:8px}
 .greet{margin:0 2px 10px}.greet h1{font-size:30px}
