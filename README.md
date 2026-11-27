@@ -9,6 +9,7 @@ Direka untuk iPhone (Safari), boleh ditambah ke Skrin Utama dan berfungsi tanpa 
 
 - **Tebuk ayat**: 5 mod (rawak 30 juzuk, juzuk, surah, julat muka surat, dari nota). Papar ayat, buka ayat sebelum/seterusnya, kemudian kenal pasti kedudukan ayat (kiri/kanan, atas/bawah) dalam Mushaf Madinah. Skrin jawapan papar muka surat penuh 15 baris dengan ayat soalan berwarna.
 - **Catatan Muraja'ah** (nota ayat lemah): surah, ayat, kategori (Ayat Mutasyabihat, Perkataan, Kepala ayat, Kepala muka surat), catatan. Library dengan tab Aktif/Selesai/Semua, 5 kotak ulangan (5 ulangan = selesai), padam, sandaran eksport/import fail JSON.
+- **Semak ayat seterusnya: Manual atau Suara AI.** Manual = tekan butang untuk buka ayat seterusnya. Suara AI = baca ayat seterusnya, perkataan yang betul muncul satu demi satu, perkataan yang salah ditanda merah dengan animasi bergegar. Butang *Bantu* tunjuk perkataan seterusnya, *AI salah dengar* terima perkataan yang ditanda.
 - Mod gelap (ikut iPhone, atau tukar dengan butang).
 
 ## Struktur
@@ -19,6 +20,7 @@ Direka untuk iPhone (Safari), boleh ditambah ke Skrin Utama dan berfungsi tanpa 
 | `styles.css` | Gaya Emerald Noir: mod gelap hijau zamrud + emas, mod cerah putih hangat + taupe + coklat gelap, corak khatam |
 | `app.js` | Semua logik app, tanpa framework |
 | `sw.js` | Service worker untuk mod luar talian |
+| `voice.js`, `voice-match.js`, `asr-worker.js` | Mod Suara AI: rakaman mikrofon, padanan perkataan Uthmani dengan teks yang didengar, dan model AI dalam Web Worker. Dimuat hanya bila mod suara dipilih |
 | `manifest.webmanifest`, `icons/` | Ikon dan tetapan Skrin Utama |
 | `data/quran.json` | Teks Rasm Uthmani + susun atur muka surat, baris, ayat, juzuk |
 | `data/mushaf.json` | Kod glyph setiap baris untuk fon QCF4 (paparan mushaf) |
@@ -46,3 +48,9 @@ Bila mengubah fail app, naikkan `VERSION` dalam `sw.js` supaya telefon ambil ver
 - Baris nama surah dan basmalah tidak ada dalam data; app menambahnya (setiap surah kecuali Al-Fatihah dan At-Taubah ada basmalah). Semua muka surat 3 hingga 604 genap 15 baris.
 - Paparan muka surat mushaf menggunakan fon KFGQPC QCF4 (Mushaf Madinah 1441H, khat Uthman Taha), dimuat dari jsDelivr (pakej npm `quran-qcf4` 1.1.0) dan disimpan oleh service worker untuk luar talian. Fon ini hak cipta KFGQPC dan tidak disimpan dalam repo ini; data glyph halaman berlesen MIT. Susunan baris QCF4 disemak sama dengan data teks untuk kesemua 6236 ayat. Jika fon tidak dapat dimuat, app guna fon HAFS sebagai ganti.
 - Ilustrasi rehal dan ikon dilukis khas untuk app ini.
+
+## Mod Suara AI
+
+- Model: Whisper base yang dilatih oleh Tarteel untuk bacaan Quran ([tarteel-ai/whisper-base-ar-quran](https://huggingface.co/tarteel-ai/whisper-base-ar-quran), lesen Apache 2.0), versi ONNX 8-bit untuk pelayar ([nael239/tasme3-whisper-base-ar-quran-web](https://huggingface.co/nael239/tasme3-whisper-base-ar-quran-web), revisi dikunci dalam `asr-worker.js`). Dijalankan dengan [transformers.js](https://github.com/huggingface/transformers.js) 3.7.5.
+- Muat turun sekali kira-kira 127 MB (model 105 MB + enjin ONNX 22 MB), disimpan dalam Cache Storage pelayar, kemudian berfungsi tanpa internet. Audio diproses dalam telefon sahaja, tiada pelayan.
+- iOS mungkin memadam data laman web yang lama tidak dibuka. Tambah app ke Skrin Utama supaya model kekal tersimpan.
