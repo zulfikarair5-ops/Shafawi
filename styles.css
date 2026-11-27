@@ -2,19 +2,19 @@
 @font-face{font-family:"Hafs";src:url(data/hafs.ttf) format("truetype");font-display:block}
 :root{color-scheme:light dark;
 /* Mod gelap: Emerald Noir (hijau zamrud hampir hitam + emas). Mod cerah: putih hangat, taupe, coklat gelap. */
---bg1:light-dark(#f8f6f0,#0a1712);--bg2:light-dark(#efeadf,#08130e);
---surf:light-dark(#ffffff,#10241b);--surf2:light-dark(#f6f2e9,#142c21);
---ink:light-dark(#10291e,#f2ede1);--muted:light-dark(#5d6f64,#9db0a5);
---pri:light-dark(#0f3d2b,#c9a25a);--pri2:light-dark(#0a2c1f,#b48d47);--on:#fff;
---btn:light-dark(#0f3d2b,#c9a25a);--btn2:light-dark(#17573d,#d4b06a);--onbtn:light-dark(#ffffff,#0a1712);
---panel:light-dark(#0f3d2b,#143526);--panel2:light-dark(#17573d,#1a4030);
---gold:light-dark(#9a7230,#c9a25a);--gold2:light-dark(#f3ead6,#1f2d1f);
---line:light-dark(#e6dfd0,#1c3328);--soft:light-dark(#ece6d8,#173126);
---taupe:light-dark(#0f3d2b,#2a4a3a);
---hero1:light-dark(#14503a,#173a2a);--hero2:light-dark(#0b3022,#0e251b);--heroink:light-dark(#f8f2e2,#f6f1e4);--heromut:light-dark(#cbdccf,#a9bfb1);--heroacc:light-dark(#d9b56c,#c9a25a);--herorule:light-dark(rgba(217,181,108,.6),rgba(201,162,90,.32));--cover:light-dark(#0f3d2b,#0a2c1f);
---hl:light-dark(#f4e7c6,#5c4c17);--bad:light-dark(#b0412b,#ff8f75);--good:light-dark(#1f6b48,#6fd3a0);
---paper:light-dark(#fffdf9,#0f2019);--pink:light-dark(#1f1a17,#ebefe9);--hltext:light-dark(#8a6224,#e7c47a);
---sh:light-dark(0 1px 2px rgba(15,61,43,.06),0 0 #0000);--sh2:light-dark(0 12px 30px -14px rgba(15,61,43,.35),0 12px 30px -12px rgba(0,0,0,.6));
+--bg1:#f8f6f0;--bg2:#efeadf;
+--surf:#ffffff;--surf2:#f6f2e9;
+--ink:#10291e;--muted:#5d6f64;
+--pri:#0f3d2b;--pri2:#0a2c1f;--on:#fff;
+--btn:#0f3d2b;--btn2:#17573d;--onbtn:#ffffff;
+--panel:#0f3d2b;--panel2:#17573d;
+--gold:#9a7230;--gold2:#f3ead6;
+--line:#e6dfd0;--soft:#ece6d8;
+--taupe:#0f3d2b;
+--hero1:#14503a;--hero2:#0b3022;--heroink:#f8f2e2;--heromut:#cbdccf;--heroacc:#d9b56c;--herorule:rgba(217,181,108,.6);--cover:#0f3d2b;
+--hl:#f4e7c6;--bad:#b0412b;--good:#1f6b48;
+--paper:#fffdf9;--pink:#1f1a17;--hltext:#8a6224;
+/* --sh/--sh2: dulu light-dark(bayang,bayang) yang tak sah, jadi bayang ini tak pernah dilukis. "none" kekalkan rupa sama. */--sh:none;--sh2:none;
 --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Helvetica Neue",Arial,sans-serif;--serif:var(--sans);
 --wood1:#7b4d2a;--wood2:#a9703f;--wood3:#d9a66d}
 *{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
@@ -37,7 +37,7 @@ header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset
 main{flex:1;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 112px)}
 footer{position:fixed;left:0;right:0;bottom:0;padding:0 max(18px,env(safe-area-inset-left,0px)) calc(env(safe-area-inset-bottom,0px) + 12px);display:flex;justify-content:center;pointer-events:none;z-index:5}
 footer::before{content:"";position:absolute;inset:-28px 0 0 0;background:linear-gradient(transparent,var(--bg2) 70%);z-index:-1}
-.tabs{pointer-events:auto;width:100%;max-width:420px;height:64px;padding:6px;border-radius:32px;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:color-mix(in srgb,var(--surf) 86%,transparent);border:1px solid color-mix(in srgb,var(--gold) 26%,transparent);box-shadow:0 14px 34px -12px light-dark(rgba(15,61,43,.35),rgba(0,0,0,.6));backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4)}
+.tabs{pointer-events:auto;width:100%;max-width:420px;height:64px;padding:6px;border-radius:32px;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:color-mix(in srgb,var(--surf) 86%,transparent);border:1px solid color-mix(in srgb,var(--gold) 26%,transparent);box-shadow:0 14px 34px -12px rgba(15,61,43,.35);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4)}
 .tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:0;border-radius:26px;background:transparent;color:var(--muted);font:500 13px/1.1 var(--sans);cursor:pointer;transition:background .2s,color .2s}
 .tab svg{width:22px;height:22px}
 .tab[aria-current=page]{background:color-mix(in srgb,var(--gold) 15%,transparent);color:var(--pri);font-weight:700}
@@ -151,8 +151,8 @@ select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),
 .pfoot span{min-width:2.4em;text-align:center;padding:1px 8px;border-radius:999px;border:1px solid color-mix(in srgb,var(--gold) 45%,transparent)}
 /* Tanda muka kiri/kanan: lipatan tulang buku di tepi dalam, lapisan helaian di tepi luar */
 .mushaf .spine{position:absolute;top:0;bottom:0;width:22px;pointer-events:none}
-.mushaf.r .spine{left:0;border-radius:10px 0 0 10px;border-left:3px solid color-mix(in srgb,var(--gold) 85%,transparent);background:linear-gradient(90deg,light-dark(rgba(13,39,28,.2),rgba(0,0,0,.55)),transparent)}
-.mushaf.l .spine{right:0;border-radius:0 10px 10px 0;border-right:3px solid color-mix(in srgb,var(--gold) 85%,transparent);background:linear-gradient(270deg,light-dark(rgba(13,39,28,.2),rgba(0,0,0,.55)),transparent)}
+.mushaf.r .spine{left:0;border-radius:10px 0 0 10px;border-left:3px solid color-mix(in srgb,var(--gold) 85%,transparent);background:linear-gradient(90deg,rgba(13,39,28,.2),transparent)}
+.mushaf.l .spine{right:0;border-radius:0 10px 10px 0;border-right:3px solid color-mix(in srgb,var(--gold) 85%,transparent);background:linear-gradient(270deg,rgba(13,39,28,.2),transparent)}
 .mushaf .edge{position:absolute;top:8px;bottom:8px;width:6px;pointer-events:none;background:repeating-linear-gradient(90deg,color-mix(in srgb,var(--gold) 70%,transparent) 0 1px,transparent 1px 2.5px)}
 .mushaf.r .edge{right:-6px;border-radius:0 3px 3px 0}
 .mushaf.l .edge{left:-6px;border-radius:3px 0 0 3px}
@@ -323,7 +323,7 @@ h1,.stat b,.ring b,.star.jz,.verdict b{font-variant-numeric:lining-nums}
 .tab:focus:not(:focus-visible){outline:none}
 .tab:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 /* Paparan mushaf kekal seperti versi sebelum (warna asal hijau + emas) */
-.mush-wrap,.pgload{--paper:light-dark(#fffcf3,#141f19);--gold:light-dark(#b88b3a,#d4b06a);--gold2:light-dark(#f4ead2,#2a2616);--pink:light-dark(#1a1a17,#e9efe9);--muted:light-dark(#5c7567,#91ab9c);--line:light-dark(#e1ebe4,#1f3529);--sh2:light-dark(0 10px 30px -12px rgba(15,61,43,.28),0 10px 30px -12px rgba(0,0,0,.6));--hltext:light-dark(#b06f00,#ffc443)}
+.mush-wrap,.pgload{--paper:#fffcf3;--gold:#b88b3a;--gold2:#f4ead2;--pink:#1a1a17;--muted:#5c7567;--line:#e1ebe4;--sh2:none;--hltext:#b06f00}
 
 /* Splash screen */
 #splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--bg1);will-change:opacity;--sp-c:var(--pri)}
@@ -392,3 +392,15 @@ header{padding-bottom:8px}
 @keyframes sv-spk{0%{opacity:0;transform:scale(.3)}25%{opacity:1}100%{opacity:0;transform:translate(var(--x),var(--y)) scale(1.1) rotate(90deg)}}
 @keyframes sv-ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(2.2)}}
 @media(prefers-reduced-motion:reduce){.verdict.fx,.verdict.fx .star{animation:none}}
+/* Telefon kecil (iPhone SE/mini, iPhone notch 390px, Android 360px): tajuk muat satu baris. */
+@media (max-width:391px){h1:not(.greet h1){font-size:26px}}
+/* Skrin pendek (iPhone SE, 667px): pilihan surah lebih rapat supaya butang tak terlindung di belakang tab. */
+@media (max-height:700px){.sopts{gap:8px;margin-bottom:10px}.sopt{min-height:50px;padding:7px 14px}}
+
+/* Mod gelap. Dulu guna light-dark(), tapi iOS 16 ke bawah (contoh iPhone X) tak faham fungsi itu
+   dan semua warna jadi kosong. data-mode ditetapkan oleh skrip awal dalam index.html dan applyTheme(). */
+:root[data-mode=dark]{--bg1:#0a1712;--bg2:#08130e;--surf:#10241b;--surf2:#142c21;--ink:#f2ede1;--muted:#9db0a5;--pri:#c9a25a;--pri2:#b48d47;--btn:#c9a25a;--btn2:#d4b06a;--onbtn:#0a1712;--panel:#143526;--panel2:#1a4030;--gold:#c9a25a;--gold2:#1f2d1f;--line:#1c3328;--soft:#173126;--taupe:#2a4a3a;--hero1:#173a2a;--hero2:#0e251b;--heroink:#f6f1e4;--heromut:#a9bfb1;--heroacc:#c9a25a;--herorule:rgba(201,162,90,.32);--cover:#0a2c1f;--hl:#5c4c17;--bad:#ff8f75;--good:#6fd3a0;--paper:#0f2019;--pink:#ebefe9;--hltext:#e7c47a;--sh:none;--sh2:none}
+:root[data-mode=dark] .tabs{box-shadow:0 14px 34px -12px rgba(0,0,0,.6)}
+:root[data-mode=dark] .mushaf.r .spine{background:linear-gradient(90deg,rgba(0,0,0,.55),transparent)}
+:root[data-mode=dark] .mushaf.l .spine{background:linear-gradient(270deg,rgba(0,0,0,.55),transparent)}
+:root[data-mode=dark] .mush-wrap,:root[data-mode=dark] .pgload{--paper:#141f19;--gold:#d4b06a;--gold2:#2a2616;--pink:#e9efe9;--muted:#91ab9c;--line:#1f3529;--sh2:none;--hltext:#ffc443}
