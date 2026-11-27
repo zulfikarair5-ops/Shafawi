@@ -447,7 +447,7 @@ document.getElementById('brand').onclick=()=>go('home');
 addEventListener('hashchange',render);
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{const p=document.getElementById('pg');p&&fitPage(p)},150)});
 // Splash: icon pops in, crescent & star follow, then zooms out into Home (min 1.5s, or 0.4s if reduced motion)
-const SPL=document.getElementById('splash'),SPL_T0=performance.now(),SPL_MIN=matchMedia('(prefers-reduced-motion: reduce)').matches?300:1400;
+const SPL=document.getElementById('splash'),SPL_T0=performance.now(),SPL_MIN=matchMedia('(prefers-reduced-motion: reduce)').matches?300:1100;
 function hideSplash(){if(!SPL||SPL.classList.contains('out'))return;setTimeout(()=>{requestAnimationFrame(()=>{SPL.classList.add('out');setTimeout(()=>SPL.remove(),450)})},Math.max(0,SPL_MIN-(performance.now()-SPL_T0)))}
 setTimeout(hideSplash,6000);
 fetch('data/mushaf.json').then(r=>r.json()).then(d=>{M=d}).catch(()=>{});
