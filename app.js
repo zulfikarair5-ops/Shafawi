@@ -34,7 +34,7 @@ const TX={
   markDone:'Tanda selesai',revOf5:n=>`${n} daripada 5 ulangan`,dataBackup:'Data &amp; sandaran',exp:'Eksport nota',expSub:'Simpan sandaran ke fail',imp:'Import nota',impSub:'Pulihkan daripada fail sandaran',
   off:'Mushaf luar talian',offSub:'Simpan semua muka surat (kira-kira 36 MB)',fine:'Nota disimpan dalam pelayar ini sahaja. Eksport selepas menambah nota supaya tidak hilang bila tukar telefon.',
   savingN:(n,t)=>`Menyimpan… ${n}/${t}`,failN:n=>`${n} fail gagal. Tekan untuk cuba lagi`,allSaved:'Semua muka surat disimpan ✓',
-  shareTitle:'Sandaran nota Shafawi',imported:n=>`${n} nota diimport`,badFile:'Fail ini bukan sandaran Shafawi',hijriLoc:'ms-MY'},
+  shareTitle:'Sandaran nota Shafawi',imported:n=>`${n} nota diimport`,badFile:'Fail ini bukan sandaran Shafawi',hMon:['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']},
  en:{
   langAria:'Language',brandAria:'Shafawi, go to Home',themeDark:'Switch to dark mode',themeLight:'Switch to light mode',
   navAria:'Main navigation',tabHome:'Home',tabUji:'Test',tabLib:'Notes',
@@ -62,7 +62,7 @@ const TX={
   markDone:'Mark done',revOf5:n=>`${n} of 5 revisions`,dataBackup:'Data &amp; backup',exp:'Export notes',expSub:'Save a backup to a file',imp:'Import notes',impSub:'Restore from a backup file',
   off:'Offline mushaf',offSub:'Save all pages (about 36 MB)',fine:'Notes are stored in this browser only. Export after adding notes so they are not lost when you change phones.',
   savingN:(n,t)=>`Saving… ${n}/${t}`,failN:n=>`${n} files failed. Tap to try again`,allSaved:'All pages saved ✓',
-  shareTitle:'Shafawi notes backup',imported:n=>`${n} notes imported`,badFile:'This file is not a Shafawi backup',hijriLoc:'en-GB'}};
+  shareTitle:'Shafawi notes backup',imported:n=>`${n} notes imported`,badFile:'This file is not a Shafawi backup',}};
 let LANG=store.get('lang','ms');if(!TX[LANG])LANG='ms';
 const t=(k,...a)=>{const v=TX[LANG][k]??TX.ms[k];return typeof v==='function'?v(...a):v};
 const katName=k=>TX[LANG].kat[k]||k;
@@ -128,7 +128,23 @@ function slots(p){
 function zoneOf(gi){const p=pageOf(Q.as[gi]),sl=slots(p),st=Q.as[gi];
   const idx=sl.findIndex(x=>x.t==='l'&&st>=x.a&&st<=x.b),mid=(sl.length-1)/2;
   return {p,side:p%2?'R':'L',half:idx<mid?'T':idx>mid?'B':'*'}}
-function hijri(){try{return new Intl.DateTimeFormat(t('hijriLoc')+'-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(new Date())}catch(e){return ''}}
+// Takwim Hijri Malaysia (JAKIM, e-solat.gov.my): Gregorian date of the 1st of each Hijri month.
+// Malaysia uses rukyah + imkanur rukyah, so it often differs by a day from Umm al-Qura.
+// Covers 1 Jamadilakhir 1445 to 1 Syaaban 1449 (Dec 2023 - Jan 2028); outside that, falls back to Umm al-Qura.
+// Add new rows each year from https://www.e-solat.gov.my (takwimsolat API, field "hijri").
+const JAKIM_H0=[1445,6],JAKIM_D=['2023-12-14','2024-01-13','2024-02-11','2024-03-12','2024-04-10','2024-05-10','2024-06-08',
+ '2024-07-07','2024-08-06','2024-09-05','2024-10-04','2024-11-03','2024-12-03','2025-01-01','2025-01-31','2025-03-02','2025-03-31',
+ '2025-04-29','2025-05-29','2025-06-27','2025-07-26','2025-08-25','2025-09-23','2025-10-23','2025-11-22','2025-12-22','2026-01-20',
+ '2026-02-19','2026-03-21','2026-04-19','2026-05-18','2026-06-17','2026-07-16','2026-08-14','2026-09-13','2026-10-12','2026-11-11',
+ '2026-12-11','2027-01-10','2027-02-08','2027-03-10','2027-04-09','2027-05-08','2027-06-06','2027-07-06','2027-08-04','2027-09-02',
+ '2027-10-02','2027-10-31','2027-11-30','2027-12-29'];
+function hijriYMD(d){const day=Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5,
+  st=JAKIM_D.map(x=>Date.parse(x)/864e5);
+  for(let i=st.length-1;i>=0;i--)if(day>=st[i]){const n=day-st[i]+1;if(n>30)break;
+    const k=JAKIM_H0[1]-1+i;return {y:JAKIM_H0[0]+Math.floor(k/12),m:k%12+1,d:n}}
+  try{const p=Object.fromEntries(new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{day:'numeric',month:'numeric',year:'numeric'}).formatToParts(d).map(x=>[x.type,x.value]));
+    return {y:parseInt(p.year),m:+p.month,d:+p.day}}catch(e){return null}}
+function hijri(d=new Date()){const h=hijriYMD(d);return h?`${h.d} ${TX.ms.hMon[h.m-1]} ${h.y}H`:''}
 
 /* ---------- mushaf page ---------- */
 // Glyph rendering with the KFGQPC QCF4 (1441H) fonts, loaded from jsDelivr and cached offline by sw.js.
