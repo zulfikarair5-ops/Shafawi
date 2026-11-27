@@ -237,8 +237,6 @@ select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),
 .sopt.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--surf));box-shadow:0 0 0 2px color-mix(in srgb,var(--bad) 55%,transparent)}
 .sopt.dim{opacity:.5}
 .sopt:disabled{cursor:default}
-.sres{margin:0 0 12px;font-weight:700;text-align:center}
-.sres.ok{color:var(--good)}.sres.no{color:var(--bad)}
 .mks{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
 .mk{font-size:12.5px;font-weight:700;padding:2px 9px;border-radius:9px}
 .mk.ok{color:var(--good);background:color-mix(in srgb,var(--good) 15%,transparent)}
@@ -325,7 +323,7 @@ h1,.stat b,.ring b,.star.jz,.verdict b{font-variant-numeric:lining-nums}
 .tab:focus:not(:focus-visible){outline:none}
 .tab:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 /* Paparan mushaf kekal seperti versi sebelum (warna asal hijau + emas) */
-.mush-wrap,.pgload{--paper:light-dark(#fffcf3,#141f19);--gold:light-dark(#b88b3a,#d4b06a);--gold2:light-dark(#f4ead2,#2a2616);--pink:light-dark(#1a1a17,#e9efe9);--muted:light-dark(#5c7567,#91ab9c);--line:light-dark(#e1ebe4,#1f3529);--sh2:light-dark(0 10px 30px -12px rgba(15,61,43,.28),0 10px 30px -12px rgba(0,0,0,.6));--hltext:light-dark(#0f7a4c,#6fdca6)}
+.mush-wrap,.pgload{--paper:light-dark(#fffcf3,#141f19);--gold:light-dark(#b88b3a,#d4b06a);--gold2:light-dark(#f4ead2,#2a2616);--pink:light-dark(#1a1a17,#e9efe9);--muted:light-dark(#5c7567,#91ab9c);--line:light-dark(#e1ebe4,#1f3529);--sh2:light-dark(0 10px 30px -12px rgba(15,61,43,.28),0 10px 30px -12px rgba(0,0,0,.6));--hltext:light-dark(#00a35c,#3ff59a)}
 
 /* Splash screen */
 #splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--bg1);will-change:opacity;--sp-c:var(--pri)}
@@ -373,3 +371,24 @@ header{padding-bottom:8px}
 .tile .mring .tr{stroke:color-mix(in srgb,var(--gold) 18%,transparent)}
 .tile .mring .pr{stroke:var(--gold);transition:stroke-dasharray .4s}
 .tile span em{font-style:normal;font-weight:700;color:var(--gold)}
+
+/* Kad keputusan (Kenal Pasti Surah & Kedudukan): tajuk 17px seperti 'headline' iOS, baris kecil 13px */
+.verdict{gap:12px;padding:12px 14px}
+.verdict .star{width:40px;height:40px}.verdict .star svg{width:18px;height:18px}
+.verdict b{font-size:17px!important;line-height:1.3;font-weight:700;letter-spacing:-.01em}
+.verdict .vl{display:block;font-size:15px;line-height:1.3;font-weight:500;color:var(--ink);margin-top:1px}
+.verdict p{font-size:13px;margin-top:3px}
+.verdict.sv{position:relative;margin-top:6px}
+.burst{position:absolute;width:0;height:0;pointer-events:none}
+.verdict.fx{animation:sv-in .5s cubic-bezier(.2,1.4,.4,1) both}
+.verdict.fx .star{animation:sv-badge .55s .12s cubic-bezier(.2,1.6,.4,1) both}
+.verdict.fx.no{animation:sv-in .35s ease-out both,sv-shake .45s .35s ease-in-out}
+.verdict.fx.no .star{animation:none}
+.spk{position:absolute;left:0;top:0;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;background:var(--gold);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);opacity:0;animation:sv-spk .8s ease-out forwards}
+.burst .ring{position:absolute;left:-22px;top:-22px;width:44px;height:44px;border-radius:50%;border:2px solid var(--gold);opacity:0;animation:sv-ring .9s .15s ease-out}
+@keyframes sv-in{0%{transform:translateY(-14px) scale(.94);opacity:0}100%{transform:none;opacity:1}}
+@keyframes sv-badge{0%{transform:scale(0) rotate(-90deg)}100%{transform:none}}
+@keyframes sv-shake{0%,100%{transform:none}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(2px)}}
+@keyframes sv-spk{0%{opacity:0;transform:scale(.3)}25%{opacity:1}100%{opacity:0;transform:translate(var(--x),var(--y)) scale(1.1) rotate(90deg)}}
+@keyframes sv-ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(2.2)}}
+@media(prefers-reduced-motion:reduce){.verdict.fx,.verdict.fx .star{animation:none}}
