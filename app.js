@@ -117,10 +117,19 @@ const IC={
 /* ---------- theme ---------- */
 const MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg>';
 const SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
-function isDark(){const m=store.get('theme',null);if(m)return m==='dark';const t=document.documentElement.dataset.theme;if(t)return t==='dark';return matchMedia('(prefers-color-scheme: dark)').matches}
+/* Ikut mod sistem (iPhone) secara automatik. Butang tema = pilihan sementara: disimpan bersama mod sistem
+   semasa ia dipilih, dan terbatal sendiri bila mod sistem bertukar atau bila pilihan sama dengan sistem. */
+const MQD=matchMedia('(prefers-color-scheme: dark)');
+function sysMode(){return MQD.matches?'dark':'light'}
+try{localStorage.removeItem('thebook.theme')}catch(e){}
+function themePick(){const o=store.get('tema',null);return o&&o.s===sysMode()?o.m:null}
+function isDark(){const m=themePick();if(m)return m==='dark';const t=document.documentElement.dataset.theme;if(t)return t==='dark';return MQD.matches}
 function applyTheme(){const d=isDark();document.documentElement.style.colorScheme=d?'dark':'light';document.documentElement.dataset.mode=d?'dark':'light';const b=document.getElementById('theme');b.innerHTML=d?SUN:MOON;b.setAttribute('aria-label',d?t('themeLight'):t('themeDark'))}
-document.getElementById('theme').onclick=()=>{store.set('theme',isDark()?'light':'dark');applyTheme();if(location.hash==='#jawapan')render()};
-matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',applyTheme);
+function themeChanged(){const was=document.documentElement.dataset.mode;applyTheme();if(was!==document.documentElement.dataset.mode&&location.hash==='#jawapan')render()}
+document.getElementById('theme').onclick=()=>{const m=isDark()?'light':'dark';if(m===sysMode())store.set('tema',null);else store.set('tema',{m,s:sysMode()});themeChanged()};
+const onSys=()=>{store.set('tema',null);themeChanged()};
+if(MQD.addEventListener)MQD.addEventListener('change',onSys);else if(MQD.addListener)MQD.addListener(onSys);
+addEventListener('pageshow',themeChanged);document.addEventListener('visibilitychange',()=>{if(!document.hidden)themeChanged()});
 applyTheme();applyLang();
 
 /* ---------- data helpers ---------- */
