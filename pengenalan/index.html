@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pengenalan Shafawi: App Uji Hafazan Al-Quran</title>
+<meta name="description" content="Kenali Shafawi: app percuma untuk uji hafazan Al-Quran. Sambung ayat, teka surah, kenal pasti kedudukan ayat dalam Mushaf Madinah, dan catat ayat lemah untuk muraja'ah. Cara pasang di iPhone dan Android.">
+<link rel="canonical" href="https://zulfikarair5-ops.github.io/Shafawi/pengenalan/">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#f8f4ea">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Shafawi">
+<meta property="og:title" content="Pengenalan Shafawi: Say it. Prove it. Keep it.">
+<meta property="og:description" content="Uji hafazan Al-Quran dari telefon. Lihat cara ia berfungsi dan cara pasang di iPhone dan Android.">
+<meta property="og:url" content="https://zulfikarair5-ops.github.io/Shafawi/pengenalan/">
+<meta property="og:image" content="https://zulfikarair5-ops.github.io/Shafawi/icons/og-banner-cerah.jpg?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zulfikarair5-ops.github.io/Shafawi/icons/og-banner-cerah.jpg?v=2">
+<link rel="icon" href="../icons/icon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png?v=2">
+<style>
+/* VOICE everyday, calm, shared with friends; follows the "Cara pasang di iPhone" poster
+   IDEA the install-guide poster set: cream paper, soft gold and green glow, numbered step pills, iPhone mockups
+   PICTURE the real app inside iPhone 15 frames with white callout cards
+   COLOUR fixed Zamrud Siang: cream #f8f4ea, emerald #0f3d2b, highlight green #1f8a5b, gold #9a7230, white cards
+   TYPE system sans (SF Pro), bold headings with green highlight words, gold small caps labels
+   LAYOUT laptop: hero copy | phone; phone: label, title, phone, link banner */
+:root{color-scheme:light;--bg:#f8f4ea;--bg2:#efe8d8;--card:#fff;--ink:#10291e;--mut:#5b6b62;--em:#0f3d2b;--hi:#1f8a5b;--gold:#9a7230;--gold2:#d9b56c;--line:#e7dfcd;
+--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Helvetica Neue",Arial,sans-serif}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--sans);overflow-x:clip;position:relative}
+body::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:
+radial-gradient(40% 30% at 85% 8%,#dfeee3 0,transparent 70%),radial-gradient(35% 25% at 10% 30%,#f6e6c4 0,transparent 70%),
+radial-gradient(40% 25% at 90% 55%,#dcebe0 0,transparent 70%),radial-gradient(35% 20% at 5% 80%,#f3e3c0 0,transparent 70%),
+url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='76' height='76'%3E%3Ccircle cx='38' cy='38' r='30' fill='none' stroke='%239a7230' stroke-opacity='.08' stroke-width='1.2'/%3E%3C/svg%3E")}
+a{color:inherit}
+.in{max-width:1160px;margin:0 auto}
+.band{padding-block:clamp(40px,6vw,80px);padding-left:max(5vw,16px,env(safe-area-inset-left,0px));padding-right:max(5vw,16px,env(safe-area-inset-right,0px))}
+em{font-style:normal;color:var(--hi)}
+h1{font-size:clamp(40px,5.6vw,62px);line-height:1.03;letter-spacing:-.025em;margin:0 0 16px;color:var(--em)}
+h2{font-size:clamp(30px,3.8vw,44px);line-height:1.06;letter-spacing:-.022em;margin:0 0 10px;color:var(--em)}
+h3{font-size:clamp(20px,2vw,24px);line-height:1.12;letter-spacing:-.015em;margin:0 0 6px;color:var(--em)}
+.lead{font-size:17px;color:var(--mut);max-width:58ch;margin:0}
+.lbl{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.pill{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--em);color:#fff;font-size:14px;letter-spacing:0;flex:none}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:18px 0}
+.top img{height:30px;width:auto}
+.top a{font-weight:650;font-size:15px;color:var(--em);text-decoration:none;border:1px solid #0f3d2b33;border-radius:999px;padding:9px 16px;background:#ffffffb0}
+/* hero */
+.hgrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,5vw,64px);align-items:center}
+.icon{width:104px;height:104px;border-radius:24px;box-shadow:0 16px 34px -14px #0f3d2b66,0 0 0 1px #0000000d;margin-bottom:22px}
+.link{display:inline-flex;align-items:center;gap:10px;background:var(--em);color:#fff;border-radius:999px;padding:14px 24px;font-weight:650;text-decoration:none;font-size:16px;overflow-wrap:anywhere;box-shadow:0 12px 26px -14px #0f3d2b}
+.link svg{width:16px;height:16px;flex:none}
+.cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:26px}
+.say{color:var(--mut);font-size:15px}
+/* phone */
+.stage{position:relative;justify-self:center;width:min(100%,330px)}
+.ph{position:relative;border-radius:46px;padding:9px;background:linear-gradient(145deg,#3a3f3c,#151816);box-shadow:0 0 0 1.5px #c9cdca inset,0 34px 60px -30px #0f3d2b99}
+.scr{position:relative;border-radius:38px;overflow:hidden;background:#f8f6f0}
+.sb{display:flex;justify-content:space-between;align-items:center;height:34px;padding:0 24px;font:650 12px var(--sans);color:#111}
+.sb::after{content:"";position:absolute;top:8px;left:50%;width:29%;height:20px;margin-left:-14.5%;border-radius:12px;background:#0c0d0d}
+.sb i{display:flex;gap:4px;align-items:center}.sb i u{display:block;width:15px;height:8px;border-radius:2px;background:#111}
+.scr img{display:block;width:100%;aspect-ratio:590/1278;object-fit:cover}
+.ph.dk .scr{background:#0a1712}.ph.dk .sb{color:#eee}.ph.dk .sb i u{background:#eee}
+.call{position:absolute;background:#fff;border-radius:16px;padding:12px 15px;box-shadow:0 14px 34px -16px #0f3d2b55;font-size:14px;line-height:1.35;max-width:190px;z-index:2}
+.call small{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.call b{color:var(--em)}
+.c1{top:47%;right:-16%}.c2{top:63%;left:-20%}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.st{background:var(--card);border-radius:18px;padding:18px;box-shadow:0 10px 28px -20px #0f3d2b66}
+.st b{display:block;font-size:clamp(30px,3.2vw,40px);line-height:1;letter-spacing:-.02em;color:var(--em)}
+.st span{display:block;margin-top:8px;font-size:14px;color:var(--mut);line-height:1.35}
+/* flow */
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,2.4vw,32px);margin-top:36px}
+.step{display:flex;flex-direction:column;gap:18px}
+.step .ph,.three .ph{border-radius:36px;padding:7px}.step .scr,.three .scr{border-radius:30px}.step .sb,.three .sb{height:26px;font-size:10px;padding:0 18px}.step .sb::after,.three .sb::after{top:6px;height:15px}
+.step p{margin:0;color:var(--mut);font-size:15px}
+/* split */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center}
+.list{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:10px}
+.list li{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:16px;padding:12px 16px;box-shadow:0 8px 22px -18px #0f3d2b66}
+.list li b{display:block;color:var(--em);font-size:16px;line-height:1.25}
+.list li div span{font-size:14px;color:var(--mut)}
+.list .ico{font-style:normal;margin-left:auto;flex:none;display:grid;place-items:center;min-width:34px;height:34px;padding:0 8px;border-radius:10px;border:1px solid var(--line);color:var(--em);font-size:13px;font-weight:700}
+.list .ico svg{width:16px;height:16px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2vw,24px)}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2.4vw,32px);max-width:900px;margin:36px auto 0}
+.three figure{margin:0;text-align:center}
+.three figcaption{margin-top:14px;font-weight:650;color:var(--em)}
+.three figcaption span{display:block;font-weight:400;color:var(--mut);font-size:14px}
+.cats{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}
+.cats span{padding:7px 13px;border-radius:999px;background:#f3ead6;color:var(--gold);font-weight:650;font-size:14px}
+.reps{display:flex;align-items:center;gap:12px;margin-top:14px;color:var(--mut);font-size:15px}
+.reps i{display:flex;gap:5px}.reps u{width:22px;height:6px;border-radius:3px;background:var(--gold)}.reps u.o{background:var(--line)}
+.note{font-size:13px;color:var(--mut);margin-top:18px}
+/* install */
+.inst{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3vw,40px);margin-top:30px}
+.inst h3{display:flex;align-items:center;gap:10px}
+.inst .lead{font-size:15px}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 36px;margin-top:30px}
+.ck{display:flex;gap:14px}
+.ck i{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--em);color:#fff}
+.ck i svg{width:16px;height:16px}
+.ck b{display:block;color:var(--em);font-size:19px;line-height:1.25}
+.ck span{color:var(--mut);font-size:15px}
+.share{display:flex;align-items:center;gap:18px;background:var(--em);color:#fff;border-radius:24px;padding:20px 24px;text-decoration:none;margin-top:36px;box-shadow:0 24px 44px -26px #0f3d2b}
+.share img{width:62px;height:62px;border-radius:15px;flex:none}
+.share small{display:block;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold2)}
+.share b{display:block;font-size:clamp(17px,2.2vw,22px);overflow-wrap:anywhere}
+.share .go{margin-left:auto;flex:none;background:var(--gold2);color:#0b2a1e;border-radius:999px;padding:11px 20px;font-weight:700}
+.feat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.4vw,28px);margin-top:30px}
+.fc{display:flex;flex-direction:column;border-radius:28px;padding:clamp(22px,3vw,34px);background:var(--card);box-shadow:0 24px 48px -30px #0f3d2b88;text-decoration:none;border:1.5px solid #d9b56c66}
+.fc.g{background:linear-gradient(150deg,#17573d,#0b3022);color:#fff;border-color:transparent}
+.fc .fi{display:grid;place-items:center;width:58px;height:58px;border-radius:16px;background:#f3ead6;color:var(--gold);margin-bottom:20px}
+.fc.g .fi{background:#ffffff1f;color:var(--gold2)}
+.fc .fi svg{width:28px;height:28px}
+.fc h3{font-size:clamp(28px,3vw,36px);margin-bottom:10px}
+.fc.g h3{color:#fff}.fc.g .lbl{color:var(--gold2)}
+.fc p{margin:0 0 18px;color:var(--mut);font-size:16px}.fc.g p{color:#cbdccf}
+.fc ul{list-style:none;padding:0;margin:0 0 22px;display:grid;gap:9px}
+.fc li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.fc li::before{content:"";flex:none;width:18px;height:18px;margin-top:2px;border-radius:50%;background:var(--hi) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4L18 8' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat}
+.fc.g li::before{background-color:var(--gold2)}
+.fc .more{margin-top:auto;font-weight:700;color:var(--em)}.fc.g .more{color:var(--gold2)}
+.foot{text-align:center;color:var(--mut);font-size:14px;margin-top:18px}
+@media(max-width:900px){
+.hgrid,.split,.inst{grid-template-columns:1fr}.stage{width:min(80%,320px)}
+.stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+.flow{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:40px}
+.split .pics{order:2}.c1{right:-8%}.c2{left:-10%}}
+@media(max-width:900px){.feat{grid-template-columns:1fr}}
+@media(max-width:600px){
+.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.st:last-child{grid-column:1/-1}
+.flow{gap:14px;row-gap:34px}.step p{font-size:14px}.step .lbl{font-size:11px;letter-spacing:.12em;gap:7px}.step .pill{width:24px;height:24px;font-size:12px}
+.three{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.three figcaption{font-size:14px}.three figcaption span{font-size:12px}
+.checks{grid-template-columns:1fr}.share{flex-wrap:wrap}.share .go{margin-left:0}
+.call{font-size:13px;max-width:150px;padding:10px 12px}.c1{right:-6%;top:44%}.c2{left:-6%;top:62%}
+.ph{border-radius:40px}.scr{border-radius:33px}.three .ph{border-radius:24px;padding:5px}.three .scr{border-radius:20px}.three .sb{height:18px;font-size:8px;padding:0 10px}.three .sb::after{top:4px;height:10px}}
+</style>
+</head>
+<body>
+
+<div class="band" style="padding-block:0">
+ <div class="in top"><img src="img/wm-light.svg" alt="Shafawi"><a href="../">Buka app</a></div>
+</div>
+
+<section class="band">
+ <div class="in hgrid">
+  <div>
+   <img class="icon" src="img/icon.png" alt="Ikon Shafawi">
+   
+   <h1>Uji <em>hafazan Quran</em> terus dari telefon</h1>
+   <p class="lead">Shafawi memaparkan satu ayat. Anda sambung bacaan dari ingatan, teka surahnya, kemudian teka di mana ayat itu terletak dalam Mushaf Madinah. Ayat yang selalu tersangkut dicatat untuk diulang.</p>
+   <div class="cta"><a class="link" href="../"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>zulfikarair5-ops.github.io/Shafawi</a><span class="say">Say it. Prove it. Keep it.</span></div>
+  </div>
+  <div class="stage">
+   <div class="ph"><div class="scr"><div class="sb"><span>9:41</span><i><u></u></i></div><img src="img/01-home-light.webp" alt="Skrin utama Shafawi"></div></div>
+   <div class="call c1"><small>Ciri utama 1</small><b>Tebuk Ayat</b>: sambung ayat, teka surah dan kedudukannya.</div>
+   <div class="call c2"><small>Ciri utama 2</small><b>Catatan Muraja'ah</b>: rekod ayat yang selalu tersangkut.</div>
+  </div>
+ </div>
+</section>
+
+<section class="band" style="padding-top:0">
+ <div class="in stats">
+  <div class="st"><b>604</b><span>muka surat Mushaf Madinah, 15 baris</span></div>
+  <div class="st"><b>6,236</b><span>ayat, riwayat Hafs, Rasm Uthmani</span></div>
+  <div class="st"><b>7</b><span>cara memilih ayat soalan</span></div>
+  <div class="st"><b>2</b><span>bahasa: Melayu dan English</span></div>
+  <div class="st"><b>0</b><span>akaun. Berfungsi tanpa internet selepas dibuka sekali</span></div>
+ </div>
+</section>
+
+<section class="band" style="padding-top:0">
+ <div class="in">
+  <div class="lbl">Dua ciri utama</div>
+  <h2>Uji hafazan, <em>kemudian ulang</em> yang lemah</h2>
+  <p class="lead">Shafawi dibina di atas dua ciri yang saling melengkapi.</p>
+  <div class="feat">
+   <a class="fc g" href="#uji"><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7c-2-1.6-5-2-8-1.5v12c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-12c-3-.5-6-.1-8 1.5zM12 7v12"/></svg></span><div class="lbl">Ciri utama 1</div><h3>Tebuk Ayat</h3><p>App papar satu ayat. Anda sambung dari ingatan, kemudian buktikan anda tahu di mana ia berada.</p><ul><li>7 mod: 30 juzuk, juzuk, surah, julat muka surat dan lain-lain</li><li>Kenal pasti surah daripada 4 pilihan</li><li>Teka kedudukan ayat pada Mushaf Madinah, lihat muka surat penuh</li></ul><span class="more">Lihat 4 langkahnya &darr;</span></a>
+   <a class="fc" href="#catatan"><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/></svg></span><div class="lbl">Ciri utama 2</div><h3>Catatan <em>Muraja'ah</em></h3><p>Ayat yang tersangkut dicatat supaya diulang sehingga benar-benar lekat.</p><ul><li>4 kategori: Ayat Mutasyabihat, Perkataan, Kepala ayat, Kepala muka surat</li><li>5 kotak ulangan, cukup 5 nota ditanda selesai</li><li>Mod soalan "Dari nota" menguji ayat sebelum setiap ayat lemah</li></ul><span class="more">Lihat Catatan &darr;</span></a>
+  </div>
+ </div>
+</section>
+
+<section class="band" style="padding-top:0" id="uji">
+ <div class="in">
+  <div class="lbl">Ciri utama 1 &middot; Tebuk ayat</div>
+  <h2>Satu soalan, <em>empat langkah</em></h2>
+  <p class="lead">Setiap soalan menguji bacaan, surah dan letak ayat pada muka surat.</p>
+  <div class="flow">
+   <div class="step"><div class="ph"><div class="scr"><div class="sb"><span>9:41</span><i><u></u></i></div><img src="img/03-soalan-light.webp" alt="Skrin soalan"></div></div><div><div class="lbl"><span class="pill">1</span>Langkah 1</div><h3>Sambung <em>ayat</em></h3><p>Baca sambungannya dari ingatan. Buka ayat seterusnya atau sebelumnya untuk menyemak.</p></div></div>
+   <div class="step"><div class="ph"><div class="scr"><div class="sb"><span>9:41</span><i><u></u></i></div><img src="img/04-surah-light.webp" alt="Kenal pasti surah"></div></div><div><div class="lbl"><span class="pill">2</span>Langkah 2</div><h3>Kenal pasti <em>surah</em></h3><p>Empat pilihan, tiga daripadanya surah berdekatan supaya benar-benar teruji.</p></div></div>
+   <div class="step"><div class="ph"><div class="scr"><div class="sb"><span>9:41</span><i><u></u></i></div><img src="img/05-teka-light.webp" alt="Kenal pasti kedudukan"></div></div><div><div class="lbl"><span class="pill">3</span>Langkah 3</div><h3>Kenal pasti <em>kedudukan</em></h3><p>Muka kiri atau kanan, atas atau bawah. Tekan tempat ayat itu bermula.</p></div></div>
+   <div class="step"><div class="ph"><div class="scr"><div class="sb"><span>9:41</span><i><u></u></i></div><img src="img/06-jawapan-light.webp" alt="Skrin jawapan"></div></div><div><div class="lbl"><span class="pill">4</span>Langkah 4</div><h3>Lihat <em>jawapan</em></h3><p>Keputusan kedudukan ayat, dengan muka surat penuh dan ayat soalan berwarna. Selak muka sebelum dan selepas.</p></div></div>
+  </div>
+ </div>
+</section>
+
+<section class="band">
+ <div class="in split">
+  <div class="pics stage" style="width:min(100%,300px)"><div class="ph"><div class="scr"><div class="sb"><span>9:41</span><i><u></u></i></div><img src="img/02-mod-light.webp" alt="Pilih mod hafazan"></div></div></div>
+  <div>
+   <div class="lbl">Pilih mod</div>
+   <h2>Tujuh cara <em>memilih ayat</em></h2>
+   <p class="lead">Uji seluruh Quran, atau fokus pada bahagian yang sedang diulang.</p>
+   <ol class="list">
+    <li><span class="pill">1</span><div><b>30 juzuk</b><span>Mana-mana ayat dalam Quran</span></div></li>
+    <li><span class="pill">2</span><div><b>Juzuk</b><span>Pilih satu juzuk</span></div></li>
+    <li><span class="pill">3</span><div><b>Surah</b><span>Pilih satu surah</span></div></li>
+    <li><span class="pill">4</span><div><b>Julat muka surat</b><span>Dari muka surat X hingga Y</span></div></li>
+    <li><span class="pill">5</span><div><b>Awal maqra'</b><span>Ayat pertama setiap rubu' hizb</span></div></li>
+    <li><span class="pill">6</span><div><b>Awal surah</b><span>Ayat pertama setiap surah</span></div></li>
+    <li><span class="pill">7</span><div><b>Dari nota</b><span>Ayat sebelum setiap ayat lemah yang dicatat</span></div></li>
+   </ol>
+  </div>
+ </div>
+</section>
+
+<section class="band" id="catatan">
+ <div class="in split">
+  <div>
+   <div class="lbl">Ciri utama 2 &middot; Catatan</div>
+   <h2>Catatan <em>Muraja'ah</em></h2>
+   <p class="lead">Ayat yang tersangkut tidak dilupakan. Pilih surah dan ayat, teks ayat terus dipaparkan, kemudian pilih kategori dan tulis catatan.</p>
+   <div class="cats"><span>Ayat Mutasyabihat</span><span>Perkataan</span><span>Kepala ayat</span><span>Kepala muka surat</span></div>
+   <p class="lead">Semua nota tersusun dalam tab <b>Catatan</b> ikut turutan mushaf, dengan penapis Aktif, Selesai dan Semua. Tandakan setiap kali ayat itu diulang.</p>
+   <div class="reps"><i><u></u><u></u><u></u><u class="o"></u><u class="o"></u></i>Cukup 5 ulangan, nota ditanda selesai.</div>
+   <p class="note">Nota dalam gambar ialah contoh.</p>
+  </div>
+  <div class="pics two">
+   <div class="ph"><div class="scr"><div class="sb"><span>9:41</span><i><u></u></i></div><img src="img/07-nota-light.webp" alt="Borang catatan"></div></div>
+   <div class="ph"><div class="scr"><div class="sb"><span>9:41</span><i><u></u></i></div><img src="img/08-library-light.webp" alt="Senarai Catatan"></div></div>
+  </div>
+ </div>
+</section>
+
+<section class="band">
+ <div class="in" style="text-align:center">
+  <div class="lbl" style="justify-content:center">Bahasa dan tema</div>
+  <h2>Dua bahasa, <em>siang dan malam</em></h2>
+  <p class="lead" style="margin:0 auto">Tekan BM atau EN untuk tukar bahasa. Mod gelap ikut tetapan telefon, atau tukar sendiri dengan butang bulan.</p>
+  <div class="three">
+   <figure><div class="ph"><div class="scr"><div class="sb"><span>9:41</span><i><u></u></i></div><img src="img/01-home-light.webp" alt="Bahasa Melayu, mod cerah"></div></div><figcaption>Bahasa Melayu<span>Zamrud Siang</span></figcaption></figure>
+   <figure><div class="ph"><div class="scr"><div class="sb"><span>9:41</span><i><u></u></i></div><img src="img/09-home-en-light.webp" alt="English, mod cerah"></div></div><figcaption>English<span>Zamrud Siang</span></figcaption></figure>
+   <figure><div class="ph dk"><div class="scr"><div class="sb"><span>9:41</span><i><u></u></i></div><img src="img/01-home-dark.webp" alt="Mod gelap"></div></div><figcaption>Mod gelap<span>Emerald Noir</span></figcaption></figure>
+  </div>
+ </div>
+</section>
+
+<section class="band" id="pasang">
+ <div class="in">
+  <div class="lbl">Panduan ringkas</div>
+  <h2>Cara pasang di <em>telefon</em></h2>
+  <p class="lead">Kurang 1 minit. Percuma, tanpa App Store atau Play Store.</p>
+  <div class="inst">
+   <div>
+    <h3>iPhone <span class="lead">&middot; Safari</span></h3>
+    <ol class="list">
+     <li><span class="pill">1</span><div><b>Buka dalam Safari</b><span>Bukan Chrome atau WhatsApp</span></div><i class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></i></li>
+     <li><span class="pill">2</span><div><b>Tekan Kongsi</b><span>Share. Atau tekan &middot;&middot;&middot; dahulu</span></div><i class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4M6 11H5v10h14V11h-1"/></svg></i></li>
+     <li><span class="pill">3</span><div><b>Tambah ke Skrin Utama</b><span>Add to Home Screen</span></div><i class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg></i></li>
+     <li><span class="pill">4</span><div><b>Tekan Tambah</b><span>Add, di penjuru kanan atas</span></div><i class="ico" style="color:#0a84ff">Tambah</i></li>
+     <li><span class="pill">5</span><div><b>Buka dari Skrin Utama</b><span>Siap, mula uji hafazan</span></div><img class="ico" src="img/icon.png" alt="" style="padding:0;border:0;width:34px"></li>
+    </ol>
+   </div>
+   <div>
+    <h3>Android <span class="lead">&middot; Chrome</span></h3>
+    <ol class="list">
+     <li><span class="pill">1</span><div><b>Buka dalam Chrome</b><span>Salin pautan dan tampal di Chrome</span></div><i class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></i></li>
+     <li><span class="pill">2</span><div><b>Tekan menu &#8942;</b><span>Tiga titik di penjuru kanan atas</span></div><i class="ico">&#8942;</i></li>
+     <li><span class="pill">3</span><div><b>Pilih Pasang apl</b><span>Install app. Pada sesetengah telefon: Tambah ke skrin utama</span></div><i class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8 11l4 4 4-4M5 20h14"/></svg></i></li>
+     <li><span class="pill">4</span><div><b>Tekan Pasang</b><span>Ikon Shafawi muncul bersama app lain</span></div><img class="ico" src="img/icon.png" alt="" style="padding:0;border:0;width:34px"></li>
+    </ol>
+   </div>
+  </div>
+
+  <div class="checks">
+   <div class="ck"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><div><b>Skrin penuh, buka pantas</b><span>Terbuka tanpa bar pelayar. Ikon beranimasi kira-kira 1 saat, terus ke skrin utama.</span></div></div>
+   <div class="ck"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><div><b>Percuma, tanpa akaun</b><span>Tiada daftar masuk. Catatan disimpan dalam telefon anda.</span></div></div>
+   <div class="ck"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><div><b>Sandaran sendiri</b><span>Eksport nota ke fail dan import semula bila tukar telefon.</span></div></div>
+   <div class="ck"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><div><b>Teks mushaf yang sahih</b><span>Teks dan susun atur oleh KFGQPC (Kompleks Percetakan Mushaf Raja Fahd), riwayat Hafs.</span></div></div>
+  </div>
+
+  <a class="share" href="../"><img src="img/icon.png" alt=""><div><small>Kongsi dengan kawan</small><b>zulfikarair5-ops.github.io/Shafawi</b></div><span class="go">Buka</span></a>
+  <p class="foot">Say it. Prove it. Keep it.</p>
+ </div>
+</section>
+</body>
+</html>
