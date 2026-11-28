@@ -24,7 +24,7 @@ const TX={
   lblSurah:n=>'Surah '+n,lblPages:(a,b)=>`Muka surat ${a}–${b}`,noAyat:'Tiada ayat dalam pilihan ini',
   nextAyah:'Ayat seterusnya',prevAyah:'Ayat sebelumnya',qN:n=>'Soalan '+n,contAyah:'Sambung ayat ini',idBoth:'Kenal Pasti Surah &amp; Kedudukan Ayat',endSess:'Tamat sesi',
   surOk:'Masyallah mumtaz. Jawapan anda betul',surNo:'Jawapan anda salah. Teruskan murajaah',surAns:n=>`Jawapannya Surah ${n}`,idSurah:'Kenal Pasti Surah',whichSurah:'Ayat ini daripada surah apa?',idPos:'Kenal Pasti Kedudukan Ayat',checkSurah:'Semak surah',
-  top:'Atas',bottom:'Bawah',checkPos:'Semak kedudukan',posTipQ:'Bagaimana aplikasi mengenal pasti jawapan?',posTipA:'Aplikasi melihat berdasarkan di baris ke berapa perkataan pertama dari ayat di atas.',
+  top:'Atas',bottom:'Bawah',checkPos:'Semak kedudukan',posTipQ:'Bagaimana aplikasi mengenal pasti jawapan?',posTipA:'Aplikasi melihat perkataan pertama dalam ayat di atas berada pada baris ke berapa.',
   posOk:'Masyallah mumtaz. Jawapan anda betul',posNo:'Jawapan anda salah. Teruskan murajaah',pg:n=>'ms '+n,right:'kanan',left:'kiri',topL:'atas',bottomL:'bawah',mid:'tengah',
   loadingPage:n=>`Memuatkan muka surat ${n}…`,nextPage:'Muka surat selepas',prevPage:'Muka surat sebelum',nextQ:'Soalan seterusnya',backTo:n=>`Kembali ke ms ${n}`,
   noteHint:'Catat ayat yang perlu diulang.',ayah:'Ayat',katLbl:'Kategori catatan',catatan:'Catatan',writeNote:'Tulis catatan',saveNote:'Simpan nota',saved:r=>`Nota ${r} disimpan`,
