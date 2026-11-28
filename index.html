@@ -4,8 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <script>/* Tetapkan tema sebelum CSS dilukis (warna mod gelap ikut data-mode). */window.__shErr=[];addEventListener('error',function(e){__shErr.push((e.message||'error')+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:''))});addEventListener('unhandledrejection',function(e){__shErr.push('promise: '+(e.reason&&e.reason.message||e.reason))});(function(){var d=matchMedia('(prefers-color-scheme: dark)').matches;try{var m=JSON.parse(localStorage.getItem('thebook.theme'));if(m)d=m==='dark'}catch(e){}document.documentElement.setAttribute('data-mode',d?'dark':'light')})()</script>
-<title>Shafawi</title>
-<meta name="description" content="Uji hafazan Quran sendiri: tebuk ayat, kenal pasti kedudukan ayat dalam Mushaf Madinah, dan Catatan Muraja'ah untuk ayat lemah.">
+<title>Shafawi: Uji Hafazan Al-Quran, Tebuk Ayat &amp; Muraja'ah</title>
+<meta name="description" content="Shafawi ialah app percuma untuk uji hafazan Al-Quran sendiri: tebuk ayat, teka surah, kenal pasti kedudukan ayat dalam Mushaf Madinah, dan simpan ayat lemah untuk muraja'ah. Boleh guna di telefon tanpa internet.">
+<link rel="canonical" href="https://zulfikarair5-ops.github.io/Shafawi/">
+<meta name="robots" content="index, follow">
 <meta name="theme-color" content="#f8f6f0" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0a1712" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -23,6 +25,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Shafawi, app uji hafazan Al-Quran">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Uji hafazan Al-Quran anda: sambung ayat, kenal pasti surah dan kedudukannya di muka surat.">
 <meta name="twitter:title" content="Shafawi: Say it. Prove it. Keep it.">
 <meta name="twitter:image" content="https://zulfikarair5-ops.github.io/Shafawi/icons/og-banner-cerah.jpg?v=2">
 <link rel="manifest" href="manifest.webmanifest">
@@ -60,6 +63,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Shafawi","alternateName":["شفوي","Shafawi Uji Hafazan"],
+"url":"https://zulfikarair5-ops.github.io/Shafawi/","inLanguage":["ms","en"],
+"description":"App untuk uji hafazan Al-Quran: tebuk ayat, teka surah, kenal pasti kedudukan ayat dalam Mushaf Madinah dan catatan muraja'ah.",
+"applicationCategory":"EducationalApplication","operatingSystem":"iOS, Android, Web",
+"image":"https://zulfikarair5-ops.github.io/Shafawi/icons/og-banner-cerah.jpg",
+"offers":{"@type":"Offer","price":"0","priceCurrency":"MYR"},
+"keywords":"uji hafazan Quran, tebuk ayat, murajaah, hafazan Al-Quran, Mushaf Madinah, hafiz, tahfiz"}
+</script>
 </head>
 <body>
 <div id="splash" aria-hidden="true"><div class="sp-wrap"><div class="sp-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true"><defs><linearGradient id="spg" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFFBF1"/><stop offset="1" stop-color="#EFE5CE"/></linearGradient></defs><rect class="sp-bg" width="1024" height="1024" fill="url(#spg)"/><g class="sp-kh" transform="translate(480.00,640.00) rotate(-45) scale(0.46886)"><g class="sp-l1"><path d="M337 0H1242V-180H1103V-263C1103 -461 963 -566 813 -566C661 -566 526 -437 526 -273C526 -242 532 -211 545 -180H366C276 -180 236 -234 236 -288C236 -344 277 -400 360 -401V-566C144 -565 50 -422 50 -280C50 -139 142 0 337 0ZM712 -271C712 -343 765 -380 818 -380C868 -380 917 -346 917 -283V-180H804C741 -180 712 -224 712 -271ZM728 -713C728 -670 764 -636 813 -636C862 -636 898 -670 898 -713C898 -756 862 -790 813 -790C764 -790 728 -756 728 -713ZM1222 0H2292V-566H2106V-180H1920V-466H1734V-180H1548V-566H1362V-180H1222ZM1643 -713C1643 -670 1679 -636 1728 -636C1777 -636 1813 -670 1813 -713C1813 -756 1777 -790 1728 -790C1679 -790 1643 -756 1643 -713ZM1739 -887C1739 -844 1775 -810 1824 -810C1873 -810 1909 -844 1909 -887C1909 -930 1873 -964 1824 -964C1775 -964 1739 -930 1739 -887ZM1835 -713C1835 -670 1871 -636 1920 -636C1969 -636 2005 -670 2005 -713C2005 -756 1969 -790 1920 -790C1871 -790 1835 -756 1835 -713Z" transform="translate(-1171.00,0)" fill="#0F3D2B"/></g><g class="sp-l2"><path d="M364 298H627C822 298 927 181 927 0V-1V-180H550V-268C550 -351 606 -396 665 -396C709 -396 754 -371 780 -320L927 -402C876 -523 766 -582 656 -582C510 -582 364 -476 364 -273V0H741C741 63 702 112 613 112H364C275 112 236 62 236 14V-128H50L51 23C52 182 154 298 364 298ZM333 446C333 489 369 523 418 523C467 523 503 489 503 446C503 403 467 369 418 369C369 369 333 403 333 446ZM525 446C525 489 561 523 610 523C659 523 695 489 695 446C695 403 659 369 610 369C561 369 525 403 525 446ZM1220 113 1221 299C1541 299 1604 185 1604 0V-273C1604 -461 1464 -566 1314 -566C1162 -566 1027 -437 1027 -273C1027 -147 1099 0 1277 0H1418C1418 86 1391 113 1220 113ZM1213 -271C1213 -343 1266 -380 1319 -380C1369 -380 1418 -346 1418 -283V-180H1305C1242 -180 1213 -224 1213 -271Z" transform="translate(-918.00,673.00)" fill="#0F3D2B"/></g></g><g class="sp-ms"><path class="sp-moon" d="M171.74,93.93 A81.07,81.07 0 1 0 252.18,199.51 A66.47,66.47 0 0 1 171.74,93.93 Z" fill="#9A7230"/><polygon class="sp-star" points="277.33,93.01 284.56,113.79 306.55,114.24 289.02,127.53 295.39,148.59 277.33,136.02 259.28,148.59 265.65,127.53 248.12,114.24 270.11,113.79" fill="#9A7230"/></g></svg></div></div></div>
@@ -87,6 +99,11 @@
     <button class="tab" data-tab-go="pencapaian"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16.5v-5M12 16.5V7M17 16.5v-8"/></svg><span data-t="tabProg">Pencapaian</span></button>
   </nav></footer>
 </div>
+<section class="sr-only" aria-labelledby="seo-t">
+  <h2 id="seo-t">Shafawi: app uji hafazan Al-Quran</h2>
+  <p>Shafawi membantu anda menguji hafazan Al-Quran sendiri. Mod Tebuk Ayat memaparkan satu ayat secara rawak; anda teka surah dan kenal pasti kedudukan ayat itu di muka surat Mushaf Madinah. Ayat yang lemah boleh disimpan dalam Catatan untuk muraja'ah, dan tab Pencapaian menunjukkan skor setiap sesi.</p>
+  <p>Shafawi is a free Quran memorization (hifz) test app: guess the surah, find the ayah's position on the Madinah Mushaf page, and keep muraja'ah notes for weak verses. Works offline on iPhone and Android.</p>
+</section>
 <script src="app.js"></script>
 <script>/* Pengaman: kalau app.js gagal (contoh iPhone lama), skrin pembuka tetap hilang dan ralat sebenar dipaparkan supaya boleh dilaporkan. */
 setTimeout(function(){var s=document.getElementById('splash');if(s&&s.parentNode)s.parentNode.removeChild(s);
