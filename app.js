@@ -24,7 +24,7 @@ const TX={
   lblSurah:n=>'Surah '+n,lblPages:(a,b)=>`Muka surat ${a}–${b}`,noAyat:'Tiada ayat dalam pilihan ini',
   nextAyah:'Ayat seterusnya',prevAyah:'Ayat sebelumnya',qN:n=>'Soalan '+n,contAyah:'Sambung ayat ini',idBoth:'Kenal Pasti Surah &amp; Kedudukan Ayat',endSess:'Tamat sesi',
   surOk:'Masyallah mumtaz. Jawapan anda betul',surNo:'Jawapan anda salah. Teruskan murajaah',surAns:n=>`Jawapannya Surah ${n}`,idSurah:'Kenal Pasti Surah',whichSurah:'Ayat ini daripada surah apa?',idPos:'Kenal Pasti Kedudukan Ayat',checkSurah:'Semak surah',
-  tapZone:'Tekan bahagian muka surat tempat ayat itu bermula.',top:'Atas',bottom:'Bawah',checkPos:'Semak kedudukan',
+  tapZone:'Perkataan pertama ayat ini di baris ke berapa? Baris 8: Atas atau Bawah, kedua-duanya betul.',lines1:'Baris 1–7',lines2:'Baris 9–15',top:'Atas',bottom:'Bawah',checkPos:'Semak kedudukan',
   posOk:'Masyallah mumtaz. Jawapan anda betul',posNo:'Jawapan anda salah. Teruskan murajaah',pg:n=>'ms '+n,right:'kanan',left:'kiri',topL:'atas',bottomL:'bawah',mid:'tengah',
   loadingPage:n=>`Memuatkan muka surat ${n}…`,nextPage:'Muka surat selepas',prevPage:'Muka surat sebelum',nextQ:'Soalan seterusnya',backTo:n=>`Kembali ke ms ${n}`,
   noteHint:'Catat ayat yang perlu diulang.',ayah:'Ayat',katLbl:'Kategori catatan',catatan:'Catatan',writeNote:'Tulis catatan',saveNote:'Simpan nota',saved:r=>`Nota ${r} disimpan`,
@@ -58,7 +58,7 @@ const TX={
   lblSurah:n=>'Surah '+n,lblPages:(a,b)=>`Pages ${a}–${b}`,noAyat:'No ayahs in this selection',
   nextAyah:'Next ayah',prevAyah:'Previous ayah',qN:n=>'Question '+n,contAyah:'Continue this ayah',idBoth:'Identify Surah &amp; Ayah Position',endSess:'End session',
   surOk:'Masha Allah, mumtaz! Your answer is correct',surNo:'Your answer is wrong. Keep up your muraja\'ah',surAns:n=>`The answer is Surah ${n}`,idSurah:'Identify the Surah',whichSurah:'Which surah is this ayah from?',idPos:'Identify Ayah Position',checkSurah:'Check surah',
-  tapZone:'Tap the part of the page where the ayah begins.',top:'Top',bottom:'Bottom',checkPos:'Check position',
+  tapZone:'Which line is the first word of this ayah on? Line 8: Top or Bottom, both are correct.',lines1:'Lines 1–7',lines2:'Lines 9–15',top:'Top',bottom:'Bottom',checkPos:'Check position',
   posOk:'Masha Allah, mumtaz! Your answer is correct',posNo:'Your answer is wrong. Keep up your muraja\'ah',pg:n=>'p. '+n,right:'right',left:'left',topL:'top',bottomL:'bottom',mid:'middle',
   loadingPage:n=>`Loading page ${n}…`,nextPage:'Next page',prevPage:'Previous page',nextQ:'Next question',backTo:n=>`Back to p. ${n}`,
   noteHint:'Note down ayahs that need revising.',ayah:'Ayah',katLbl:'Note category',catatan:'Note',writeNote:'Write a note',saveNote:'Save note',saved:r=>`Note ${r} saved`,
@@ -424,7 +424,7 @@ R.surah=()=>{
 
 R.teka=()=>{
   if(!S)return go('mod');
-  const z=(side,half,txt)=>`<button class="zone" data-z="${side}${half}" aria-pressed="${S.pick===side+half}"><i class="rules"></i><span>${txt}</span></button>`;
+  const z=(side,half,txt)=>`<button class="zone" data-z="${side}${half}" aria-pressed="${S.pick===side+half}"><i class="rules"></i><span>${txt}<small>${t(half==='T'?'lines1':'lines2')}</small></span></button>`;
   V.innerHTML=`<h1>${t('idPos')}</h1><p class="sub">${t('tapZone')}</p>
   <div class="qcard" style="padding:10px 14px;margin:0"><div class="quran" style="font-size:21px;line-height:1.9;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${ayText(S.gi)}</div></div>
   <div class="book"><div class="pg l">${z('L','T',t('top'))}${z('L','B',t('bottom'))}</div><div class="pg r">${z('R','T',t('top'))}${z('R','B',t('bottom'))}</div></div>
