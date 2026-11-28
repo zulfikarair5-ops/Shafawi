@@ -1,5 +1,5 @@
 // Shafawi service worker: keeps the app and the mushaf data available offline.
-const VERSION = 'thebook-v30';
+const VERSION = 'thebook-v31';
 const SHELL = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.webmanifest',
   'data/quran.json', 'data/mushaf.json', 'data/hafs.ttf', 'icons/icon.svg', 'icons/apple-touch-icon.png',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/splash-1179x2556.png', 'icons/splash-1179x2556-gelap.png', 'icons/logo-penuh.svg', 'icons/wordmark.svg'];
@@ -20,6 +20,8 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
   const isFont = url.host === 'fonts.googleapis.com' || url.host === 'fonts.gstatic.com' || url.host === 'cdn.jsdelivr.net';
   if (url.origin !== location.origin && !isFont) return;
+  // Halaman pengenalan ialah laman web biasa: biar pelayar ambil terus, jangan cache.
+  if (url.pathname.includes('/pengenalan/')) return;
   // App files: network first so updates arrive, cache as fallback for offline.
   // Big data and fonts: cache first.
   const cacheFirst = isFont || url.pathname.includes('/data/');
