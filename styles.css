@@ -121,11 +121,13 @@ select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),
 .zone{position:relative;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;font-weight:700;font-size:13px;color:var(--muted);border-radius:4px}
 .zone:first-child{border-bottom:1.5px dashed color-mix(in srgb,var(--gold) 50%,transparent)}
 .zone .rules{position:absolute;inset:8px 8px;background:repeating-linear-gradient(to bottom,transparent 0 calc(100%/7.5 - 1px),var(--line) calc(100%/7.5 - 1px) calc(100%/7.5))}
-.zone span{position:relative;background:var(--paper);padding:3px 10px;border-radius:9px;display:flex;flex-direction:column;align-items:center;line-height:1.25}
-.zone span small{font-size:11px;font-weight:600;opacity:.8}
+.zone span{position:relative;background:var(--paper);padding:3px 10px;border-radius:9px}
 .zone[aria-pressed=true]{background:color-mix(in srgb,var(--pri) 18%,transparent)}
 .zone[aria-pressed=true] span{background:var(--btn);color:var(--onbtn)}
 .side{display:grid;grid-template-columns:1fr 1fr;text-align:center;font-size:13px;color:var(--muted);font-weight:700;margin-bottom:16px}
+.postip{margin:-4px 0 16px;padding:12px 14px;border-radius:16px;border:1px solid color-mix(in srgb,var(--gold) 35%,transparent);background:color-mix(in srgb,var(--gold) 8%,transparent);font-size:13.5px;line-height:1.4}
+.postip b{display:block;color:var(--ink);font-weight:700;margin-bottom:3px}
+.postip p{margin:0;color:var(--muted)}
 /* result */
 .verdict{display:flex;align-items:center;gap:12px;border-radius:22px;padding:12px 14px;margin:4px 0 14px;background:var(--surf);border:1px solid var(--line);box-shadow:var(--sh)}
 .verdict b{font-size:19px;display:block;letter-spacing:-.01em}
